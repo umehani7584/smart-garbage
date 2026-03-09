@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Policies from './pages/Policies';
+import UserDashboard from './pages/UserDashboard';
+
 // Colors (reusable)
 const colors = {
   primary: '#00b4d8',
@@ -38,11 +40,27 @@ function App() {
 
             {/* Desktop Buttons */}
             <div style={styles.desktopButtons}>
-              <Link to="/login">
-                <button style={styles.loginBtn}>Login</button>
+              <Link to="/">
+                <button 
+                  style={styles.loginBtn}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.dispatchEvent(new CustomEvent('openLogin'));
+                  }}
+                >
+                  Login
+                </button>
               </Link>
-              <Link to="/signup">
-                <button style={styles.signupBtn}>Sign Up</button>
+              <Link to="/">
+                <button 
+                  style={styles.signupBtn}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.dispatchEvent(new CustomEvent('openSignup'));
+                  }}
+                >
+                  Sign Up
+                </button>
               </Link>
             </div>
 
@@ -60,21 +78,38 @@ function App() {
               <Link to="/contact" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Contact</Link>
               <Link to="/policies" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Policies</Link>
               <hr style={styles.mobileDivider} />
-              <Link to="/login" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Login</Link>
-              <Link to="/signup" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Sign Up</Link>
+              <Link 
+                to="/" 
+                style={styles.mobileNavLink} 
+                onClick={() => {
+                  setMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('openLogin'));
+                }}
+              >
+                Login
+              </Link>
+              <Link 
+                to="/" 
+                style={styles.mobileNavLink} 
+                onClick={() => {
+                  setMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('openSignup'));
+                }}
+              >
+                Sign Up
+              </Link>
             </div>
           )}
         </nav>
 
-        {/* Page Content - Routes will go here */}
+        {/* Page Content */}
         <div style={styles.pageContent}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/policies" element={<Policies />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/user-dashboard" element={<UserDashboard />} />
           </Routes>
         </div>
 
@@ -110,32 +145,6 @@ function App() {
   );
 }
 
-// Temporary placeholder components (we'll move these to separate files next)
-
-
-
-
-
-
-
-function Login() {
-  return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1 style={{ fontSize: '3rem', color: colors.dark }}>Login Page</h1>
-      <p style={{ fontSize: '1.2rem', color: '#666' }}>Coming soon...</p>
-    </div>
-  );
-}
-
-function Signup() {
-  return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1 style={{ fontSize: '3rem', color: colors.dark }}>Sign Up Page</h1>
-      <p style={{ fontSize: '1.2rem', color: '#666' }}>Coming soon...</p>
-    </div>
-  );
-}
-
 // Styles
 const styles = {
   container: {
@@ -145,8 +154,6 @@ const styles = {
     boxSizing: 'border-box',
     color: '#333'
   },
-
-  // Navbar Styles
   navbar: {
     background: colors.white,
     boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
@@ -249,14 +256,10 @@ const styles = {
     border: 'none',
     borderTop: `2px solid ${colors.light}`
   },
-
-  // Page Content
   pageContent: {
     minHeight: 'calc(100vh - 400px)',
     marginTop: '90px'
   },
-
-  // Footer Styles
   footer: {
     background: colors.dark,
     color: colors.white,
@@ -340,7 +343,6 @@ styleSheet.textContent = `
     .desktop-menu, .desktop-buttons {
       display: none !important;
     }
-    
     .mobile-menu-btn {
       display: block !important;
     }

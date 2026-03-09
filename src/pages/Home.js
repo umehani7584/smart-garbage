@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import LoginCard from '../components/LoginCard';
+import SignupCard from '../components/SignupCard';
 
 function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   // REAL GARBAGE BIN IMAGES - 5 Slides
   const slides = [
@@ -39,6 +43,36 @@ function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  // Handle events from navbar
+  useEffect(() => {
+    const handleOpenLogin = () => setShowLogin(true);
+    const handleOpenSignup = () => setShowSignup(true);
+    
+    window.addEventListener('openLogin', handleOpenLogin);
+    window.addEventListener('openSignup', handleOpenSignup);
+    
+    return () => {
+      window.removeEventListener('openLogin', handleOpenLogin);
+      window.removeEventListener('openSignup', handleOpenSignup);
+    };
+  }, []);
+
+  // Handler for login button click
+  const handleLoginClick = () => {
+    setShowLogin(true);
+  };
+
+  // Handler for switching between cards
+  const switchToLogin = () => {
+    setShowSignup(false);
+    setShowLogin(true);
+  };
+
+  const switchToSignup = () => {
+    setShowLogin(false);
+    setShowSignup(true);
+  };
+
   return (
     <div>
       {/* Hero Slider */}
@@ -55,7 +89,10 @@ function Home() {
             <div style={styles.slideContent}>
               <h1 style={styles.slideTitle}>{slide.title}</h1>
               <p style={styles.slideDescription}>{slide.description}</p>
-              <button style={styles.learnMoreBtn}>
+              <button 
+                onClick={handleLoginClick}
+                style={styles.learnMoreBtn}
+              >
                 View Dashboard <span style={styles.arrow}>→</span>
               </button>
             </div>
@@ -229,6 +266,22 @@ function Home() {
           </button>
         </div>
       </section>
+
+      {/* Login Card */}
+      {showLogin && (
+        <LoginCard 
+          onClose={() => setShowLogin(false)} 
+          onSwitchToSignup={switchToSignup}
+        />
+      )}
+      
+      {/* Signup Card */}
+      {showSignup && (
+        <SignupCard 
+          onClose={() => setShowSignup(false)}
+          onSwitchToLogin={switchToLogin}
+        />
+      )}
     </div>
   );
 }
