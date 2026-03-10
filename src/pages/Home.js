@@ -7,41 +7,42 @@ function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
-  // REAL GARBAGE BIN IMAGES - 5 Slides
+  // CLEAN GARBAGE BIN IMAGES - All working!
   const slides = [
     {
-      image: "https://images.pexels.com/photos/1755312/pexels-photo-1755312.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1920",
       title: "Smart Bin Monitoring",
       description: "Never let bins overflow with real-time fill-level tracking"
     },
     {
-      image: "https://images.pexels.com/photos/10585041/pexels-photo-10585041.jpeg?auto=compress&cs=tinysrgb&w=1920",
+     image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1920",
       title: "Automated Waste Collection",
       description: "Efficient garbage collection with IoT sensors"
     },
     {
-      image: "https://images.pexels.com/photos/7654115/pexels-photo-7654115.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1920",
       title: "Clean & Green Cities",
       description: "Making urban areas cleaner with smart technology"
     },
     {
-      image: "https://images.pexels.com/photos/3826052/pexels-photo-3826052.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "https://images.unsplash.com/photo-1528323273322-d81458248d40?w=1920",
       title: "IoT Enabled Bins",
       description: "Sensors monitor fill level, weight, temperature and gases"
     },
     {
-      image: "https://images.pexels.com/photos/2085198/pexels-photo-2085198.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?w=1920",
       title: "Sustainable Waste Management",
       description: "Real-time data for efficient collection routes"
     }
   ];
 
+  // Fixed useEffect with proper cleanup
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   // Handle events from navbar
   useEffect(() => {

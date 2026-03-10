@@ -5,6 +5,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Policies from './pages/Policies';
 import UserDashboard from './pages/UserDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 // Colors (reusable)
 const colors = {
@@ -110,6 +111,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/policies" element={<Policies />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
           </Routes>
         </div>
 
