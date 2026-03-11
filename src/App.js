@@ -103,7 +103,7 @@ function App() {
           )}
         </nav>
 
-        {/* Page Content */}
+        {/* Page Content - All Routes */}
         <div style={styles.pageContent}>
           <Routes>
             <Route path="/" element={<Home />} />
