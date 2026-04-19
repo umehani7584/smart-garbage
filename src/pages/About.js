@@ -1,6 +1,31 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function About() {
+  const navigate = useNavigate();
+
+  // Navigation handlers for Solutions (How It Works)
+  const navigateToSensorInstallation = () => {
+    navigate('/sensor-installation');
+  };
+
+  const navigateToDataCollection = () => {
+    navigate('/data-collection');
+  };
+
+  const navigateToDatabaseProcessing = () => {
+    navigate('/database-processing');
+  };
+
+  const navigateToSmartAlerts = () => {
+    navigate('/smart-alerts');
+  };
+
+  // Open UN SDG website
+  const openUNGoal = (goalNumber) => {
+    window.open(`https://sdgs.un.org/goals/goal${goalNumber}`, '_blank');
+  };
+
   return (
     <div style={styles.container}>
       {/* Hero Section */}
@@ -14,7 +39,7 @@ function About() {
       {/* Mission & Vision */}
       <section style={styles.missionSection}>
         <div style={styles.missionGrid}>
-          <div style={styles.missionCard}>
+          <div className="mission-card" style={styles.missionCard}>
             <div style={styles.missionIcon}>🎯</div>
             <h2 style={styles.missionTitle}>Our Mission</h2>
             <p style={styles.missionText}>
@@ -24,7 +49,7 @@ function About() {
             </p>
           </div>
           
-          <div style={styles.missionCard}>
+          <div className="mission-card" style={styles.missionCard}>
             <div style={styles.missionIcon}>👁️</div>
             <h2 style={styles.missionTitle}>Our Vision</h2>
             <p style={styles.missionText}>
@@ -40,7 +65,7 @@ function About() {
         <div style={styles.problemContent}>
           <h2 style={styles.sectionTitle}>The Problem We're Solving</h2>
           <div style={styles.problemGrid}>
-            <div style={styles.problemCard}>
+            <div className="problem-card" style={styles.problemCard}>
               <span style={styles.problemIcon}>🗑️</span>
               <h3 style={styles.problemCardTitle}>Overflowing Bins</h3>
               <p style={styles.problemCardText}>
@@ -48,7 +73,7 @@ function About() {
               </p>
             </div>
             
-            <div style={styles.problemCard}>
+            <div className="problem-card" style={styles.problemCard}>
               <span style={styles.problemIcon}>⛽</span>
               <h3 style={styles.problemCardTitle}>Wasted Resources</h3>
               <p style={styles.problemCardText}>
@@ -56,7 +81,7 @@ function About() {
               </p>
             </div>
             
-            <div style={styles.problemCard}>
+            <div className="problem-card" style={styles.problemCard}>
               <span style={styles.problemIcon}>💨</span>
               <h3 style={styles.problemCardTitle}>Health Hazards</h3>
               <p style={styles.problemCardText}>
@@ -67,55 +92,57 @@ function About() {
         </div>
       </section>
 
-      {/* Our Solution */}
+      {/* Our Solution Section - CLICKABLE CARDS */}
       <section style={styles.solutionSection}>
-        <div style={styles.solutionContent}>
-          <h2 style={styles.sectionTitle}>Our Smart Solution</h2>
-          <p style={styles.solutionText}>
-            We've developed an IoT-enabled smart garbage system that automates waste management 
-            through real-time monitoring and intelligent alerts.
-          </p>
+        <h2 style={styles.sectionTitle}>Our Smart Solution</h2>
+        <p style={styles.solutionText}>
+          We've developed an IoT-enabled smart garbage system that automates waste management 
+          through real-time monitoring and intelligent alerts.
+        </p>
+        
+        <div style={styles.solutionFeatures}>
+          <div className="solution-feature clickable" style={styles.solutionFeature} onClick={navigateToSensorInstallation}>
+            <div style={styles.featureNumber}>01</div>
+            <div style={styles.featureContent}>
+              <h3 style={styles.featureTitle}>Sensor Installation 🔧</h3>
+              <p style={styles.featureText}>
+                Ultrasonic, load cell, DHT11, and MQ-135 sensors monitor fill levels, 
+                weight, temperature, and gas emissions in real-time.
+              </p>
+              <div style={styles.clickHint}>Click to learn more →</div>
+            </div>
+          </div>
           
-          <div style={styles.solutionFeatures}>
-            <div style={styles.solutionFeature}>
-              <div style={styles.featureNumber}>01</div>
-              <div style={styles.featureContent}>
-                <h3 style={styles.featureTitle}>Smart Sensors</h3>
-                <p style={styles.featureText}>
-                  Ultrasonic, load cell, DHT11, and MQ-135 sensors monitor fill levels, 
-                  weight, temperature, and gas emissions in real-time.
-                </p>
-              </div>
+          <div className="solution-feature clickable" style={styles.solutionFeature} onClick={navigateToDataCollection}>
+            <div style={styles.featureNumber}>02</div>
+            <div style={styles.featureContent}>
+              <h3 style={styles.featureTitle}>Data Collection 📡</h3>
+              <p style={styles.featureText}>
+                ESP32 microcontroller collects and processes sensor data, then sends it via WiFi to our Flask server.
+              </p>
+              <div style={styles.clickHint}>Click to learn more →</div>
             </div>
-            
-            <div style={styles.solutionFeature}>
-              <div style={styles.featureNumber}>02</div>
-              <div style={styles.featureContent}>
-                <h3 style={styles.featureTitle}>ESP32 Microcontroller</h3>
-                <p style={styles.featureText}>
-                  Collects and processes sensor data, then sends it via WiFi to our Flask server.
-                </p>
-              </div>
+          </div>
+          
+          <div className="solution-feature clickable" style={styles.solutionFeature} onClick={navigateToDatabaseProcessing}>
+            <div style={styles.featureNumber}>03</div>
+            <div style={styles.featureContent}>
+              <h3 style={styles.featureTitle}>Database Processing 💾</h3>
+              <p style={styles.featureText}>
+                MySQL database stores all bin data for historical analysis and reporting.
+              </p>
+              <div style={styles.clickHint}>Click to learn more →</div>
             </div>
-            
-            <div style={styles.solutionFeature}>
-              <div style={styles.featureNumber}>03</div>
-              <div style={styles.featureContent}>
-                <h3 style={styles.featureTitle}>Cloud Database</h3>
-                <p style={styles.featureText}>
-                  MySQL database stores all bin data for historical analysis and reporting.
-                </p>
-              </div>
-            </div>
-            
-            <div style={styles.solutionFeature}>
-              <div style={styles.featureNumber}>04</div>
-              <div style={styles.featureContent}>
-                <h3 style={styles.featureTitle}>Web Dashboard</h3>
-                <p style={styles.featureText}>
-                  React-based dashboard displays real-time bin status with color-coded indicators.
-                </p>
-              </div>
+          </div>
+          
+          <div className="solution-feature clickable" style={styles.solutionFeature} onClick={navigateToSmartAlerts}>
+            <div style={styles.featureNumber}>04</div>
+            <div style={styles.featureContent}>
+              <h3 style={styles.featureTitle}>Web Dashboard 📊</h3>
+              <p style={styles.featureText}>
+                React-based dashboard displays real-time bin status with color-coded indicators and alerts.
+              </p>
+              <div style={styles.clickHint}>Click to learn more →</div>
             </div>
           </div>
         </div>
@@ -127,37 +154,25 @@ function About() {
         <p style={styles.teamSubtitle}>Final Year Project | Department of Computer Science</p>
         
         <div style={styles.teamGrid}>
-          <div style={styles.teamCard}>
+          <div className="team-card" style={styles.teamCard}>
             <div style={styles.teamAvatar}>👩‍💻</div>
             <h3 style={styles.teamName}>UmmeHani</h3>
             <p style={styles.teamRole}>Developer</p>
             <p style={styles.teamId}>BSCS-MC-211</p>
-            <div style={styles.teamSocial}>
-              <span style={styles.socialIcon}>📧</span>
-              <span style={styles.socialIcon}>🔗</span>
-            </div>
           </div>
           
-          <div style={styles.teamCard}>
+          <div className="team-card" style={styles.teamCard}>
             <div style={styles.teamAvatar}>👩‍💻</div>
             <h3 style={styles.teamName}>Yusra Bilal</h3>
             <p style={styles.teamRole}>Developer</p>
             <p style={styles.teamId}>BSCS-MC-246</p>
-            <div style={styles.teamSocial}>
-              <span style={styles.socialIcon}>📧</span>
-              <span style={styles.socialIcon}>🔗</span>
-            </div>
           </div>
           
-          <div style={styles.teamCard}>
+          <div className="team-card" style={styles.teamCard}>
             <div style={styles.teamAvatar}>👨‍🏫</div>
             <h3 style={styles.teamName}>Faisal Hussain</h3>
             <p style={styles.teamRole}>Project Supervisor</p>
             <p style={styles.teamId}>Department of Computer Science</p>
-            <div style={styles.teamSocial}>
-              <span style={styles.socialIcon}>📧</span>
-              <span style={styles.socialIcon}>🔗</span>
-            </div>
           </div>
         </div>
       </section>
@@ -179,26 +194,29 @@ function About() {
         </div>
       </section>
 
-      {/* SDG Goals Section */}
+      {/* SDG Goals Section - CLICKABLE to UN Website */}
       <section style={styles.sdgSection}>
         <h2 style={styles.sectionTitle}>Supporting UN Sustainable Development Goals</h2>
         <div style={styles.sdgGrid}>
-          <div style={styles.sdgCard}>
+          <div className="sdg-card clickable" style={styles.sdgCard} onClick={() => openUNGoal(11)}>
             <div style={styles.sdgIcon}>🏙️</div>
             <h3 style={styles.sdgTitle}>Goal 11</h3>
             <p style={styles.sdgText}>Sustainable Cities and Communities</p>
+            <div style={styles.clickHintSmall}>Click to learn more →</div>
           </div>
           
-          <div style={styles.sdgCard}>
+          <div className="sdg-card clickable" style={styles.sdgCard} onClick={() => openUNGoal(12)}>
             <div style={styles.sdgIcon}>🔄</div>
             <h3 style={styles.sdgTitle}>Goal 12</h3>
             <p style={styles.sdgText}>Responsible Consumption and Production</p>
+            <div style={styles.clickHintSmall}>Click to learn more →</div>
           </div>
           
-          <div style={styles.sdgCard}>
+          <div className="sdg-card clickable" style={styles.sdgCard} onClick={() => openUNGoal(13)}>
             <div style={styles.sdgIcon}>🌍</div>
             <h3 style={styles.sdgTitle}>Goal 13</h3>
             <p style={styles.sdgText}>Climate Action</p>
+            <div style={styles.clickHintSmall}>Click to learn more →</div>
           </div>
         </div>
       </section>
@@ -206,7 +224,7 @@ function About() {
   );
 }
 
-// Styles
+// Colors
 const colors = {
   primary: '#00b4d8',
   secondary: '#0077b6',
@@ -216,6 +234,7 @@ const colors = {
   gradient: 'linear-gradient(135deg, #023047 0%, #0077b6 100%)'
 };
 
+// Styles
 const styles = {
   container: {
     maxWidth: '1200px',
@@ -298,7 +317,8 @@ const styles = {
     padding: '2rem',
     borderRadius: '15px',
     textAlign: 'center',
-    boxShadow: '0 5px 20px rgba(0,0,0,0.05)'
+    boxShadow: '0 5px 20px rgba(0,0,0,0.05)',
+    transition: 'transform 0.3s'
   },
   problemIcon: {
     fontSize: '3rem',
@@ -314,13 +334,9 @@ const styles = {
     lineHeight: 1.6
   },
 
-  // Solution Section
+  // Solution Section - Clickable
   solutionSection: {
     marginBottom: '4rem'
-  },
-  solutionContent: {
-    maxWidth: '900px',
-    margin: '0 auto'
   },
   solutionText: {
     fontSize: '1.2rem',
@@ -340,7 +356,9 @@ const styles = {
     alignItems: 'flex-start',
     background: colors.light,
     padding: '2rem',
-    borderRadius: '15px'
+    borderRadius: '15px',
+    transition: 'all 0.3s',
+    cursor: 'pointer'
   },
   featureNumber: {
     fontSize: '2.5rem',
@@ -359,6 +377,20 @@ const styles = {
   featureText: {
     color: '#666',
     lineHeight: 1.6
+  },
+  clickHint: {
+    marginTop: '0.8rem',
+    fontSize: '0.8rem',
+    color: colors.primary,
+    fontWeight: 500,
+    transition: 'transform 0.3s'
+  },
+  clickHintSmall: {
+    marginTop: '0.5rem',
+    fontSize: '0.7rem',
+    color: colors.primary,
+    fontWeight: 500,
+    transition: 'transform 0.3s'
   },
 
   // Team Section
@@ -401,17 +433,6 @@ const styles = {
     color: '#666',
     marginBottom: '1rem'
   },
-  teamSocial: {
-    display: 'flex',
-    gap: '1rem',
-    justifyContent: 'center'
-  },
-  socialIcon: {
-    fontSize: '1.5rem',
-    cursor: 'pointer',
-    opacity: 0.7,
-    transition: 'opacity 0.3s'
-  },
 
   // University Section
   universitySection: {
@@ -438,7 +459,8 @@ const styles = {
   universityBadge: {
     display: 'flex',
     gap: '1rem',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   },
   badge: {
     padding: '0.5rem 1.5rem',
@@ -447,7 +469,7 @@ const styles = {
     fontSize: '1rem'
   },
 
-  // SDG Section
+  // SDG Section - Clickable
   sdgSection: {
     marginBottom: '4rem'
   },
@@ -460,7 +482,9 @@ const styles = {
     background: colors.light,
     padding: '2rem',
     borderRadius: '15px',
-    textAlign: 'center'
+    textAlign: 'center',
+    transition: 'all 0.3s',
+    cursor: 'pointer'
   },
   sdgIcon: {
     fontSize: '3rem',
@@ -476,24 +500,38 @@ const styles = {
   }
 };
 
-// Add hover effects
+// Add animations and hover effects
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
   .mission-card:hover,
   .team-card:hover,
-  .sdg-card:hover {
+  .problem-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,180,216,0.15);
   }
   
-  .social-icon:hover {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  
   .solution-feature:hover {
     transform: translateX(10px);
-    box-shadow: 0 10px 30px rgba(0,180,216,0.1);
+    box-shadow: 0 10px 30px rgba(0,180,216,0.15);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+  }
+  
+  .solution-feature:hover .click-hint {
+    transform: translateX(5px);
+  }
+  
+  .sdg-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,180,216,0.2);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+  }
+  
+  .sdg-card:hover .click-hint-small {
+    transform: translateX(5px);
+  }
+  
+  .clickable {
+    cursor: pointer;
   }
   
   @media (max-width: 768px) {

@@ -6,6 +6,11 @@ import Contact from './pages/Contact';
 import Policies from './pages/Policies';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import SensorInstallation from './pages/SensorInstallation';
+import DataCollection from './pages/DataCollection';
+import DatabaseProcessing from './pages/DatabaseProcessing';
+import SmartAlerts from './pages/SmartAlerts';
+
 
 // Colors (reusable)
 const colors = {
@@ -112,6 +117,10 @@ function App() {
             <Route path="/policies" element={<Policies />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/sensor-installation" element={<SensorInstallation />} />
+            <Route path="/data-collection" element={<DataCollection />} />
+            <Route path="/database-processing" element={<DatabaseProcessing />} />
+            <Route path="/smart-alerts" element={<SmartAlerts />} />
           </Routes>
         </div>
 

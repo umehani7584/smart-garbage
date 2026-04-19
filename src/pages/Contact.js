@@ -19,18 +19,13 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Show success popup
     setShowPopup(true);
-    
-    // Clear form
     setFormData({
       name: '',
       email: '',
       subject: '',
       message: ''
     });
-
-    // Hide popup after 3 seconds
     setTimeout(() => {
       setShowPopup(false);
     }, 3000);
@@ -64,7 +59,7 @@ function Contact() {
           <h2 style={styles.sectionTitle}>Contact Information</h2>
           
           <div style={styles.infoCard}>
-            <div style={styles.infoItem}>
+            <div className="info-item" style={styles.infoItem}>
               <div style={styles.infoIcon}>📍</div>
               <div style={styles.infoDetails}>
                 <h3 style={styles.infoLabel}>Visit Us</h3>
@@ -76,7 +71,7 @@ function Contact() {
               </div>
             </div>
 
-            <div style={styles.infoItem}>
+            <div className="info-item" style={styles.infoItem}>
               <div style={styles.infoIcon}>📧</div>
               <div style={styles.infoDetails}>
                 <h3 style={styles.infoLabel}>Email Us</h3>
@@ -85,7 +80,7 @@ function Contact() {
               </div>
             </div>
 
-            <div style={styles.infoItem}>
+            <div className="info-item" style={styles.infoItem}>
               <div style={styles.infoIcon}>📞</div>
               <div style={styles.infoDetails}>
                 <h3 style={styles.infoLabel}>Call Us</h3>
@@ -94,7 +89,7 @@ function Contact() {
               </div>
             </div>
 
-            <div style={styles.infoItem}>
+            <div className="info-item" style={styles.infoItem}>
               <div style={styles.infoIcon}>🕒</div>
               <div style={styles.infoDetails}>
                 <h3 style={styles.infoLabel}>Working Hours</h3>
@@ -105,15 +100,40 @@ function Contact() {
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* Social Links with Facebook, Instagram, YouTube */}
           <div style={styles.socialSection}>
             <h3 style={styles.socialTitle}>Follow Us</h3>
             <div style={styles.socialLinks}>
-              <a href="#" style={styles.socialLink}>📘</a>
-              <a href="#" style={styles.socialLink}>🐦</a>
-              <a href="#" style={styles.socialLink}>📷</a>
-              <a href="#" style={styles.socialLink}>🔗</a>
-              <a href="#" style={styles.socialLink}>💼</a>
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-link"
+                style={styles.socialLink}
+              >
+                <span style={styles.socialIcon}>📘</span>
+                <span style={styles.socialName}>Facebook</span>
+              </a>
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-link"
+                style={styles.socialLink}
+              >
+                <span style={styles.socialIcon}>📷</span>
+                <span style={styles.socialName}>Instagram</span>
+              </a>
+              <a 
+                href="https://youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-link"
+                style={styles.socialLink}
+              >
+                <span style={styles.socialIcon}>▶️</span>
+                <span style={styles.socialName}>YouTube</span>
+              </a>
             </div>
           </div>
         </div>
@@ -183,7 +203,7 @@ function Contact() {
               />
             </div>
 
-            <button type="submit" style={styles.submitBtn}>
+            <button type="submit" className="submit-btn" style={styles.submitBtn}>
               Send Message <span style={styles.sendIcon}>→</span>
             </button>
           </form>
@@ -194,7 +214,6 @@ function Contact() {
       <section style={styles.mapSection}>
         <h2 style={styles.sectionTitle}>Find Us Here</h2>
         <div style={styles.mapContainer}>
-          {/* Using a placeholder map - replace with actual Google Maps iframe */}
           <div style={styles.mapPlaceholder}>
             <div style={styles.mapOverlay}>
               <span style={styles.mapIcon}>🗺️</span>
@@ -209,22 +228,22 @@ function Contact() {
       <section style={styles.faqSection}>
         <h2 style={styles.sectionTitle}>Quick Answers</h2>
         <div style={styles.faqGrid}>
-          <div style={styles.faqItem}>
+          <div className="faq-item" style={styles.faqItem}>
             <div style={styles.faqQuestion}>❓ How does the smart bin work?</div>
             <p style={styles.faqAnswer}>Our bins use IoT sensors to monitor fill levels, weight, and gas emissions in real-time.</p>
           </div>
           
-          <div style={styles.faqItem}>
+          <div className="faq-item" style={styles.faqItem}>
             <div style={styles.faqQuestion}>❓ What is the response time?</div>
             <p style={styles.faqAnswer}>We typically respond within 24 hours on business days.</p>
           </div>
           
-          <div style={styles.faqItem}>
+          <div className="faq-item" style={styles.faqItem}>
             <div style={styles.faqQuestion}>❓ Do you offer demo?</div>
             <p style={styles.faqAnswer}>Yes! Contact us to schedule a live demo of our system.</p>
           </div>
           
-          <div style={styles.faqItem}>
+          <div className="faq-item" style={styles.faqItem}>
             <div style={styles.faqQuestion}>❓ Is there mobile app?</div>
             <p style={styles.faqAnswer}>Our web dashboard is mobile-responsive and works on all devices.</p>
           </div>
@@ -330,7 +349,8 @@ const styles = {
   infoItem: {
     display: 'flex',
     gap: '1.5rem',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    transition: 'all 0.3s'
   },
   infoIcon: {
     fontSize: '2rem',
@@ -341,7 +361,8 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
+    boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
+    transition: 'all 0.3s'
   },
   infoDetails: {
     flex: 1
@@ -357,7 +378,7 @@ const styles = {
     marginBottom: '0.2rem'
   },
 
-  // Social Section
+  // Social Section - Updated with FB, Insta, YT
   socialSection: {
     textAlign: 'center',
     paddingTop: '2rem',
@@ -370,15 +391,29 @@ const styles = {
   },
   socialLinks: {
     display: 'flex',
-    gap: '1rem',
-    justifyContent: 'center'
+    gap: '1.5rem',
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   },
   socialLink: {
-    fontSize: '1.8rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.6rem 1.2rem',
+    background: colors.white,
+    borderRadius: '30px',
     textDecoration: 'none',
     color: '#666',
     transition: 'all 0.3s',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+  },
+  socialIcon: {
+    fontSize: '1.4rem'
+  },
+  socialName: {
+    fontSize: '0.9rem',
+    fontWeight: 500
   },
 
   // Form Section
@@ -542,17 +577,35 @@ styleSheet.textContent = `
     transform: translateX(5px);
   }
   
+  /* Social Link Hover Effects */
   .social-link:hover {
-    color: ${colors.primary} !important;
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,180,216,0.2);
   }
   
+  .social-link:nth-child(1):hover {
+    background: #1877f2;
+    color: white;
+  }
+  
+  .social-link:nth-child(2):hover {
+    background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+    color: white;
+  }
+  
+  .social-link:nth-child(3):hover {
+    background: #ff0000;
+    color: white;
+  }
+  
+  /* Info Item Hover */
   .info-item:hover .info-icon {
     background: ${colors.primary};
     color: white;
     transform: scale(1.1);
   }
   
+  /* FAQ Item Hover */
   .faq-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0,180,216,0.1);
@@ -565,6 +618,16 @@ styleSheet.textContent = `
     
     .faq-grid {
       grid-template-columns: 1fr !important;
+    }
+    
+    .social-links {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .social-link {
+      width: 150px;
+      justify-content: center;
     }
   }
 `;
