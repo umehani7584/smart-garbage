@@ -23,6 +23,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
 
   const [profilePicPreview, setProfilePicPreview] = useState('');
   const [docPreview, setDocPreview] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
@@ -51,35 +52,46 @@ function SignupCard({ onClose, onSwitchToLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
+    // Validation
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      alert("Password must be at least 8 characters long!");
+      setIsLoading(false);
       return;
     }
 
     const cnicRegex = /^\d{13}$/;
     if (!cnicRegex.test(formData.cnic)) {
       alert("Please enter a valid 13-digit CNIC number without dashes");
+      setIsLoading(false);
       return;
     }
 
-    const dateOfBirth = `${formData.dobYear}-${formData.dobMonth}-${formData.dobDay}`;
-    const joiningDate = `${formData.joiningYear}-${formData.joiningMonth}-${formData.joiningDay}`;
-
-    const completeData = {
-      ...formData,
-      dateOfBirth,
-      joiningDate
-    };
-
-    console.log('Worker Registration Data:', completeData);
-    alert("Registration successful! Please login.");
-    onClose();
-    if (onSwitchToLogin) {
-      onSwitchToLogin();
-    } else {
-      window.dispatchEvent(new CustomEvent('openLogin'));
+    const phoneRegex = /^03\d{9}$/;
+    if (!phoneRegex.test(formData.phoneNumber)) {
+      alert("Please enter a valid Pakistani phone number (03XXXXXXXXX)");
+      setIsLoading(false);
+      return;
     }
+
+    // Simulate signup delay
+    setTimeout(() => {
+      alert("✅ Registration successful! Please login.");
+      onClose();
+      if (onSwitchToLogin) {
+        onSwitchToLogin();
+      } else {
+        window.dispatchEvent(new CustomEvent('openLogin'));
+      }
+      setIsLoading(false);
+    }, 1000);
   };
 
   const handleLoginClick = (e) => {
@@ -95,7 +107,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
   return (
     <div style={styles.overlay}>
       <div style={{...styles.card, maxWidth: '700px'}}>
-        <button onClick={onClose} style={styles.closeBtn}>✕</button>
+        <button onClick={onClose} style={styles.closeBtn} disabled={isLoading}>✕</button>
         
         <div style={styles.content}>
           <p style={styles.welcomeBack}>👷 Join Our Team</p>
@@ -120,6 +132,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -136,6 +149,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -152,6 +166,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
               <small style={styles.hint}>13 digits without dashes</small>
@@ -169,6 +184,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -185,6 +201,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Day</option>
                     {days.map(day => (
@@ -200,6 +217,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Month</option>
                     {months.map((month, index) => (
@@ -215,6 +233,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Year</option>
                     {years.map(year => (
@@ -241,6 +260,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Day</option>
                     {days.map(day => (
@@ -256,6 +276,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Month</option>
                     {months.map((month, index) => (
@@ -271,6 +292,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                     onChange={handleChange}
                     style={styles.dateSelect}
                     required
+                    disabled={isLoading}
                   >
                     <option value="">Year</option>
                     {years.map(year => (
@@ -298,6 +320,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -320,6 +343,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                         setProfilePicPreview('');
                       }}
                       style={styles.removeBtn}
+                      disabled={isLoading}
                     >
                       Remove
                     </button>
@@ -335,6 +359,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                       onChange={handleChange}
                       style={styles.fileInput}
                       required
+                      disabled={isLoading}
                     />
                   </label>
                 )}
@@ -355,6 +380,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                         setDocPreview('');
                       }}
                       style={styles.removeBtn}
+                      disabled={isLoading}
                     >
                       Remove
                     </button>
@@ -370,6 +396,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                       onChange={handleChange}
                       style={styles.fileInput}
                       required
+                      disabled={isLoading}
                     />
                   </label>
                 )}
@@ -392,6 +419,7 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   style={styles.input}
                   required
                   minLength="8"
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -407,12 +435,22 @@ function SignupCard({ onClose, onSwitchToLogin }) {
                   onChange={handleChange}
                   style={styles.input}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
 
-            <button type="submit" style={styles.signupBtn}>
-              Register as Worker <span style={styles.arrow}>→</span>
+            <button 
+              type="submit" 
+              style={{
+                ...styles.signupBtn,
+                opacity: isLoading ? 0.7 : 1,
+                cursor: isLoading ? 'not-allowed' : 'pointer'
+              }}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Registering...' : 'Register as Worker'} 
+              {!isLoading && <span style={styles.arrow}>→</span>}
             </button>
           </form>
 
@@ -721,12 +759,12 @@ styleSheet.textContent = `
     }
   }
   
-  button:hover {
+  button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(0,180,216,0.3);
   }
   
-  button:hover .arrow {
+  button:hover:not(:disabled) .arrow {
     transform: translateX(5px);
   }
   
@@ -735,7 +773,7 @@ styleSheet.textContent = `
     box-shadow: 0 0 0 3px rgba(0,180,216,0.1);
   }
   
-  .close-btn:hover {
+  .close-btn:hover:not(:disabled) {
     background: #f0f0f0 !important;
     color: #023047 !important;
   }
@@ -744,7 +782,7 @@ styleSheet.textContent = `
     text-decoration: underline;
   }
   
-  .remove-btn:hover {
+  .remove-btn:hover:not(:disabled) {
     background-color: #cc0000 !important;
   }
   
