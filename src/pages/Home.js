@@ -17,11 +17,6 @@ function Home() {
       description: "Never let bins overflow with real-time fill-level tracking"
     },
     {
-      image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1920",
-      title: "Automated Waste Collection",
-      description: "Efficient garbage collection with IoT sensors"
-    },
-    {
       image: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1920",
       title: "Clean & Green Cities",
       description: "Making urban areas cleaner with smart technology"

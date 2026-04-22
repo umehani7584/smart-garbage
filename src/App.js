@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -10,7 +10,7 @@ import SensorInstallation from './pages/SensorInstallation';
 import DataCollection from './pages/DataCollection';
 import DatabaseProcessing from './pages/DatabaseProcessing';
 import SmartAlerts from './pages/SmartAlerts';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Colors (reusable)
 const colors = {
@@ -22,135 +22,152 @@ const colors = {
   gradient: 'linear-gradient(135deg, #023047 0%, #0077b6 100%)'
 };
 
-function App() {
+// Component to conditionally show navbar and footer
+function Layout({ children }) {
+  const location = useLocation();
+  const isDashboard = location.pathname === '/admin-dashboard' || location.pathname === '/user-dashboard';
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // If on dashboard, only show children (no navbar, no footer)
+  if (isDashboard) {
+    return <>{children}</>;
+  }
+
+  // For non-dashboard pages, show full layout with navbar and footer
   return (
-    <Router>
-      <div style={styles.container}>
-        {/* Navigation Bar */}
-        <nav style={styles.navbar}>
-          <div style={styles.navContent}>
-            <Link to="/" style={styles.logo}>
-              <span style={styles.logoIcon}>♻️</span>
-              <span style={styles.logoText}>Smart Garbage System</span>
-            </Link>
+    <>
+      {/* Navigation Bar */}
+      <nav style={styles.navbar}>
+        <div style={styles.navContent}>
+          <Link to="/" style={styles.logo}>
+            <span style={styles.logoIcon}>♻️</span>
+            <span style={styles.logoText}>Smart Garbage System</span>
+          </Link>
 
-            {/* Desktop Menu */}
-            <div style={styles.desktopMenu}>
-              <Link to="/" style={styles.navLink}>Home</Link>
-              <Link to="/about" style={styles.navLink}>About</Link>
-              <Link to="/contact" style={styles.navLink}>Contact</Link>
-              <Link to="/policies" style={styles.navLink}>Policies</Link>
-            </div>
-
-            {/* Desktop Buttons */}
-            <div style={styles.desktopButtons}>
-              <Link to="/">
-                <button 
-                  style={styles.loginBtn}
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    window.dispatchEvent(new CustomEvent('openLogin'));
-                  }}
-                >
-                  Login
-                </button>
-              </Link>
-              <Link to="/">
-                <button 
-                  style={styles.signupBtn}
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    window.dispatchEvent(new CustomEvent('openSignup'));
-                  }}
-                >
-                  Sign Up
-                </button>
-              </Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button style={styles.mobileMenuBtn} onClick={() => setMenuOpen(!menuOpen)}>
-              ☰
-            </button>
+          {/* Desktop Menu */}
+          <div style={styles.desktopMenu}>
+            <Link to="/" style={styles.navLink}>Home</Link>
+            <Link to="/about" style={styles.navLink}>About</Link>
+            <Link to="/contact" style={styles.navLink}>Contact</Link>
+            <Link to="/policies" style={styles.navLink}>Policies</Link>
           </div>
 
-          {/* Mobile Menu */}
-          {menuOpen && (
-            <div style={styles.mobileMenu}>
-              <Link to="/" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Home</Link>
-              <Link to="/about" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>About</Link>
-              <Link to="/contact" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Contact</Link>
-              <Link to="/policies" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Policies</Link>
-              <hr style={styles.mobileDivider} />
-              <Link 
-                to="/" 
-                style={styles.mobileNavLink} 
+          {/* Desktop Buttons */}
+          <div style={styles.desktopButtons}>
+            <Link to="/">
+              <button 
+                style={styles.loginBtn}
                 onClick={() => {
-                  setMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                   window.dispatchEvent(new CustomEvent('openLogin'));
                 }}
               >
                 Login
-              </Link>
-              <Link 
-                to="/" 
-                style={styles.mobileNavLink} 
+              </button>
+            </Link>
+            <Link to="/">
+              <button 
+                style={styles.signupBtn}
                 onClick={() => {
-                  setMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                   window.dispatchEvent(new CustomEvent('openSignup'));
                 }}
               >
                 Sign Up
-              </Link>
-            </div>
-          )}
-        </nav>
+              </button>
+            </Link>
+          </div>
 
-        {/* Page Content - All Routes */}
-        <div style={styles.pageContent}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/policies" element={<Policies />} />
-            <Route path="/user-dashboard" element={<UserDashboard />} />
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
-            <Route path="/sensor-installation" element={<SensorInstallation />} />
-            <Route path="/data-collection" element={<DataCollection />} />
-            <Route path="/database-processing" element={<DatabaseProcessing />} />
-            <Route path="/smart-alerts" element={<SmartAlerts />} />
-          </Routes>
+          {/* Mobile Menu Button */}
+          <button style={styles.mobileMenuBtn} onClick={() => setMenuOpen(!menuOpen)}>
+            ☰
+          </button>
         </div>
 
-        {/* Footer */}
-        <footer style={styles.footer}>
-          <div style={styles.footerContent}>
-            <div style={styles.footerSection}>
-              <h3 style={styles.footerTitle}>♻️ Smart Garbage System</h3>
-              <p style={styles.footerText}>IoT-enabled waste management solutions for cleaner, greener cities.</p>
-            </div>
-            
-            <div style={styles.footerSection}>
-              <h4 style={styles.footerSubtitle}>Quick Links</h4>
-              <Link to="/about" style={styles.footerLink}>About Us</Link>
-              <Link to="/contact" style={styles.footerLink}>Contact</Link>
-              <Link to="/policies" style={styles.footerLink}>Privacy Policy</Link>
-            </div>
-            
-            <div style={styles.footerSection}>
-              <h4 style={styles.footerSubtitle}>Contact</h4>
-              <p style={styles.footerText}>📧 info@smartgarbage.com</p>
-              <p style={styles.footerText}>📞 +92 300 1234567</p>
-              <p style={styles.footerText}>📍 Islamabad, Pakistan</p>
-            </div>
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div style={styles.mobileMenu}>
+            <Link to="/" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link to="/about" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>About</Link>
+            <Link to="/contact" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Contact</Link>
+            <Link to="/policies" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Policies</Link>
+            <hr style={styles.mobileDivider} />
+            <Link 
+              to="/" 
+              style={styles.mobileNavLink} 
+              onClick={() => {
+                setMenuOpen(false);
+                window.dispatchEvent(new CustomEvent('openLogin'));
+              }}
+            >
+              Login
+            </Link>
+            <Link 
+              to="/" 
+              style={styles.mobileNavLink} 
+              onClick={() => {
+                setMenuOpen(false);
+                window.dispatchEvent(new CustomEvent('openSignup'));
+              }}
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
+      </nav>
+
+      {/* Page Content */}
+      <div style={styles.pageContent}>
+        {children}
+      </div>
+
+      {/* Footer */}
+      <footer style={styles.footer}>
+        <div style={styles.footerContent}>
+          <div style={styles.footerSection}>
+            <h3 style={styles.footerTitle}>♻️ Smart Garbage System</h3>
+            <p style={styles.footerText}>IoT-enabled waste management solutions for cleaner, greener cities.</p>
           </div>
           
-          <div style={styles.footerBottom}>
-            <p style={styles.copyright}>© 2024 Smart Garbage System. All rights reserved.</p>
+          <div style={styles.footerSection}>
+            <h4 style={styles.footerSubtitle}>Quick Links</h4>
+            <Link to="/about" style={styles.footerLink}>About Us</Link>
+            <Link to="/contact" style={styles.footerLink}>Contact</Link>
+            <Link to="/policies" style={styles.footerLink}>Privacy Policy</Link>
           </div>
-        </footer>
+          
+          <div style={styles.footerSection}>
+            <h4 style={styles.footerSubtitle}>Contact</h4>
+            <p style={styles.footerText}>📧 info@smartgarbage.com</p>
+            <p style={styles.footerText}>📞 +92 300 1234567</p>
+            <p style={styles.footerText}>📍 Islamabad, Pakistan</p>
+          </div>
+        </div>
+        
+        <div style={styles.footerBottom}>
+          <p style={styles.copyright}>© 2024 Smart Garbage System. All rights reserved.</p>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div style={styles.container}>
+        <Routes>
+          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route path="/about" element={<Layout><About /></Layout>} />
+          <Route path="/contact" element={<Layout><Contact /></Layout>} />
+          <Route path="/policies" element={<Layout><Policies /></Layout>} />
+          <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+          <Route path="/admin-dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/sensor-installation" element={<Layout><SensorInstallation /></Layout>} />
+          <Route path="/data-collection" element={<Layout><DataCollection /></Layout>} />
+          <Route path="/database-processing" element={<Layout><DatabaseProcessing /></Layout>} />
+          <Route path="/smart-alerts" element={<Layout><SmartAlerts /></Layout>} />
+        </Routes>
       </div>
     </Router>
   );

@@ -1,0 +1,5 @@
+﻿id,name,email,password,role,area
+1,Admin,admin@test.com,admin123,admin,All
+2,Ahmed Raza,ahmed@test.com,123,user,F-7
+3,Usman Ali,usman@test.com,123,user,F-8
+4,Sana Malik,sana@test.com,123,user,G-11
