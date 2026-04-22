@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../utils/csvParser';
+import { loginUserWithLocal } from '../utils/csvParser';
 
 function LoginCard({ onClose, onSwitchToSignup }) {
   const [email, setEmail] = useState('');
@@ -14,8 +14,8 @@ function LoginCard({ onClose, onSwitchToSignup }) {
     setError('');
     setLoading(true);
 
-    // CSV se user authenticate karo
-    const user = await loginUser(email, password);
+    // CSV + LocalStorage se user authenticate karo
+    const user = await loginUserWithLocal(email, password);
 
     if (user) {
       // Login successful
@@ -225,26 +225,6 @@ const styles = {
     cursor: 'pointer',
     fontSize: '0.85rem',
     fontWeight: 600
-  },
-  demoInfo: {
-    marginTop: '1.2rem',
-    padding: '0.8rem',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    textAlign: 'center'
-  },
-  demoTitle: {
-    fontSize: '0.75rem',
-    fontWeight: 600,
-    color: '#023047',
-    marginBottom: '0.3rem'
-  },
-  demoList: {
-    fontSize: '0.7rem',
-    color: '#666',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.2rem'
   }
 };
 

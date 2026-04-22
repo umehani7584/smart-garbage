@@ -1,0 +1,13 @@
+/* Global Zoom - Sirf Projector ke liye */
+@media (min-width: 1200px) {
+  body {
+    zoom: 1.3;  /* 130% - projector ke liye perfect */
+  }
+}
+
+/* Normal screen ke liye */
+@media (max-width: 1199px) {
+  body {
+    zoom: 1;  /* Normal 100% */
+  }
+}
