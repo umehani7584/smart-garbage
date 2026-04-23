@@ -4,7 +4,8 @@ import {
   FiHome, FiUsers, FiMapPin, FiSettings, FiLogOut,
   FiBarChart2, FiTrash2, FiDownload, FiRefreshCw, 
   FiUserPlus, FiEdit2, FiEye, FiActivity,
-  FiAlertCircle, FiCheckCircle, FiTrendingUp, FiX
+  FiAlertCircle, FiCheckCircle, FiTrendingUp, FiX,
+  FiChevronLeft, FiChevronRight
 } from 'react-icons/fi';
 import { getBins, calculateFillPercentage, getAllUsersCombined, addUserToLocalStorage } from '../utils/csvParser';
 
@@ -52,10 +53,8 @@ function AdminDashboard() {
   };
 
   const getAreaFromCoordinates = (lat, lon) => {
-    // Assign area based on coordinates
     if (!lat || !lon) return 'Unknown';
     const latNum = parseFloat(lat);
-    const lonNum = parseFloat(lon);
     
     if (latNum > -34.18) return 'F-7';
     if (latNum > -34.185) return 'G-10';
@@ -234,9 +233,13 @@ function AdminDashboard() {
     <div style={styles.container}>
       {/* SIDEBAR */}
       <div style={{...styles.sidebar, width: sidebarOpen ? '260px' : '80px'}}>
+        {/* Logo + Toggle Button */}
         <div style={styles.logoContainer}>
           <span style={styles.logoIcon}>♻️</span>
           {sidebarOpen && <span style={styles.logoText}>Admin Panel</span>}
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.sidebarToggleBtn}>
+            {sidebarOpen ? <FiChevronLeft /> : <FiChevronRight />}
+          </button>
         </div>
 
         <div style={styles.adminProfile}>
@@ -282,14 +285,10 @@ function AdminDashboard() {
           >
             <FiSettings style={styles.navIcon} /> {sidebarOpen && <span style={styles.navText}>Settings</span>}
           </button>
-        </div>
-
-        <div style={styles.logoutContainer}>
-          <button onClick={handleLogout} style={styles.logoutBtn}>
+          
+          {/* Logout Button - Settings ke neeche */}
+          <button onClick={handleLogout} style={styles.navItem}>
             <FiLogOut style={styles.navIcon} /> {sidebarOpen && <span style={styles.navText}>Logout</span>}
-          </button>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.toggleBtn}>
-            {sidebarOpen ? '◀' : '▶'}
           </button>
         </div>
       </div>
@@ -849,25 +848,44 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     zIndex: 100,
-    overflow: 'hidden'
+    overflowY: 'auto',
+    overflowX: 'hidden'
   },
-  logoContainer: { padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem', borderBottom: '1px solid #f0f0f0' },
+  logoContainer: {
+    padding: '1.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    borderBottom: '1px solid #f0f0f0',
+    position: 'relative'
+  },
   logoIcon: { fontSize: '2rem' },
   logoText: { fontSize: '1.3rem', fontWeight: 'bold', color: '#023047', whiteSpace: 'nowrap' },
+  sidebarToggleBtn: {
+    marginLeft: 'auto',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '1.2rem',
+    color: '#666',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.3rem',
+    borderRadius: '5px',
+    transition: 'all 0.3s'
+  },
   adminProfile: { padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem', borderBottom: '1px solid #f0f0f0' },
   avatarContainer: { width: '45px', height: '45px', flexShrink: 0 },
   avatarPlaceholder: { width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#00b4d8', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', fontWeight: 'bold' },
   adminInfo: { overflow: 'hidden' },
   adminName: { fontSize: '0.95rem', fontWeight: 600, color: '#023047', margin: 0, whiteSpace: 'nowrap' },
   adminRole: { fontSize: '0.75rem', color: '#00b4d8', margin: '0.2rem 0 0 0', whiteSpace: 'nowrap' },
-  navMenu: { flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' },
+  navMenu: { flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem', overflowY: 'auto' },
   navItem: { display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.7rem 1rem', border: 'none', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.3s', width: '100%', color: '#666', background: 'transparent' },
   navItemActive: { backgroundColor: '#00b4d810', color: '#00b4d8' },
   navIcon: { fontSize: '1.2rem', flexShrink: 0 },
   navText: { fontSize: '0.9rem', fontWeight: 500, whiteSpace: 'nowrap' },
-  logoutContainer: { padding: '1rem', borderTop: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  logoutBtn: { display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.7rem 1rem', border: 'none', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.3s', color: '#f44336', backgroundColor: 'transparent', flex: 1 },
-  toggleBtn: { width: '28px', height: '28px', borderRadius: '50%', border: '2px solid #00b4d8', backgroundColor: 'white', color: '#00b4d8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem' },
   mainContent: { flex: 1, padding: '1.5rem', transition: 'margin-left 0.3s ease', backgroundColor: '#f0f2f5' },
   topNavbar: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' },
   pageTitle: { fontSize: '1.5rem', color: '#023047', margin: 0 },
@@ -982,6 +1000,7 @@ styleSheet.textContent = `
   .bin-card-view-btn:hover { background-color: #0077b6 !important; }
   .bin-modal-close:hover { color: #f44336 !important; }
   .bin-modal-close-btn:hover { background-color: #0077b6 !important; }
+  .sidebar-toggle-btn:hover { background-color: #f0f0f0 !important; }
   @media (max-width: 768px) { .two-column { grid-template-columns: 1fr !important; } }
 `;
 document.head.appendChild(styleSheet);
