@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FiUsers, FiUserPlus, FiEdit2, FiTrash2, FiEye, FiX, FiMapPin } from 'react-icons/fi';
 import { useRealTimeData } from '../../hooks/useRealTimeData';
+import { getAllUsersCombined } from '../../utils/csvParser';
 import './WorkersManagement.css';
 
 function WorkersManagement() {
   const { binsData } = useRealTimeData();
   const [workers, setWorkers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(null);
@@ -14,40 +16,46 @@ function WorkersManagement() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    area: 'F-7',
-    status: 'active'
+    area: 'F-7'
   });
   const [selectedBin, setSelectedBin] = useState('');
   const [notification, setNotification] = useState(null);
 
+  // Load users from CSV on mount
   useEffect(() => {
-    const storedWorkers = JSON.parse(localStorage.getItem('workers') || '[]');
-    if (storedWorkers.length === 0) {
-      const defaultWorkers = [
-        { id: 1, name: 'Ahmad Hassan', email: 'ahmad@example.com', area: 'F-7', status: 'active', joinDate: '2024-01-15', assignedBins: ['BIN-001', 'BIN-002'] },
-        { id: 2, name: 'Fatima Khan', email: 'fatima@example.com', area: 'F-8', status: 'active', joinDate: '2024-02-20', assignedBins: ['BIN-003'] },
-        { id: 3, name: 'Muhammad Ali', email: 'ali@example.com', area: 'G-10', status: 'active', joinDate: '2024-03-10', assignedBins: ['BIN-005', 'BIN-006'] },
-        { id: 4, name: 'Sara Ahmed', email: 'sara@example.com', area: 'G-11', status: 'inactive', joinDate: '2024-01-05', assignedBins: [] },
-      ];
-      localStorage.setItem('workers', JSON.stringify(defaultWorkers));
-      setWorkers(defaultWorkers);
-    } else {
-      setWorkers(storedWorkers);
-    }
+    const loadWorkers = async () => {
+      try {
+        const allUsers = await getAllUsersCombined();
+        // Filter only 'user' role (exclude admins)
+        const userWorkers = allUsers.filter(u => u.role === 'user');
+        setWorkers(userWorkers);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading users:', error);
+        setLoading(false);
+      }
+    };
+    loadWorkers();
   }, []);
 
   const handleAddWorker = () => {
     if (formData.name && formData.email) {
       const newWorker = {
         id: Date.now(),
-        ...formData,
-        joinDate: new Date().toISOString().split('T')[0],
-        assignedBins: []
+        name: formData.name,
+        email: formData.email,
+        area: formData.area,
+        role: 'user',
+        assigned_bins: []
       };
       const updated = [...workers, newWorker];
       setWorkers(updated);
-      localStorage.setItem('workers', JSON.stringify(updated));
-      setFormData({ name: '', email: '', area: 'F-7', status: 'active' });
+      // Save to localStorage
+      const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+      allUsers.push(newWorker);
+      localStorage.setItem('allUsers', JSON.stringify(allUsers));
+      
+      setFormData({ name: '', email: '', area: 'F-7' });
       setShowAddModal(false);
       showNotification('✅ Worker added successfully!');
     }
@@ -56,11 +64,21 @@ function WorkersManagement() {
   const handleEditWorker = () => {
     if (formData.name && formData.email) {
       const updated = workers.map(w => 
-        w.id === editingId ? { ...w, ...formData } : w
+        w.id === editingId 
+          ? { ...w, name: formData.name, email: formData.email, area: formData.area }
+          : w
       );
       setWorkers(updated);
-      localStorage.setItem('workers', JSON.stringify(updated));
-      setFormData({ name: '', email: '', area: 'F-7', status: 'active' });
+      
+      const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+      const updatedLocal = allUsers.map(u =>
+        u.id === editingId
+          ? { ...u, name: formData.name, email: formData.email, area: formData.area }
+          : u
+      );
+      localStorage.setItem('allUsers', JSON.stringify(updatedLocal));
+      
+      setFormData({ name: '', email: '', area: 'F-7' });
       setEditingId(null);
       setShowEditModal(false);
       showNotification('✅ Worker updated!');
@@ -71,7 +89,11 @@ function WorkersManagement() {
     if (window.confirm('Delete this worker?')) {
       const updated = workers.filter(w => w.id !== id);
       setWorkers(updated);
-      localStorage.setItem('workers', JSON.stringify(updated));
+      
+      const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+      const updatedLocal = allUsers.filter(u => u.id !== id);
+      localStorage.setItem('allUsers', JSON.stringify(updatedLocal));
+      
       showNotification('✅ Worker deleted!');
     }
   };
@@ -83,16 +105,30 @@ function WorkersManagement() {
 
   const handleConfirmAssign = () => {
     if (selectedBin && showAssignModal) {
-      const updated = workers.map(w => 
-        w.id === showAssignModal.id 
-          ? { ...w, assignedBins: [...(w.assignedBins || []), selectedBin] }
-          : w
-      );
-      setWorkers(updated);
-      localStorage.setItem('workers', JSON.stringify(updated));
-      setShowAssignModal(null);
-      setSelectedBin('');
-      showNotification(`✅ Bin ${selectedBin} assigned to ${showAssignModal.name}!`);
+      const assignedBins = showAssignModal.assigned_bins || [];
+      if (!assignedBins.includes(selectedBin)) {
+        const updated = workers.map(w => 
+          w.id === showAssignModal.id 
+            ? { ...w, assigned_bins: [...assignedBins, selectedBin] }
+            : w
+        );
+        setWorkers(updated);
+        
+        // Update localStorage
+        const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+        const updatedLocal = allUsers.map(u =>
+          u.id === showAssignModal.id
+            ? { ...u, assigned_bins: [...assignedBins, selectedBin] }
+            : u
+        );
+        localStorage.setItem('allUsers', JSON.stringify(updatedLocal));
+        
+        setShowAssignModal(null);
+        setSelectedBin('');
+        showNotification(`✅ Bin ${selectedBin} assigned to ${showAssignModal.name}!`);
+      } else {
+        showNotification('⚠️ Bin already assigned!');
+      }
     }
   };
 
@@ -100,8 +136,7 @@ function WorkersManagement() {
     setFormData({
       name: worker.name,
       email: worker.email,
-      area: worker.area,
-      status: worker.status
+      area: worker.area || 'F-7'
     });
     setEditingId(worker.id);
     setShowEditModal(true);
@@ -111,6 +146,10 @@ function WorkersManagement() {
     setNotification(msg);
     setTimeout(() => setNotification(null), 3000);
   };
+
+  if (loading) {
+    return <div className="loading-spinner">Loading workers...</div>;
+  }
 
   return (
     <div className="workers-container">
@@ -123,7 +162,7 @@ function WorkersManagement() {
       <div className="workers-header">
         <div>
           <h1 className="page-title">Workers Management</h1>
-          <p className="page-subtitle">Manage your garbage collection team</p>
+          <p className="page-subtitle">Manage your garbage collection team ({workers.length} workers)</p>
         </div>
         <button 
           className="add-worker-btn"
@@ -134,78 +173,84 @@ function WorkersManagement() {
       </div>
 
       <div className="workers-grid">
-        {workers.map(worker => (
-          <div key={worker.id} className="worker-card">
-            <div className="worker-card-header">
-              <div className="worker-avatar">{worker.name.charAt(0)}</div>
-              <div className="worker-info">
-                <h3 className="worker-name">{worker.name}</h3>
-                <p className="worker-email">{worker.email}</p>
-              </div>
-            </div>
-
-            <div className="worker-details">
-              <div className="detail-item">
-                <span className="label">📍 Area</span>
-                <span className="value">{worker.area}</span>
-              </div>
-              <div className="detail-item">
-                <span className="label">📊 Status</span>
-                <span className={`status-badge ${worker.status}`}>
-                  {worker.status === 'active' ? '🟢 Active' : '⚪ Inactive'}
-                </span>
-              </div>
-              <div className="detail-item">
-                <span className="label">🗑️ Bins</span>
-                <span className="value">{worker.assignedBins?.length || 0}</span>
-              </div>
-            </div>
-
-            {worker.assignedBins && worker.assignedBins.length > 0 && (
-              <div className="assigned-bins">
-                <p style={{ margin: '0.5rem 0 0.3rem 0', fontSize: '0.8rem', fontWeight: '600', color: '#666' }}>
-                  Assigned Bins:
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                  {worker.assignedBins.map((bin, idx) => (
-                    <span key={idx} className="bin-tag">{bin}</span>
-                  ))}
+        {workers.map(worker => {
+          const assignedBins = typeof worker.assigned_bins === 'string' 
+            ? worker.assigned_bins.split(',').filter(b => b.trim())
+            : (worker.assigned_bins || []);
+          
+          return (
+            <div key={worker.id} className="worker-card">
+              <div className="worker-card-header">
+                <div className="worker-avatar">{worker.name.charAt(0)}</div>
+                <div className="worker-info">
+                  <h3 className="worker-name">{worker.name}</h3>
+                  <p className="worker-email">{worker.email}</p>
                 </div>
               </div>
-            )}
 
-            <div className="worker-actions">
-              <button 
-                className="action-btn view"
-                onClick={() => setShowDetailModal(worker)}
-                title="View"
-              >
-                <FiEye />
-              </button>
-              <button 
-                className="action-btn assign"
-                onClick={() => handleAssignBin(worker)}
-                title="Assign Bin"
-              >
-                <FiMapPin />
-              </button>
-              <button 
-                className="action-btn edit"
-                onClick={() => openEditModal(worker)}
-                title="Edit"
-              >
-                <FiEdit2 />
-              </button>
-              <button 
-                className="action-btn delete"
-                onClick={() => handleDeleteWorker(worker.id)}
-                title="Delete"
-              >
-                <FiTrash2 />
-              </button>
+              <div className="worker-details">
+                <div className="detail-item">
+                  <span className="label">📍 Area</span>
+                  <span className="value">{worker.area || 'N/A'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="label">👤 Role</span>
+                  <span className="value" style={{ textTransform: 'capitalize' }}>
+                    {worker.role}
+                  </span>
+                </div>
+                <div className="detail-item">
+                  <span className="label">🗑️ Bins</span>
+                  <span className="value">{assignedBins.length}</span>
+                </div>
+              </div>
+
+              {assignedBins.length > 0 && (
+                <div className="assigned-bins">
+                  <p style={{ margin: '0.5rem 0 0.3rem 0', fontSize: '0.8rem', fontWeight: '600', color: '#666' }}>
+                    Assigned Bins:
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                    {assignedBins.map((bin, idx) => (
+                      <span key={idx} className="bin-tag">{bin.trim()}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="worker-actions">
+                <button 
+                  className="action-btn view"
+                  onClick={() => setShowDetailModal(worker)}
+                  title="View"
+                >
+                  <FiEye />
+                </button>
+                <button 
+                  className="action-btn assign"
+                  onClick={() => handleAssignBin(worker)}
+                  title="Assign Bin"
+                >
+                  <FiMapPin />
+                </button>
+                <button 
+                  className="action-btn edit"
+                  onClick={() => openEditModal(worker)}
+                  title="Edit"
+                >
+                  <FiEdit2 />
+                </button>
+                <button 
+                  className="action-btn delete"
+                  onClick={() => handleDeleteWorker(worker.id)}
+                  title="Delete"
+                >
+                  <FiTrash2 />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Add Worker Modal */}
@@ -250,6 +295,8 @@ function WorkersManagement() {
                   <option value="F-8">F-8</option>
                   <option value="G-10">G-10</option>
                   <option value="G-11">G-11</option>
+                  <option value="H-12">H-12</option>
+                  <option value="I-14">I-14</option>
                 </select>
               </div>
               <div className="form-actions">
@@ -305,17 +352,8 @@ function WorkersManagement() {
                   <option value="F-8">F-8</option>
                   <option value="G-10">G-10</option>
                   <option value="G-11">G-11</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="form-select"
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="H-12">H-12</option>
+                  <option value="I-14">I-14</option>
                 </select>
               </div>
               <div className="form-actions">
@@ -352,7 +390,7 @@ function WorkersManagement() {
                   <option value="">-- Choose a bin --</option>
                   {binsData.map(bin => (
                     <option key={bin.id} value={bin.id}>
-                      {bin.id} - Fill: {bin.fillLevel.toFixed(0)}% - {bin.area}
+                      {bin.id} - Fill: {bin.fillLevel.toFixed(0)}% - Area: {bin.area}
                     </option>
                   ))}
                 </select>
@@ -394,28 +432,23 @@ function WorkersManagement() {
               </div>
               <div className="detail-row">
                 <span className="detail-label">Area:</span>
-                <span className="detail-value">{showDetailModal.area}</span>
+                <span className="detail-value">{showDetailModal.area || 'N/A'}</span>
               </div>
               <div className="detail-row">
-                <span className="detail-label">Status:</span>
-                <span className="detail-value">
-                  {showDetailModal.status === 'active' ? '🟢 Active' : '⚪ Inactive'}
+                <span className="detail-label">Role:</span>
+                <span className="detail-value" style={{ textTransform: 'capitalize' }}>
+                  {showDetailModal.role}
                 </span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Join Date:</span>
-                <span className="detail-value">{showDetailModal.joinDate}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Assigned Bins:</span>
-                <span className="detail-value">{showDetailModal.assignedBins?.length || 0}</span>
-              </div>
-              {showDetailModal.assignedBins && showDetailModal.assignedBins.length > 0 && (
+              {(showDetailModal.assigned_bins || []).length > 0 && (
                 <div className="detail-row">
-                  <span className="detail-label">Bins:</span>
+                  <span className="detail-label">Assigned Bins:</span>
                   <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                    {showDetailModal.assignedBins.map((bin, idx) => (
-                      <span key={idx} className="bin-tag">{bin}</span>
+                    {(typeof showDetailModal.assigned_bins === 'string'
+                      ? showDetailModal.assigned_bins.split(',')
+                      : showDetailModal.assigned_bins || []
+                    ).map((bin, idx) => (
+                      <span key={idx} className="bin-tag">{bin.trim()}</span>
                     ))}
                   </div>
                 </div>
