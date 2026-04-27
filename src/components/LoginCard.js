@@ -14,41 +14,38 @@ function LoginCard({ onClose, onSwitchToSignup }) {
     setLoading(true);
 
     try {
-      // Load users from CSV file
       const response = await fetch('/data/users.csv');
       const csvText = await response.text();
-      const rows = csvText.split('\n').slice(1); // Skip header
-      
+      const rows = csvText.split('\n');
       let foundUser = null;
       
-      for (const row of rows) {
-        if (row.trim() === '') continue;
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].trim();
+        if (row === '') continue;
+        
         const cols = row.split(',');
-        const userEmail = cols[2]?.trim();
-        const userPassword = cols[3]?.trim();
+        const userEmail = cols[2] ? cols[2].trim().replace(/"/g, '') : '';
+        const userPassword = cols[3] ? cols[3].trim().replace(/"/g, '') : '';
         
         if (userEmail === email && userPassword === password) {
           foundUser = {
-            id: parseInt(cols[0]),
-            name: cols[1]?.trim(),
+            id: parseInt(cols[0]) || i,
+            name: cols[1] ? cols[1].trim() : 'User',
             email: userEmail,
-            password: userPassword,
-            role: cols[4]?.trim(),
-            area: cols[5]?.trim(),
-            assigned_bins: cols[6]?.trim() ? cols[6].trim().replace(/"/g, '').split(',') : []
+            role: cols[4] ? cols[4].trim() : 'user',
+            area: cols[5] ? cols[5].trim() : 'Unknown',
+            assigned_bins: []
           };
           break;
         }
       }
       
       if (foundUser) {
-        // Login successful
         localStorage.setItem('currentUser', JSON.stringify(foundUser));
-        
-        // Close the popup
+        localStorage.setItem('user', JSON.stringify(foundUser));
         onClose();
         
-        // Redirect based on role
+        // ✅ FIX: Use navigate instead of window.location
         if (foundUser.role === 'admin') {
           navigate('/admin-dashboard');
         } else {
@@ -68,9 +65,8 @@ function LoginCard({ onClose, onSwitchToSignup }) {
   return (
     <div style={styles.overlay}>
       <div style={styles.card}>
-        {/* Close Button */}
         <button onClick={onClose} style={styles.closeBtn}>✕</button>
-
+        
         <div style={styles.logo}>
           <span style={styles.logoIcon}>♻️</span>
           <h2 style={styles.title}>Welcome Back</h2>
@@ -84,7 +80,7 @@ function LoginCard({ onClose, onSwitchToSignup }) {
             <span>{error}</span>
           </div>
         )}
-
+        
         <form onSubmit={handleLogin} style={styles.form}>
           <div style={styles.formGroup}>
             <label style={styles.label}>Email Address</label>
@@ -118,7 +114,7 @@ function LoginCard({ onClose, onSwitchToSignup }) {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-
+        
         <div style={styles.footer}>
           <p style={styles.footerText}>
             Don't have an account?{' '}
@@ -143,8 +139,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 2000,
-    animation: 'fadeIn 0.3s ease'
+    zIndex: 2000
   },
   card: {
     background: '#ffffff',
@@ -153,8 +148,7 @@ const styles = {
     boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
     width: '100%',
     maxWidth: '420px',
-    position: 'relative',
-    animation: 'slideUp 0.3s ease'
+    position: 'relative'
   },
   closeBtn: {
     position: 'absolute',
@@ -164,8 +158,7 @@ const styles = {
     border: 'none',
     fontSize: '1.2rem',
     cursor: 'pointer',
-    color: '#666',
-    transition: 'color 0.3s'
+    color: '#666'
   },
   logo: {
     display: 'flex',
@@ -175,20 +168,9 @@ const styles = {
     marginBottom: '1rem',
     marginTop: '0.5rem'
   },
-  logoIcon: {
-    fontSize: '2rem'
-  },
-  title: {
-    fontSize: '1.5rem',
-    color: '#023047',
-    margin: 0
-  },
-  subtitle: {
-    fontSize: '0.9rem',
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: '1.5rem'
-  },
+  logoIcon: { fontSize: '2rem' },
+  title: { fontSize: '1.5rem', color: '#023047', margin: 0 },
+  subtitle: { fontSize: '0.9rem', color: '#666', textAlign: 'center', marginBottom: '1.5rem' },
   errorBox: {
     backgroundColor: '#fee2e2',
     color: '#dc2626',
@@ -200,31 +182,16 @@ const styles = {
     gap: '0.5rem',
     fontSize: '0.85rem'
   },
-  errorIcon: {
-    fontSize: '1rem'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem'
-  },
-  formGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.4rem'
-  },
-  label: {
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    color: '#023047'
-  },
+  errorIcon: { fontSize: '1rem' },
+  form: { display: 'flex', flexDirection: 'column', gap: '1rem' },
+  formGroup: { display: 'flex', flexDirection: 'column', gap: '0.4rem' },
+  label: { fontSize: '0.85rem', fontWeight: 600, color: '#023047' },
   input: {
     padding: '0.7rem 1rem',
     borderRadius: '8px',
     border: '2px solid #e0e0e0',
     fontSize: '0.95rem',
-    outline: 'none',
-    transition: 'border-color 0.3s'
+    outline: 'none'
   },
   submitBtn: {
     padding: '0.8rem',
@@ -235,17 +202,10 @@ const styles = {
     fontSize: '1rem',
     fontWeight: 600,
     cursor: 'pointer',
-    transition: 'all 0.3s',
     marginTop: '0.5rem'
   },
-  footer: {
-    marginTop: '1.2rem',
-    textAlign: 'center'
-  },
-  footerText: {
-    fontSize: '0.85rem',
-    color: '#666'
-  },
+  footer: { marginTop: '1.2rem', textAlign: 'center' },
+  footerText: { fontSize: '0.85rem', color: '#666' },
   linkBtn: {
     background: 'none',
     border: 'none',
@@ -255,32 +215,5 @@ const styles = {
     fontWeight: 600
   }
 };
-
-// Add animations
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideUp {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  input:focus {
-    border-color: #00b4d8 !important;
-  }
-  
-  .submit-btn:hover {
-    background: #0077b6 !important;
-  }
-  
-  .close-btn:hover {
-    color: #e74c3c !important;
-  }
-`;
-document.head.appendChild(styleSheet);
 
 export default LoginCard;
