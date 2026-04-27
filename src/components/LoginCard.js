@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUserWithLocal } from '../utils/csvParser';
 
 function LoginCard({ onClose, onSwitchToSignup }) {
   const [email, setEmail] = useState('');
@@ -14,24 +13,53 @@ function LoginCard({ onClose, onSwitchToSignup }) {
     setError('');
     setLoading(true);
 
-    // CSV + LocalStorage se user authenticate karo
-    const user = await loginUserWithLocal(email, password);
-
-    if (user) {
-      // Login successful
-      localStorage.setItem('user', JSON.stringify(user));
+    try {
+      // Load users from CSV file
+      const response = await fetch('/data/users.csv');
+      const csvText = await response.text();
+      const rows = csvText.split('\n').slice(1); // Skip header
       
-      // Close the popup
-      onClose();
+      let foundUser = null;
       
-      // Redirect based on role
-      if (user.role === 'admin') {
-        navigate('/admin-dashboard');
-      } else {
-        navigate('/user-dashboard');
+      for (const row of rows) {
+        if (row.trim() === '') continue;
+        const cols = row.split(',');
+        const userEmail = cols[2]?.trim();
+        const userPassword = cols[3]?.trim();
+        
+        if (userEmail === email && userPassword === password) {
+          foundUser = {
+            id: parseInt(cols[0]),
+            name: cols[1]?.trim(),
+            email: userEmail,
+            password: userPassword,
+            role: cols[4]?.trim(),
+            area: cols[5]?.trim(),
+            assigned_bins: cols[6]?.trim() ? cols[6].trim().replace(/"/g, '').split(',') : []
+          };
+          break;
+        }
       }
-    } else {
-      setError('Invalid email or password. Please try again.');
+      
+      if (foundUser) {
+        // Login successful
+        localStorage.setItem('currentUser', JSON.stringify(foundUser));
+        
+        // Close the popup
+        onClose();
+        
+        // Redirect based on role
+        if (foundUser.role === 'admin') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/user-dashboard');
+        }
+      } else {
+        setError('Invalid email or password. Please try again.');
+      }
+    } catch (err) {
+      console.error('CSV load error:', err);
+      setError('Unable to login. Please try again later.');
     }
     
     setLoading(false);
