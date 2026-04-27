@@ -36,7 +36,7 @@ export const getUsers = async () => {
   return await fetchCSV('users.csv');
 };
 
-// Get all bins data from bins.csv
+// Get all bins data from bins_10_bins.csv
 export const getBins = async () => {
   return await fetchCSV('bins_10_bins.csv');
 };
@@ -48,12 +48,50 @@ export const getAllBinIds = async () => {
   return binIds;
 };
 
-// Calculate fill percentage from distance (mm)
-// Distance 100mm = 90% full, Distance 900mm = 10% full
+// ✅ IMPROVED: Calculate fill percentage from distance (mm)
+// Distance 0-100mm = 90-100% full (Critical)
+// Distance 101-300mm = 70-89% full (Warning)
+// Distance 301-1000mm = 0-69% full (Normal)
+// Distance > 1000mm = 0% full (Empty)
 export const calculateFillPercentage = (distanceInMm) => {
+  // Handle invalid or missing values
+  if (!distanceInMm || isNaN(distanceInMm)) return 0;
+  
+  // Agar distance 1000mm se zyada hai to bin empty hai
+  if (distanceInMm >= 1000) return 0;
+  
+  // Agar distance 0 ya negative hai to bin full hai
+  if (distanceInMm <= 0) return 100;
+  
+  // Normal calculation
   const maxDistance = 1000;
-  const fillPercent = ((maxDistance - distanceInMm) / maxDistance) * 100;
-  return Math.min(100, Math.max(0, Math.round(fillPercent)));
+  let fillPercent = ((maxDistance - distanceInMm) / maxDistance) * 100;
+  
+  // Ensure value is between 0 and 100
+  fillPercent = Math.min(100, Math.max(0, fillPercent));
+  
+  return Math.round(fillPercent);
+};
+
+// Get status based on fill percentage
+export const getStatusFromFillLevel = (fillLevel) => {
+  if (fillLevel >= 90) return 'critical';
+  if (fillLevel >= 70) return 'warning';
+  return 'normal';
+};
+
+// Get status text for display
+export const getStatusText = (status) => {
+  if (status === 'critical') return 'Critical';
+  if (status === 'warning') return 'Warning';
+  return 'Normal';
+};
+
+// Get color based on fill level
+export const getFillColor = (level) => {
+  if (level >= 90) return '#f44336';     // Red - Critical
+  if (level >= 70) return '#ff9800';     // Orange - Warning
+  return '#4caf50';                       // Green - Normal
 };
 
 // Get bins assigned to a specific user (by name)
@@ -119,7 +157,8 @@ export const addUserToLocalStorage = (userData) => {
     role: 'user',
     area: userData.area,
     status: 'active',
-    joinDate: new Date().toISOString().split('T')[0]
+    joinDate: new Date().toISOString().split('T')[0],
+    assignedBins: []
   };
   
   existingUsers.push(newUser);
@@ -132,4 +171,22 @@ export const addUserToLocalStorage = (userData) => {
 export const getUserByIdCombined = async (id) => {
   const allUsers = await getAllUsersCombined();
   return allUsers.find(u => Number(u.id) === Number(id));
+};
+
+// Update user in LocalStorage
+export const updateUserInLocalStorage = (userId, updatedData) => {
+  const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+  const updatedUsers = allUsers.map(u => 
+    Number(u.id) === Number(userId) ? { ...u, ...updatedData } : u
+  );
+  localStorage.setItem('allUsers', JSON.stringify(updatedUsers));
+  return updatedUsers.find(u => Number(u.id) === Number(userId));
+};
+
+// Delete user from LocalStorage
+export const deleteUserFromLocalStorage = (userId) => {
+  const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+  const updatedUsers = allUsers.filter(u => Number(u.id) !== Number(userId));
+  localStorage.setItem('allUsers', JSON.stringify(updatedUsers));
+  return updatedUsers;
 };

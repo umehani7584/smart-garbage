@@ -5,7 +5,8 @@ import {
   FiBarChart2, FiTrash2, FiDownload, FiRefreshCw, 
   FiUserPlus, FiEdit2, FiEye, FiActivity,
   FiAlertCircle, FiCheckCircle, FiTrendingUp, FiX,
-  FiChevronLeft, FiChevronRight
+  FiChevronLeft, FiChevronRight, FiMail, FiBell,
+  FiPlus, FiMinus, FiInfo
 } from 'react-icons/fi';
 import { getBins, calculateFillPercentage, getAllUsersCombined, addUserToLocalStorage } from '../utils/csvParser';
 
@@ -16,7 +17,10 @@ function AdminDashboard() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [showEditUser, setShowEditUser] = useState(null);
   const [showBinModal, setShowBinModal] = useState(null);
+  const [showAssignBin, setShowAssignBin] = useState(null);
+  const [showWorkerModal, setShowWorkerModal] = useState(null);
   const [editUserData, setEditUserData] = useState({ name: '', email: '', area: '' });
+  const [showNotification, setShowNotification] = useState(null);
   
   const [users, setUsers] = useState([]);
   const [processedBins, setProcessedBins] = useState([]);
@@ -38,12 +42,25 @@ function AdminDashboard() {
     area: 'F-7'
   });
   
+  const [assignBinData, setAssignBinData] = useState({
+    userId: null,
+    userName: '',
+    userEmail: '',
+    selectedBin: ''
+  });
+  
   const navigate = useNavigate();
 
   const getFillColor = (level) => {
     if (level > 90) return '#f44336';
     if (level > 70) return '#ff9800';
     return '#4caf50';
+  };
+
+  const getFillTextColor = (level) => {
+    if (level > 90) return '#e74c3c';
+    if (level > 70) return '#e67e22';
+    return '#27ae60';
   };
 
   const getStatusText = (status) => {
@@ -60,6 +77,20 @@ function AdminDashboard() {
     if (latNum > -34.185) return 'G-10';
     if (latNum > -34.19) return 'F-8';
     return 'G-11';
+  };
+
+  const sendEmailNotification = (workerEmail, workerName, binId) => {
+    const subject = `New Bin Assignment - Smart Garbage System`;
+    const body = `Dear ${workerName},\n\nYou have been assigned a new bin: ${binId}.\n\nPlease ensure timely collection and monitoring.\n\nThank you,\nSmart Garbage System Admin`;
+    
+    alert(`📧 Email sent to ${workerEmail}\n\nSubject: ${subject}\n\n${body}`);
+    console.log('Email sent to:', workerEmail, 'about bin:', binId);
+    
+    setShowNotification({
+      message: `Bin ${binId} assigned to ${workerName}`,
+      type: 'success'
+    });
+    setTimeout(() => setShowNotification(null), 3000);
   };
 
   const processBinsData = (binsData) => {
@@ -220,6 +251,50 @@ function AdminDashboard() {
     setShowBinModal(bin);
   };
 
+  const handleViewWorker = (worker) => {
+    setShowWorkerModal(worker);
+  };
+
+  const handleAssignBin = (user) => {
+    setAssignBinData({
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      selectedBin: ''
+    });
+    setShowAssignBin(user.id);
+  };
+
+  const handleConfirmAssignBin = () => {
+    if (assignBinData.selectedBin) {
+      const bin = processedBins.find(b => b.id === assignBinData.selectedBin);
+      
+      sendEmailNotification(
+        assignBinData.userEmail,
+        assignBinData.userName,
+        assignBinData.selectedBin
+      );
+      
+      const updatedUsers = users.map(u => 
+        u.id === assignBinData.userId 
+          ? { ...u, assignedBins: [...(u.assignedBins || []), assignBinData.selectedBin] }
+          : u
+      );
+      setUsers(updatedUsers);
+      
+      setShowAssignBin(null);
+      alert(`Bin ${assignBinData.selectedBin} assigned to ${assignBinData.userName} successfully!\n\nEmail notification sent.`);
+    } else {
+      alert('Please select a bin to assign');
+    }
+  };
+
+  const getBinIcon = (fillLevel) => {
+    if (fillLevel > 90) return '🗑️🔴';
+    if (fillLevel > 70) return '🗑️🟡';
+    return '🗑️🟢';
+  };
+
   if (loading) {
     return (
       <div style={styles.loadingContainer}>
@@ -231,9 +306,18 @@ function AdminDashboard() {
 
   return (
     <div style={styles.container}>
+      {/* Notification Toast */}
+      {showNotification && (
+        <div style={styles.notificationToast}>
+          <div style={styles.notificationContent}>
+            <span>✅</span>
+            <span>{showNotification.message}</span>
+          </div>
+        </div>
+      )}
+
       {/* SIDEBAR */}
       <div style={{...styles.sidebar, width: sidebarOpen ? '260px' : '80px'}}>
-        {/* Logo + Toggle Button */}
         <div style={styles.logoContainer}>
           <span style={styles.logoIcon}>♻️</span>
           {sidebarOpen && <span style={styles.logoText}>Admin Panel</span>}
@@ -286,7 +370,6 @@ function AdminDashboard() {
             <FiSettings style={styles.navIcon} /> {sidebarOpen && <span style={styles.navText}>Settings</span>}
           </button>
           
-          {/* Logout Button - Settings ke neeche */}
           <button onClick={handleLogout} style={styles.navItem}>
             <FiLogOut style={styles.navIcon} /> {sidebarOpen && <span style={styles.navText}>Logout</span>}
           </button>
@@ -296,13 +379,31 @@ function AdminDashboard() {
       {/* MAIN CONTENT */}
       <div style={{...styles.mainContent, marginLeft: sidebarOpen ? '260px' : '80px'}}>
         
-        {/* TOP NAVBAR */}
+        {/* TOP NAVBAR WITH HEADER ICONS */}
         <div style={styles.topNavbar}>
           <div>
             <h1 style={styles.pageTitle}>Dashboard Overview</h1>
             <p style={styles.pageSubtitle}>Welcome back, Admin</p>
           </div>
           <div style={styles.topNavActions}>
+            <div style={styles.headerIcons}>
+              <button 
+                onClick={() => setSelectedTab('bins')} 
+                style={styles.headerIconBtn}
+                title="View All Bins"
+              >
+                <FiMapPin /> <span>Bins</span>
+                <span style={styles.headerIconBadge}>{systemStats.totalBins}</span>
+              </button>
+              <button 
+                onClick={() => setSelectedTab('workers')} 
+                style={styles.headerIconBtn}
+                title="View All Workers"
+              >
+                <FiUsers /> <span>Workers</span>
+                <span style={styles.headerIconBadge}>{systemStats.totalUsers}</span>
+              </button>
+            </div>
             <button style={styles.refreshBtn} onClick={() => window.location.reload()}>
               <FiRefreshCw style={styles.refreshIcon} />
             </button>
@@ -522,6 +623,81 @@ function AdminDashboard() {
               </div>
             )}
 
+            {showAssignBin && (
+              <div style={styles.modalOverlay}>
+                <div style={styles.modal}>
+                  <h3 style={styles.modalTitle}>Assign Bin to {assignBinData.userName}</h3>
+                  <select
+                    value={assignBinData.selectedBin}
+                    onChange={(e) => setAssignBinData({...assignBinData, selectedBin: e.target.value})}
+                    style={styles.modalSelect}
+                  >
+                    <option value="">Select a bin</option>
+                    {processedBins.map(bin => (
+                      <option key={bin.id} value={bin.id}>
+                        {bin.id} - Fill: {bin.fillLevel}% - Status: {getStatusText(bin.status)}
+                      </option>
+                    ))}
+                  </select>
+                  <div style={styles.modalActions}>
+                    <button onClick={handleConfirmAssignBin} style={styles.modalSubmit}>Assign</button>
+                    <button onClick={() => setShowAssignBin(null)} style={styles.modalCancel}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Worker Details Modal */}
+            {showWorkerModal && (
+              <div style={styles.modalOverlay} onClick={() => setShowWorkerModal(null)}>
+                <div style={styles.workerModal} onClick={(e) => e.stopPropagation()}>
+                  <div style={styles.binModalHeader}>
+                    <h3 style={styles.binModalTitle}>Worker Details</h3>
+                    <button onClick={() => setShowWorkerModal(null)} style={styles.binModalClose}>
+                      <FiX />
+                    </button>
+                  </div>
+                  <div style={styles.binModalContent}>
+                    <div style={styles.workerModalAvatar}>
+                      <div style={styles.workerModalAvatarText}>{showWorkerModal.name.charAt(0)}</div>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Name:</span>
+                      <span style={styles.binModalValue}>{showWorkerModal.name}</span>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Email:</span>
+                      <span style={styles.binModalValue}>{showWorkerModal.email}</span>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Area:</span>
+                      <span style={styles.binModalValue}>{showWorkerModal.area}</span>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Status:</span>
+                      <span style={{
+                        ...styles.binModalValue,
+                        color: showWorkerModal.status === 'active' ? '#4caf50' : '#9e9e9e'
+                      }}>
+                        {showWorkerModal.status === 'active' ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Assigned Bins:</span>
+                      <span style={styles.binModalValue}>{showWorkerModal.assignedBins?.length || 0}</span>
+                    </div>
+                    <div style={styles.binModalRow}>
+                      <span style={styles.binModalLabel}>Join Date:</span>
+                      <span style={styles.binModalValue}>{showWorkerModal.joinDate || '2024-03-01'}</span>
+                    </div>
+                  </div>
+                  <button onClick={() => setShowWorkerModal(null)} style={styles.binModalCloseBtn}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div style={styles.workersGrid}>
               {users.map(user => (
                 <div key={user.id} style={styles.workerCard}>
@@ -547,6 +723,10 @@ function AdminDashboard() {
                         {user.status === 'active' ? 'Active' : 'Inactive'}
                       </span>
                     </div>
+                    <div style={styles.workerDetailItem}>
+                      <span style={styles.workerDetailLabel}>🗑️ Assigned Bins</span>
+                      <span style={styles.workerDetailValue}>{user.assignedBins?.length || 0}</span>
+                    </div>
                   </div>
                   <div style={styles.workerCardActions}>
                     <button onClick={() => handleEditUser(user)} style={styles.workerEditBtn}>
@@ -555,7 +735,10 @@ function AdminDashboard() {
                     <button onClick={() => handleDeleteUser(user.id)} style={styles.workerDeleteBtn}>
                       <FiTrash2 /> Delete
                     </button>
-                    <button style={styles.workerViewBtn}>
+                    <button onClick={() => handleAssignBin(user)} style={styles.workerAssignBtn}>
+                      <FiMapPin /> Assign Bin
+                    </button>
+                    <button onClick={() => handleViewWorker(user)} style={styles.workerViewBtn}>
                       <FiEye /> View
                     </button>
                   </div>
@@ -565,7 +748,7 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* BINS TAB */}
+        {/* BINS TAB - Big Animated Bins */}
         {selectedTab === 'bins' && (
           <div>
             <div style={styles.binsHeader}>
@@ -577,47 +760,48 @@ function AdminDashboard() {
 
             <div style={styles.binsGrid}>
               {processedBins.map((bin, idx) => (
-                <div key={idx} style={styles.binCard}>
-                  <div style={styles.binCardHeader}>
-                    <div style={styles.binCardId}>{bin.id}</div>
+                <div key={idx} className="bin-card-animated" style={styles.bigBinCard}>
+                  <div style={styles.bigBinCardInner}>
+                    <div style={styles.bigBinIcon}>{getBinIcon(bin.fillLevel)}</div>
+                    <div style={styles.bigBinId}>{bin.id}</div>
                     <div style={{
-                      ...styles.binCardStatus,
+                      ...styles.bigBinStatus,
                       backgroundColor: bin.status === 'critical' ? '#f4433620' : bin.status === 'warning' ? '#ff980020' : '#4caf5020',
                       color: bin.status === 'critical' ? '#f44336' : bin.status === 'warning' ? '#ff9800' : '#4caf50'
                     }}>
                       {getStatusText(bin.status)}
                     </div>
+                    <div style={styles.bigBinFillSection}>
+                      <div style={styles.bigBinFillLabel}>
+                        <span>Fill Level</span>
+                        <span style={{fontWeight: 'bold', color: getFillTextColor(bin.fillLevel)}}>{bin.fillLevel}%</span>
+                      </div>
+                      <div style={styles.bigBinFillBar}>
+                        <div style={{
+                          ...styles.bigBinFillProgress,
+                          width: `${bin.fillLevel}%`,
+                          backgroundColor: getFillColor(bin.fillLevel)
+                        }} />
+                      </div>
+                    </div>
+                    <div style={styles.bigBinDetails}>
+                      <div style={styles.bigBinDetail}>
+                        <span>📍 Area</span>
+                        <span>{bin.area}</span>
+                      </div>
+                      <div style={styles.bigBinDetail}>
+                        <span>🕒 Last Updated</span>
+                        <span>{bin.lastUpdated}</span>
+                      </div>
+                      <div style={styles.bigBinDetail}>
+                        <span>📊 Readings</span>
+                        <span>{bin.readingsCount}</span>
+                      </div>
+                    </div>
+                    <button onClick={() => handleViewBin(bin)} style={styles.bigBinViewBtn}>
+                      <FiEye /> View Details
+                    </button>
                   </div>
-                  <div style={styles.binCardFillSection}>
-                    <div style={styles.binCardFillLabel}>
-                      <span>Fill Level</span>
-                      <span style={{fontWeight: 'bold'}}>{bin.fillLevel}%</span>
-                    </div>
-                    <div style={styles.binCardFillBar}>
-                      <div style={{
-                        ...styles.binCardFillProgress,
-                        width: `${bin.fillLevel}%`,
-                        backgroundColor: getFillColor(bin.fillLevel)
-                      }} />
-                    </div>
-                  </div>
-                  <div style={styles.binCardDetails}>
-                    <div style={styles.binCardDetail}>
-                      <span>📍 Area</span>
-                      <span>{bin.area}</span>
-                    </div>
-                    <div style={styles.binCardDetail}>
-                      <span>🕒 Last Updated</span>
-                      <span>{bin.lastUpdated}</span>
-                    </div>
-                    <div style={styles.binCardDetail}>
-                      <span>📊 Readings</span>
-                      <span>{bin.readingsCount}</span>
-                    </div>
-                  </div>
-                  <button onClick={() => handleViewBin(bin)} style={styles.binCardViewBtn}>
-                    <FiEye /> View Details
-                  </button>
                 </div>
               ))}
             </div>
@@ -837,6 +1021,22 @@ const styles = {
     animation: 'spin 1s linear infinite'
   },
   loadingText: { marginTop: '1rem', color: '#666' },
+  notificationToast: {
+    position: 'fixed',
+    top: '80px',
+    right: '20px',
+    backgroundColor: '#4caf50',
+    color: 'white',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    zIndex: 2000,
+    animation: 'slideInRight 0.3s ease'
+  },
+  notificationContent: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
   sidebar: {
     backgroundColor: '#ffffff',
     boxShadow: '2px 0 20px rgba(0,0,0,0.05)',
@@ -891,6 +1091,36 @@ const styles = {
   pageTitle: { fontSize: '1.5rem', color: '#023047', margin: 0 },
   pageSubtitle: { fontSize: '0.85rem', color: '#666', margin: '0.2rem 0 0 0' },
   topNavActions: { display: 'flex', alignItems: 'center', gap: '1rem' },
+  headerIcons: {
+    display: 'flex',
+    gap: '0.8rem',
+    backgroundColor: 'white',
+    padding: '0.3rem',
+    borderRadius: '12px',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.05)'
+  },
+  headerIconBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.5rem 1rem',
+    border: 'none',
+    backgroundColor: 'transparent',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '0.85rem',
+    color: '#666',
+    transition: 'all 0.3s',
+    position: 'relative'
+  },
+  headerIconBadge: {
+    backgroundColor: '#00b4d8',
+    color: 'white',
+    borderRadius: '10px',
+    padding: '0.1rem 0.4rem',
+    fontSize: '0.7rem',
+    marginLeft: '0.3rem'
+  },
   refreshBtn: { padding: '0.5rem', border: 'none', backgroundColor: 'white', borderRadius: '10px', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' },
   refreshIcon: { fontSize: '1.1rem', color: '#666' },
   dashboardContent: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
@@ -924,7 +1154,7 @@ const styles = {
   workersHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' },
   sectionTitle: { fontSize: '1.2rem', fontWeight: 600, color: '#023047', margin: 0 },
   addBtn: { display: 'flex', alignItems: 'center', gap: '0.3rem', padding: '0.4rem 0.8rem', border: 'none', backgroundColor: '#00b4d8', color: 'white', borderRadius: '8px', cursor: 'pointer', fontSize: '0.75rem' },
-  workersGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' },
+  workersGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem' },
   workerCard: { backgroundColor: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', transition: 'all 0.3s', border: '1px solid #f0f0f0' },
   workerCardHeader: { display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' },
   workerAvatar: { width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#00b4d8', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', fontWeight: 'bold' },
@@ -936,25 +1166,98 @@ const styles = {
   workerDetailLabel: { color: '#666', fontWeight: 500 },
   workerDetailValue: { color: '#023047', fontWeight: 600 },
   workerStatus: { padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 500 },
-  workerCardActions: { display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' },
-  workerEditBtn: { padding: '0.4rem 0.8rem', border: 'none', backgroundColor: '#00b4d8', color: 'white', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.3rem' },
-  workerDeleteBtn: { padding: '0.4rem 0.8rem', border: 'none', backgroundColor: '#f44336', color: 'white', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.3rem' },
-  workerViewBtn: { padding: '0.4rem 0.8rem', border: 'none', backgroundColor: '#9e9e9e', color: 'white', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.3rem' },
+  workerCardActions: { display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', flexWrap: 'wrap' },
+  workerEditBtn: { padding: '0.3rem 0.6rem', border: 'none', backgroundColor: '#00b4d8', color: 'white', borderRadius: '6px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.2rem' },
+  workerDeleteBtn: { padding: '0.3rem 0.6rem', border: 'none', backgroundColor: '#f44336', color: 'white', borderRadius: '6px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.2rem' },
+  workerAssignBtn: { padding: '0.3rem 0.6rem', border: 'none', backgroundColor: '#ff9800', color: 'white', borderRadius: '6px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.2rem' },
+  workerViewBtn: { padding: '0.3rem 0.6rem', border: 'none', backgroundColor: '#9e9e9e', color: 'white', borderRadius: '6px', cursor: 'pointer', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '0.2rem' },
   binsHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' },
   binsStats: { display: 'flex', gap: '0.5rem' },
   binsStatBadge: { padding: '0.3rem 0.8rem', backgroundColor: '#e0e0e0', borderRadius: '20px', fontSize: '0.75rem', color: '#666' },
-  binsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' },
-  binCard: { backgroundColor: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', transition: 'all 0.3s', border: '1px solid #f0f0f0' },
-  binCardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' },
-  binCardId: { fontSize: '1rem', fontWeight: 'bold', color: '#023047' },
-  binCardStatus: { padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 500 },
-  binCardFillSection: { marginBottom: '1rem' },
-  binCardFillLabel: { display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '0.3rem', color: '#666' },
-  binCardFillBar: { height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' },
-  binCardFillProgress: { height: '100%', borderRadius: '4px', transition: 'width 0.3s' },
-  binCardDetails: { backgroundColor: '#f8f9fa', borderRadius: '12px', padding: '0.8rem', marginBottom: '1rem' },
-  binCardDetail: { display: 'flex', justifyContent: 'space-between', padding: '0.3rem 0', fontSize: '0.75rem', color: '#666' },
-  binCardViewBtn: { width: '100%', padding: '0.5rem', backgroundColor: '#00b4d8', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', transition: 'all 0.3s' },
+  binsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem' },
+  bigBinCard: {
+    backgroundColor: 'white',
+    borderRadius: '20px',
+    padding: '1.5rem',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
+    transition: 'all 0.3s ease',
+    border: '1px solid #f0f0f0',
+    animation: 'fadeInUp 0.5s ease'
+  },
+  bigBinCardInner: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem'
+  },
+  bigBinIcon: {
+    fontSize: '3rem',
+    textAlign: 'center'
+  },
+  bigBinId: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    color: '#023047',
+    textAlign: 'center'
+  },
+  bigBinStatus: {
+    padding: '0.3rem 0.8rem',
+    borderRadius: '20px',
+    fontSize: '0.8rem',
+    fontWeight: 500,
+    textAlign: 'center',
+    width: 'fit-content',
+    margin: '0 auto'
+  },
+  bigBinFillSection: {
+    marginTop: '0.5rem'
+  },
+  bigBinFillLabel: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '0.85rem',
+    marginBottom: '0.3rem',
+    color: '#666'
+  },
+  bigBinFillBar: {
+    height: '10px',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '5px',
+    overflow: 'hidden'
+  },
+  bigBinFillProgress: {
+    height: '100%',
+    borderRadius: '5px',
+    transition: 'width 0.5s ease'
+  },
+  bigBinDetails: {
+    backgroundColor: '#f8f9fa',
+    borderRadius: '12px',
+    padding: '0.8rem',
+    marginTop: '0.5rem'
+  },
+  bigBinDetail: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0.4rem 0',
+    fontSize: '0.8rem',
+    color: '#666'
+  },
+  bigBinViewBtn: {
+    width: '100%',
+    padding: '0.6rem',
+    backgroundColor: '#00b4d8',
+    color: 'white',
+    border: 'none',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    fontSize: '0.85rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.3rem',
+    transition: 'all 0.3s',
+    marginTop: '0.5rem'
+  },
   analyticsHeader: { marginBottom: '1.5rem' },
   pieContainer: { display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' },
   pieChart: { width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden' },
@@ -972,6 +1275,9 @@ const styles = {
   modalActions: { display: 'flex', gap: '0.8rem', justifyContent: 'flex-end' },
   modalSubmit: { padding: '0.4rem 1rem', backgroundColor: '#00b4d8', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' },
   modalCancel: { padding: '0.4rem 1rem', backgroundColor: '#e0e0e0', color: '#666', border: 'none', borderRadius: '6px', cursor: 'pointer' },
+  workerModal: { backgroundColor: 'white', borderRadius: '20px', width: '400px', maxWidth: '90%', overflow: 'hidden' },
+  workerModalAvatar: { display: 'flex', justifyContent: 'center', marginBottom: '1rem' },
+  workerModalAvatarText: { width: '80px', height: '80px', borderRadius: '50%', backgroundColor: '#00b4d8', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 'bold' },
   binModal: { backgroundColor: 'white', borderRadius: '20px', width: '400px', maxWidth: '90%', overflow: 'hidden' },
   binModalHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', borderBottom: '1px solid #f0f0f0' },
   binModalTitle: { fontSize: '1.2rem', fontWeight: 600, color: '#023047', margin: 0 },
@@ -991,16 +1297,25 @@ const styles = {
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
   .nav-item:hover { background-color: #f5f5f5 !important; }
   .logout-btn:hover { background-color: #f4433620 !important; }
   .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
   .add-btn:hover, .export-data-btn:hover, .save-btn:hover { background-color: #0077b6 !important; }
   .worker-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
-  .bin-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
-  .bin-card-view-btn:hover { background-color: #0077b6 !important; }
+  .bin-card-animated:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+  .big-bin-view-btn:hover { background-color: #0077b6 !important; }
   .bin-modal-close:hover { color: #f44336 !important; }
   .bin-modal-close-btn:hover { background-color: #0077b6 !important; }
   .sidebar-toggle-btn:hover { background-color: #f0f0f0 !important; }
+  .header-icon-btn:hover { background-color: #f0f2f5 !important; }
   @media (max-width: 768px) { .two-column { grid-template-columns: 1fr !important; } }
 `;
 document.head.appendChild(styleSheet);
