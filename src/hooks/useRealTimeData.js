@@ -11,9 +11,12 @@ export const useRealTimeData = () => {
     setBinsData(initialData);
     setLoading(false);
 
-    // Simulate real-time updates every 4 seconds
+    // Update ONLY sensor values every 4 seconds, NOT bin IDs or assignments
     const interval = setInterval(() => {
-      setBinsData(prevData => simulateRealTimeUpdate(prevData));
+      setBinsData(prevData => {
+        // Only update sensor readings, preserve everything else
+        return simulateRealTimeUpdate(prevData);
+      });
     }, 4000);
 
     return () => clearInterval(interval);

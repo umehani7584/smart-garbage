@@ -21,17 +21,27 @@ function WorkersManagement() {
   const [selectedBin, setSelectedBin] = useState('');
   const [notification, setNotification] = useState(null);
 
-  // Load users from CSV on mount
+  // Load workers - FIRST from localStorage, THEN merge with CSV
   useEffect(() => {
     const loadWorkers = async () => {
       try {
+        // STEP 1: Load from CSV
         const allUsers = await getAllUsersCombined();
-        // Filter only 'user' role (exclude admins)
-        const userWorkers = allUsers.filter(u => u.role === 'user');
-        setWorkers(userWorkers);
+        const csvWorkers = allUsers.filter(u => u.role === 'user');
+
+        // STEP 2: Load assignments from localStorage
+        const savedAssignments = JSON.parse(localStorage.getItem('workerAssignments') || '{}');
+
+        // STEP 3: Merge - add saved assignments to CSV workers
+        const mergedWorkers = csvWorkers.map(worker => ({
+          ...worker,
+          assigned_bins: savedAssignments[worker.id] || worker.assigned_bins || []
+        }));
+
+        setWorkers(mergedWorkers);
         setLoading(false);
       } catch (error) {
-        console.error('Error loading users:', error);
+        console.error('Error loading workers:', error);
         setLoading(false);
       }
     };
@@ -50,6 +60,7 @@ function WorkersManagement() {
       };
       const updated = [...workers, newWorker];
       setWorkers(updated);
+      
       // Save to localStorage
       const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
       allUsers.push(newWorker);
@@ -94,6 +105,11 @@ function WorkersManagement() {
       const updatedLocal = allUsers.filter(u => u.id !== id);
       localStorage.setItem('allUsers', JSON.stringify(updatedLocal));
       
+      // Also delete assignments
+      const savedAssignments = JSON.parse(localStorage.getItem('workerAssignments') || '{}');
+      delete savedAssignments[id];
+      localStorage.setItem('workerAssignments', JSON.stringify(savedAssignments));
+      
       showNotification('✅ Worker deleted!');
     }
   };
@@ -105,27 +121,42 @@ function WorkersManagement() {
 
   const handleConfirmAssign = () => {
     if (selectedBin && showAssignModal) {
-      const assignedBins = showAssignModal.assigned_bins || [];
+      const assignedBins = Array.isArray(showAssignModal.assigned_bins) 
+        ? showAssignModal.assigned_bins 
+        : (typeof showAssignModal.assigned_bins === 'string' 
+          ? showAssignModal.assigned_bins.split(',').map(b => b.trim())
+          : []);
+
       if (!assignedBins.includes(selectedBin)) {
+        const newAssignedBins = [...assignedBins, selectedBin];
+        
+        // Update state
         const updated = workers.map(w => 
           w.id === showAssignModal.id 
-            ? { ...w, assigned_bins: [...assignedBins, selectedBin] }
+            ? { ...w, assigned_bins: newAssignedBins }
             : w
         );
         setWorkers(updated);
         
-        // Update localStorage
-        const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-        const updatedLocal = allUsers.map(u =>
-          u.id === showAssignModal.id
-            ? { ...u, assigned_bins: [...assignedBins, selectedBin] }
-            : u
-        );
-        localStorage.setItem('allUsers', JSON.stringify(updatedLocal));
+        // IMPORTANT: Save assignments to localStorage with worker ID as key
+        const savedAssignments = JSON.parse(localStorage.getItem('workerAssignments') || '{}');
+        savedAssignments[showAssignModal.id] = newAssignedBins;
+        localStorage.setItem('workerAssignments', JSON.stringify(savedAssignments));
+        
+        // Broadcast notification
+        const notificationMsg = `✅ Bin ${selectedBin} assigned to ${showAssignModal.name}!`;
+        
+        window.dispatchEvent(new CustomEvent('binAssigned', { 
+          detail: { 
+            message: notificationMsg,
+            workerId: showAssignModal.id,
+            binId: selectedBin
+          }
+        }));
         
         setShowAssignModal(null);
         setSelectedBin('');
-        showNotification(`✅ Bin ${selectedBin} assigned to ${showAssignModal.name}!`);
+        showNotification(notificationMsg);
       } else {
         showNotification('⚠️ Bin already assigned!');
       }
@@ -174,9 +205,12 @@ function WorkersManagement() {
 
       <div className="workers-grid">
         {workers.map(worker => {
-          const assignedBins = typeof worker.assigned_bins === 'string' 
-            ? worker.assigned_bins.split(',').filter(b => b.trim())
-            : (worker.assigned_bins || []);
+          // Handle both string and array formats
+          const assignedBins = Array.isArray(worker.assigned_bins)
+            ? worker.assigned_bins
+            : (typeof worker.assigned_bins === 'string'
+              ? worker.assigned_bins.split(',').filter(b => b.trim()).map(b => b.trim())
+              : []);
           
           return (
             <div key={worker.id} className="worker-card">
@@ -200,7 +234,7 @@ function WorkersManagement() {
                   </span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">🗑️ Bins</span>
+                  <span className="label">🗑️ Bins Assigned</span>
                   <span className="value">{assignedBins.length}</span>
                 </div>
               </div>
@@ -212,7 +246,7 @@ function WorkersManagement() {
                   </p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {assignedBins.map((bin, idx) => (
-                      <span key={idx} className="bin-tag">{bin.trim()}</span>
+                      <span key={idx} className="bin-tag">{bin}</span>
                     ))}
                   </div>
                 </div>
@@ -440,19 +474,23 @@ function WorkersManagement() {
                   {showDetailModal.role}
                 </span>
               </div>
-              {(showDetailModal.assigned_bins || []).length > 0 && (
-                <div className="detail-row">
-                  <span className="detail-label">Assigned Bins:</span>
-                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                    {(typeof showDetailModal.assigned_bins === 'string'
-                      ? showDetailModal.assigned_bins.split(',')
-                      : showDetailModal.assigned_bins || []
-                    ).map((bin, idx) => (
-                      <span key={idx} className="bin-tag">{bin.trim()}</span>
-                    ))}
+              {(() => {
+                const assignedBins = Array.isArray(showDetailModal.assigned_bins)
+                  ? showDetailModal.assigned_bins
+                  : (typeof showDetailModal.assigned_bins === 'string'
+                    ? showDetailModal.assigned_bins.split(',').map(b => b.trim())
+                    : []);
+                return assignedBins.length > 0 ? (
+                  <div className="detail-row">
+                    <span className="detail-label">Assigned Bins:</span>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      {assignedBins.map((bin, idx) => (
+                        <span key={idx} className="bin-tag">{bin}</span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : null;
+              })()}
               <button className="btn-close-modal" onClick={() => setShowDetailModal(null)}>
                 Close
               </button>
