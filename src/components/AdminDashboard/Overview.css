@@ -54,14 +54,14 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
   white-space: nowrap;
   font-size: 0.95rem;
 }
