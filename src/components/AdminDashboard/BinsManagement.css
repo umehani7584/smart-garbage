@@ -39,11 +39,12 @@
   font-weight: 600;
 }
 
-/* ============ BINS GRID ============ */
+/* ============ BINS GRID - COMPACT ============ */
 .bins-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
 }
 
 .bin-card {
@@ -58,128 +59,141 @@
 }
 
 .bin-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
+/* ============ COMPACT CARD INNER ============ */
 .bin-card-inner {
-  padding: 1.5rem;
+  padding: 0.9rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.4rem;
 }
 
 .bin-icon {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   text-align: center;
   animation: bounce 2s infinite;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bin-id {
   margin: 0;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #023047;
+  padding: 0.2rem 0;
 }
 
 .status-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  align-self: center;
 }
 
 .bin-card:hover .status-badge {
   transform: scale(1.05);
 }
 
-/* ============ FILL SECTION ============ */
+/* ============ FILL SECTION - COMPACT ============ */
 .fill-section {
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
 }
 
 .fill-label {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
   color: #666;
 }
 
 .fill-value {
   font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .fill-bar {
-  height: 12px;
+  height: 10px;
   background: #e8ecf1;
-  border-radius: 6px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
 .fill-progress {
   height: 100%;
-  border-radius: 6px;
+  border-radius: 5px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============ SENSOR DATA ============ */
+/* ============ SENSOR DATA - COMPACT ============ */
 .sensor-data {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.6rem;
+  gap: 0.4rem;
   background: #f8fafb;
-  padding: 0.8rem;
-  border-radius: 10px;
-  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border-radius: 8px;
+  margin: 0.3rem 0;
 }
 
 .sensor-item {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
+  gap: 0.3rem;
+  font-size: 0.75rem;
   color: #666;
+  flex-direction: column;
+  text-align: center;
 }
 
 .sensor-icon {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #00b4d8;
 }
 
-/* ============ LOCATION ============ */
+/* ============ LOCATION - COMPACT ============ */
 .location {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.4rem;
   background: #f0f4f8;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   color: #666;
   font-weight: 500;
+  margin: 0.2rem 0;
 }
 
 .location-icon {
   color: #00b4d8;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
-/* ============ VIEW BUTTON ============ */
+/* ============ VIEW BUTTON - COMPACT ============ */
 .view-btn {
   width: 100%;
-  padding: 0.7rem;
+  padding: 0.6rem;
   background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
 }
 
 .view-btn:hover {
@@ -278,7 +292,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
   }
 }
 
@@ -315,10 +329,53 @@
 
 @media (max-width: 768px) {
   .bins-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .bin-card-inner {
+    padding: 0.8rem;
+    gap: 0.3rem;
   }
 
   .modal-content {
     width: 95%;
+  }
+
+  .bin-icon {
+    font-size: 2rem;
+    height: 35px;
+  }
+
+  .sensor-data {
+    padding: 0.5rem;
+    gap: 0.3rem;
+  }
+
+  .sensor-item {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bins-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bin-card-inner {
+    padding: 0.7rem;
+  }
+
+  .bin-icon {
+    font-size: 1.8rem;
+  }
+
+  .bin-id {
+    font-size: 1rem;
+  }
+
+  .view-btn {
+    padding: 0.5rem;
+    font-size: 0.8rem;
   }
 }

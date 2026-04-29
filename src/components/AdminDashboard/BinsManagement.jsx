@@ -62,7 +62,7 @@ function BinsManagement() {
                 <div className="fill-section">
                   <div className="fill-label">
                     <span>Fill Level</span>
-                    <span className="fill-value" style={{ color }}>{bin.fillLevel}%</span>
+                    <span className="fill-value" style={{ color }}>{Math.round(bin.fillLevel)}%</span>
                   </div>
                   <div className="fill-bar">
                     <div 

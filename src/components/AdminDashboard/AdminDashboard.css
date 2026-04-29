@@ -188,9 +188,8 @@
 }
 
 .admin-content {
-  padding: 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
+  overflow-y: auto;
+  height: 100%;
 }
 
 /* ============ ANIMATIONS ============ */
@@ -243,8 +242,10 @@
   }
 
   .admin-main {
-    margin-left: 70px;
-  }
+  flex: 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+}
 
   .admin-content {
     padding: 1rem;

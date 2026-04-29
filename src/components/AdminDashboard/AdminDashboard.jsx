@@ -14,12 +14,21 @@ function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [userRole, setUserRole] = useState('admin');
   const navigate = useNavigate();
-// .............
+
   useEffect(() => {
     // Get user role from localStorage
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     setUserRole(user.role || 'admin');
   }, []);
+
+  // SCROLL TO TOP when activeTab changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const mainContent = document.querySelector('.admin-content');
+    if (mainContent) {
+      mainContent.scrollTop = 0;
+    }
+  }, [activeTab]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
