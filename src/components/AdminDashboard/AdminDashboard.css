@@ -8,7 +8,7 @@
 
 /* ============ SIDEBAR ============ */
 .admin-sidebar {
-  width: 220px; /* CHANGED FROM 280px TO 220px - NARROWER SIDEBAR */
+  width: 260px;
   background: #ffffff;
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
   position: fixed;
@@ -23,14 +23,14 @@
 }
 
 .admin-sidebar.closed {
-  width: 80px; /* CHANGED FROM 90px TO 80px - PROPORTIONAL REDUCTION */
+  width: 80px;
 }
 
 .sidebar-header {
-  padding: 1.2rem; /* CHANGED FROM 1.5rem - REDUCED PADDING */
+  padding: 1.4rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
+  gap: 0.8rem;
   border-bottom: 1px solid #e8ecf1;
   justify-content: space-between;
 }
@@ -38,17 +38,17 @@
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem; /* CHANGED FROM 0.8rem - TIGHTER SPACING */
+  gap: 0.6rem;
   flex: 1;
 }
 
 .logo-icon {
-  font-size: 1.8rem; /* CHANGED FROM 2rem - SLIGHTLY SMALLER */
+  font-size: 1.8rem;
   min-width: 1.8rem;
 }
 
 .logo-text {
-  font-size: 1.1rem; /* CHANGED FROM 1.3rem - SMALLER TEXT */
+  font-size: 1.15rem;
   font-weight: 700;
   background: linear-gradient(135deg, #023047 0%, #00b4d8 100%);
   -webkit-background-clip: text;
@@ -60,7 +60,7 @@
 .sidebar-toggle {
   background: none;
   border: none;
-  font-size: 1.1rem; /* CHANGED FROM 1.3rem - SLIGHTLY SMALLER */
+  font-size: 1.1rem;
   cursor: pointer;
   color: #666;
   padding: 0.3rem;
@@ -74,23 +74,23 @@
 }
 
 .sidebar-profile {
-  padding: 1rem; /* CHANGED FROM 1.5rem - REDUCED PADDING */
+  padding: 1.2rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
+  gap: 0.9rem;
   border-bottom: 1px solid #e8ecf1;
 }
 
 .profile-avatar {
-  width: 45px; /* CHANGED FROM 50px - SLIGHTLY SMALLER */
-  height: 45px; /* CHANGED FROM 50px - SLIGHTLY SMALLER */
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem; /* CHANGED FROM 1.8rem - PROPORTIONAL */
+  font-size: 1.6rem;
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
   flex-shrink: 0;
@@ -99,12 +99,12 @@
 .profile-info {
   flex: 1;
   animation: fadeInLeft 0.4s ease;
-  min-width: 0; /* ADDED - PREVENT TEXT OVERFLOW */
+  min-width: 0;
 }
 
 .profile-info h3 {
   margin: 0;
-  font-size: 0.9rem; /* CHANGED FROM 0.95rem - SMALLER TEXT */
+  font-size: 0.95rem;
   color: #023047;
   font-weight: 600;
   white-space: nowrap;
@@ -114,7 +114,7 @@
 
 .profile-info p {
   margin: 0.2rem 0 0 0;
-  font-size: 0.7rem; /* CHANGED FROM 0.75rem - SMALLER TEXT */
+  font-size: 0.75rem;
   color: #00b4d8;
   white-space: nowrap;
   overflow: hidden;
@@ -123,18 +123,18 @@
 
 .sidebar-nav {
   flex: 1;
-  padding: 0.8rem; /* CHANGED FROM 1rem - REDUCED PADDING */
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem; /* CHANGED FROM 0.5rem - TIGHTER SPACING */
+  gap: 0.4rem;
   overflow-y: auto;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
-  padding: 0.7rem 0.9rem; /* CHANGED FROM 0.8rem 1rem - REDUCED PADDING */
+  gap: 0.9rem;
+  padding: 0.8rem 1rem;
   background: none;
   border: none;
   border-radius: 10px;
@@ -165,13 +165,13 @@
 }
 
 .nav-icon {
-  font-size: 1.1rem; /* CHANGED FROM 1.2rem - SLIGHTLY SMALLER */
-  min-width: 1.1rem;
+  font-size: 1.15rem;
+  min-width: 1.15rem;
   flex-shrink: 0;
 }
 
 .nav-label {
-  font-size: 0.85rem; /* CHANGED FROM 0.9rem - SMALLER TEXT */
+  font-size: 0.9rem;
   white-space: nowrap;
   flex: 1;
   text-align: left;
@@ -189,13 +189,13 @@
 /* ============ MAIN CONTENT ============ */
 .admin-main {
   flex: 1;
-  margin-left: 220px; /* CHANGED FROM 280px - MATCH NEW SIDEBAR WIDTH */
+  margin-left: 260px;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 
 .admin-sidebar.closed ~ .admin-main {
-  margin-left: 80px; /* CHANGED FROM 90px - MATCH CLOSED WIDTH */
+  margin-left: 80px;
 }
 
 .admin-content {
@@ -205,45 +205,23 @@
 
 /* ============ ANIMATIONS ============ */
 @keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* ============ RESPONSIVE ============ */

@@ -1,3 +1,104 @@
+/* ============ NEW HEADER ============ */
+.workers-page-header {
+  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 4px 20px rgba(2, 48, 71, 0.15);
+  animation: slideInUp 0.5s ease;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-info {
+  margin-bottom: 1.2rem;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.header-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00b4d8;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.add-worker-btn {
+  padding: 0.8rem 1.8rem;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  white-space: nowrap;
+}
+
+.add-worker-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .workers-page-header {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-stats {
+    width: 100%;
+    gap: 1.5rem;
+  }
+
+  .add-worker-btn {
+    width: 100%;
+  }
+}
 .workers-container {
   animation: fadeInUp 0.5s ease;
 }
@@ -530,4 +631,46 @@
     right: 10px;
     left: 10px;
   }
+}
+/* ✅ Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.3rem;
+  color: #023047;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* ✅ Source badge (CSV / Added) */
+.source-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.badge-csv {
+  background: #e3f2fd;
+  color: #0077b6;
+}
+
+.badge-local {
+  background: #e8f5e9;
+  color: #4caf50;
 }

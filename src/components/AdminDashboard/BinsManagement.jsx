@@ -25,14 +25,24 @@ function BinsManagement() {
 
   return (
     <div className="bins-container">
-      {/* Header */}
-      <div className="bins-header">
-        <div>
-          <h1 className="page-title">Bin Management</h1>
-          <p className="page-subtitle">Monitor and manage all smart bins in real-time</p>
+
+      {/* ✅ NEW HEADER */}
+      <div className="bins-page-header">
+        <div className="header-content">
+          <div className="project-badge">
+            <span className="project-icon">🗑️</span>
+            <span className="project-name">IoT Smart Garbage System</span>
+          </div>
+          <div className="header-info">
+            <h1 className="header-title">Bin Management</h1>
+            <p className="header-subtitle">Monitor and manage all smart bins in real-time</p>
+          </div>
         </div>
-        <div className="bins-stats">
-          <span className="stat-badge">{binsData.length} Bins</span>
+        <div className="header-stats">
+          <div className="stat-item">
+            <span className="stat-number">{binsData.length}</span>
+            <span className="stat-label">Total Bins</span>
+          </div>
         </div>
       </div>
 
