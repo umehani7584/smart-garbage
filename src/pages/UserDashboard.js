@@ -32,6 +32,27 @@ function UserDashboard() {
     "BIN-010": { location: "Shopping Mall, Sector I-14/2", area: "I-14" }
   };
 
+  // ✅ COLLECT NOW BUTTON HANDLER - Working button with popup message
+  const handleCollectBin = (binId, binLocation) => {
+    // Show popup message to user
+    alert(`✅ Bin ${binId} at ${binLocation} has been collected!\n\nBin is now empty.`);
+    
+    // Update bin fill level to 0 in localStorage
+    const bins = JSON.parse(localStorage.getItem('binsData') || '[]');
+    const updatedBins = bins.map(bin => {
+      if (bin.id === binId) {
+        return { ...bin, fillLevel: 0, lastUpdated: new Date().toLocaleString() };
+      }
+      return bin;
+    });
+    localStorage.setItem('binsData', JSON.stringify(updatedBins));
+    
+    // Refresh the page after 1 second to show updated data
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
   // Load user data from localStorage
   useEffect(() => {
     const loadUserData = () => {
@@ -410,7 +431,13 @@ function UserDashboard() {
                     <div style={styles.binFooter}>
                       <FiClock size={14} />
                       <span>Last updated: {bin.lastCollected}</span>
-                      <button style={styles.collectBtn}>Collect Now</button>
+                      {/* ✅ UPDATED: Working Collect Now button with popup alert */}
+                      <button 
+                        style={styles.collectBtn}
+                        onClick={() => handleCollectBin(bin.id, bin.location)}
+                      >
+                        Collect Now
+                      </button>
                     </div>
                   </div>
                 ))}
