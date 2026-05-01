@@ -240,6 +240,58 @@
   transform: scale(1.05);
 }
 
+/* ============ NOTIFICATIONS ============ */
+.notification-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.4s ease;
+  z-index: 2000;
+}
+
+.notification-success {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border-left: 4px solid #2e7d32;
+}
+
+.notification-error {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+  color: white;
+  border-left: 4px solid #b71c1c;
+}
+
+.notification-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.notification-close:hover {
+  transform: scale(1.2);
+}
+
 /* ============ MODALS ============ */
 .modal-overlay {
   position: fixed;
@@ -253,17 +305,24 @@
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+  padding: 1rem;
 }
 
 .modal-content {
   background: white;
   border-radius: 20px;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SPECIAL FIX FOR ASSIGN MODAL - PREVENT OVERFLOW */
+.modal-content.modal-assign {
+  max-width: 520px;
+  max-height: 75vh;
 }
 
 .modal-header {
@@ -275,6 +334,7 @@
   position: sticky;
   top: 0;
   background: white;
+  z-index: 10;
 }
 
 .modal-header h2 {
@@ -315,6 +375,7 @@
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .form-input:focus {
@@ -323,12 +384,33 @@
   box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
 }
 
+/* FIXED BINS SELECTION - PROPER SCROLLING */
 .bins-selection {
   display: grid;
   gap: 0.8rem;
   max-height: 400px;
   overflow-y: auto;
   margin-bottom: 1.5rem;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+}
+
+.bins-selection::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bins-selection::-webkit-scrollbar-track {
+  background: #f0f4f8;
+  border-radius: 10px;
+}
+
+.bins-selection::-webkit-scrollbar-thumb {
+  background: #00b4d8;
+  border-radius: 10px;
+}
+
+.bins-selection::-webkit-scrollbar-thumb:hover {
+  background: #0077b6;
 }
 
 .bin-checkbox {
@@ -351,6 +433,7 @@
   cursor: pointer;
   width: 18px;
   height: 18px;
+  min-width: 18px;
 }
 
 .bin-checkbox span {
@@ -369,6 +452,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .submit-btn:hover {
@@ -399,6 +483,17 @@
   }
 }
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -421,7 +516,18 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
   .modal-content {
     width: 95%;
+    max-height: 85vh;
+  }
+
+  .notification-popup {
+    max-width: 90%;
+    right: 10px;
+    left: 10px;
   }
 }

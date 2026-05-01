@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiTrendingUp, FiBarChart2, FiPieChart } from 'react-icons/fi';
+import { FiTrendingUp, FiBarChart2, FiPieChart, FiAlertCircle } from 'react-icons/fi';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useRealTimeData } from '../../hooks/useRealTimeData';
 import './Analytics.css';
@@ -48,6 +48,11 @@ function Analytics() {
     });
   });
 
+  // Calculate average fill level
+  const avgFillLevel = Math.round(
+    binsData.reduce((sum, b) => sum + b.fillLevel, 0) / binsData.length
+  );
+
   if (loading) {
     return <div className="loading-spinner">Loading Analytics...</div>;
   }
@@ -62,42 +67,61 @@ function Analytics() {
         </div>
       </div>
 
-      {/* Summary Stats */}
+      {/* Summary Stats Grid - 2x3 LAYOUT WITH TOTAL BINS SPANNING 2 ROWS */}
       <div className="summary-grid">
+        {/* Card 1: Total Bins - SPANS 2 ROWS */}
+        <div className="summary-card large-card">
+          <div className="large-card-content">
+            <div className="large-number">{binsData.length}</div>
+            <div className="bin-grid">
+              {[...Array(6)].map((_, i) => (
+                <span key={i} className="bin-icon">🗑️</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Avg Fill Level */}
+        <div className="summary-card">
+          <div className="summary-icon avg-fill">
+            <span>📊</span>
+          </div>
+          <div className="summary-content">
+            <div className="summary-value">{avgFillLevel}%</div>
+            <div className="summary-label">Avg Fill Level</div>
+          </div>
+        </div>
+
+        {/* Card 3: Critical Bins */}
         <div className="summary-card">
           <div className="summary-icon critical">
             <span>🔴</span>
           </div>
           <div className="summary-content">
-            <h3>{statusCounts.critical}</h3>
-            <p>Critical Bins</p>
+            <div className="summary-value">{statusCounts.critical}</div>
+            <div className="summary-label">Critical Bins</div>
           </div>
         </div>
-        <div className="summary-card">
-          <div className="summary-icon warning">
-            <span>🟡</span>
-          </div>
-          <div className="summary-content">
-            <h3>{statusCounts.warning}</h3>
-            <p>Warning Level</p>
-          </div>
-        </div>
+
+        {/* Card 4: Normal Status */}
         <div className="summary-card">
           <div className="summary-icon normal">
             <span>🟢</span>
           </div>
           <div className="summary-content">
-            <h3>{statusCounts.normal}</h3>
-            <p>Normal Status</p>
+            <div className="summary-value">{statusCounts.normal}</div>
+            <div className="summary-label">Normal Status</div>
           </div>
         </div>
+
+        {/* Card 5: Warning Level */}
         <div className="summary-card">
-          <div className="summary-icon">
-            <span>📊</span>
+          <div className="summary-icon warning">
+            <span>🟡</span>
           </div>
           <div className="summary-content">
-            <h3>{binsData.length}</h3>
-            <p>Total Bins</p>
+            <div className="summary-value">{statusCounts.warning}</div>
+            <div className="summary-label">Warning Level</div>
           </div>
         </div>
       </div>

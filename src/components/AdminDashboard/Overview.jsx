@@ -100,7 +100,7 @@ function Overview() {
             disabled={isRefreshing}
           >
             <FiRefreshCw style={{ rotate: isRefreshing ? '360deg' : '0deg', transition: 'rotate 1s' }} />
-            Check Stats
+            Refresh Stats
           </button>
           <button className="export-btn">
             <FiDownload /> Export Report
