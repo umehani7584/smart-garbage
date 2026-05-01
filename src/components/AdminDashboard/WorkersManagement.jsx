@@ -11,6 +11,7 @@ function WorkersManagement() {
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedBins, setSelectedBins] = useState([]);
   const [newWorker, setNewWorker] = useState({ name: '', email: '', area: '' });
+  const [notification, setNotification] = useState(null); // ADD NOTIFICATION STATE
 
   useEffect(() => {
     const loadWorkers = async () => {
@@ -118,33 +119,45 @@ function WorkersManagement() {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
     
-    selectedBins.forEach(binId => {
-      const bin = binsData.find(b => b.id === binId);
-      if (bin && bin.fillLevel > 90) {
-        const notificationMessage = `🔴 CRITICAL: Bin ${binId} is full (${bin.fillLevel}%)`;
-        const existingNotifs = JSON.parse(localStorage.getItem(`notifications_${showAssignModal.email}`) || '[]');
-        existingNotifs.unshift({ 
-          id: Date.now(), 
-          message: notificationMessage, 
-          time: new Date().toLocaleString(), 
-          read: false, 
-          binId,
-          workerId: showAssignModal.id,
-          workerName: showAssignModal.name
-        });
-        localStorage.setItem(`notifications_${showAssignModal.email}`, JSON.stringify(existingNotifs));
-      }
-    });
+    // Create notification message
+    const notificationMessage = `✅ Bins assigned successfully! You have been assigned ${selectedBins.length} bin(s).`;
+    const existingNotifs = JSON.parse(localStorage.getItem(`notifications_${showAssignModal.email}`) || '[]');
     
+    const newNotif = {
+      id: Date.now(),
+      message: notificationMessage,
+      time: new Date().toLocaleString(),
+      read: false,
+      workerId: showAssignModal.id,
+      workerName: showAssignModal.name,
+      type: 'assignment' // NEW: Added type for distinction
+    };
+    
+    existingNotifs.unshift(newNotif);
+    localStorage.setItem(`notifications_${showAssignModal.email}`, JSON.stringify(existingNotifs));
+    
+    // Dispatch event with full details
     window.dispatchEvent(new CustomEvent('binAssigned', { 
       detail: { 
-        message: `Bins assigned to ${showAssignModal.name}`, 
-        workerId: showAssignModal.id, 
+        message: `✅ Bins assigned to ${showAssignModal.name}`,
+        workerId: showAssignModal.id,
         workerEmail: showAssignModal.email,
         workerName: showAssignModal.name,
-        binId: selectedBins[0]
+        assignedBins: selectedBins,
+        binCount: selectedBins.length,
+        timestamp: new Date().toLocaleString()
       }
     }));
+
+    // Show success notification in admin panel
+    setNotification({
+      type: 'success',
+      message: `✅ ${selectedBins.length} bin(s) assigned to ${showAssignModal.name}`,
+      workerId: showAssignModal.id
+    });
+
+    // Auto-hide notification after 4 seconds
+    setTimeout(() => setNotification(null), 4000);
     
     setShowAssignModal(false);
   };
@@ -163,6 +176,21 @@ function WorkersManagement() {
 
   return (
     <div className="workers-container">
+      {/* SUCCESS NOTIFICATION */}
+      {notification && (
+        <div className={`notification-popup notification-${notification.type}`}>
+          <div className="notification-content">
+            <span className="notification-message">{notification.message}</span>
+            <button 
+              className="notification-close"
+              onClick={() => setNotification(null)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="workers-header">
         <div>
@@ -299,10 +327,10 @@ function WorkersManagement() {
         </div>
       )}
 
-      {/* Assign Bins Modal */}
+      {/* Assign Bins Modal - FIXED */}
       {showAssignModal && (
         <div className="modal-overlay" onClick={() => setShowAssignModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content modal-assign" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Assign Bins to {showAssignModal.name}</h2>
               <button className="modal-close" onClick={() => setShowAssignModal(false)}>
@@ -323,7 +351,7 @@ function WorkersManagement() {
                 ))}
               </div>
               <button className="submit-btn" onClick={handleConfirmAssign}>
-                Confirm Assignment
+                Confirm Assignment ({selectedBins.length})
               </button>
             </div>
           </div>

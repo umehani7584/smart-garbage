@@ -8,7 +8,7 @@
 
 /* ============ SIDEBAR ============ */
 .admin-sidebar {
-  width: 280px;
+  width: 220px; /* CHANGED FROM 280px TO 220px - NARROWER SIDEBAR */
   background: #ffffff;
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
   position: fixed;
@@ -23,14 +23,14 @@
 }
 
 .admin-sidebar.closed {
-  width: 90px;
+  width: 80px; /* CHANGED FROM 90px TO 80px - PROPORTIONAL REDUCTION */
 }
 
 .sidebar-header {
-  padding: 1.5rem;
+  padding: 1.2rem; /* CHANGED FROM 1.5rem - REDUCED PADDING */
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
   border-bottom: 1px solid #e8ecf1;
   justify-content: space-between;
 }
@@ -38,17 +38,17 @@
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem; /* CHANGED FROM 0.8rem - TIGHTER SPACING */
   flex: 1;
 }
 
 .logo-icon {
-  font-size: 2rem;
-  min-width: 2rem;
+  font-size: 1.8rem; /* CHANGED FROM 2rem - SLIGHTLY SMALLER */
+  min-width: 1.8rem;
 }
 
 .logo-text {
-  font-size: 1.3rem;
+  font-size: 1.1rem; /* CHANGED FROM 1.3rem - SMALLER TEXT */
   font-weight: 700;
   background: linear-gradient(135deg, #023047 0%, #00b4d8 100%);
   -webkit-background-clip: text;
@@ -60,7 +60,7 @@
 .sidebar-toggle {
   background: none;
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.1rem; /* CHANGED FROM 1.3rem - SLIGHTLY SMALLER */
   cursor: pointer;
   color: #666;
   padding: 0.3rem;
@@ -74,59 +74,67 @@
 }
 
 .sidebar-profile {
-  padding: 1.5rem;
+  padding: 1rem; /* CHANGED FROM 1.5rem - REDUCED PADDING */
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
   border-bottom: 1px solid #e8ecf1;
 }
 
 .profile-avatar {
-  width: 50px;
-  height: 50px;
+  width: 45px; /* CHANGED FROM 50px - SLIGHTLY SMALLER */
+  height: 45px; /* CHANGED FROM 50px - SLIGHTLY SMALLER */
   border-radius: 50%;
   background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem; /* CHANGED FROM 1.8rem - PROPORTIONAL */
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+  flex-shrink: 0;
 }
 
 .profile-info {
   flex: 1;
   animation: fadeInLeft 0.4s ease;
+  min-width: 0; /* ADDED - PREVENT TEXT OVERFLOW */
 }
 
 .profile-info h3 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* CHANGED FROM 0.95rem - SMALLER TEXT */
   color: #023047;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-info p {
   margin: 0.2rem 0 0 0;
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* CHANGED FROM 0.75rem - SMALLER TEXT */
   color: #00b4d8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-nav {
   flex: 1;
-  padding: 1rem;
+  padding: 0.8rem; /* CHANGED FROM 1rem - REDUCED PADDING */
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem; /* CHANGED FROM 0.5rem - TIGHTER SPACING */
   overflow-y: auto;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.8rem 1rem;
+  gap: 0.8rem; /* CHANGED FROM 1rem - TIGHTER SPACING */
+  padding: 0.7rem 0.9rem; /* CHANGED FROM 0.8rem 1rem - REDUCED PADDING */
   background: none;
   border: none;
   border-radius: 10px;
@@ -157,13 +165,16 @@
 }
 
 .nav-icon {
-  font-size: 1.2rem;
-  min-width: 1.2rem;
+  font-size: 1.1rem; /* CHANGED FROM 1.2rem - SLIGHTLY SMALLER */
+  min-width: 1.1rem;
+  flex-shrink: 0;
 }
 
 .nav-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* CHANGED FROM 0.9rem - SMALLER TEXT */
   white-space: nowrap;
+  flex: 1;
+  text-align: left;
 }
 
 .admin-sidebar.closed .nav-label {
@@ -172,19 +183,19 @@
 
 .admin-sidebar.closed .nav-item {
   justify-content: center;
-  padding: 0.8rem;
+  padding: 0.7rem;
 }
 
 /* ============ MAIN CONTENT ============ */
 .admin-main {
   flex: 1;
-  margin-left: 280px;
+  margin-left: 220px; /* CHANGED FROM 280px - MATCH NEW SIDEBAR WIDTH */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 
 .admin-sidebar.closed ~ .admin-main {
-  margin-left: 90px;
+  margin-left: 80px; /* CHANGED FROM 90px - MATCH CLOSED WIDTH */
 }
 
 .admin-content {
@@ -242,10 +253,11 @@
   }
 
   .admin-main {
-  flex: 1;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
-}
+    flex: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+    margin-left: 70px;
+  }
 
   .admin-content {
     padding: 1rem;
