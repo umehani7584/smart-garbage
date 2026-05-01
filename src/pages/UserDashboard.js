@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   FiBell, FiLogOut, FiMapPin, FiClock, FiTrash2, FiAlertCircle,
-  FiHome, FiCalendar, FiUser, FiSettings, FiBarChart2
+  FiHome, FiCalendar, FiUser, FiSettings, FiBarChart2, FiMail, FiPhone, FiBriefcase, FiMap
 } from 'react-icons/fi';
 import { useRealTimeData } from '../hooks/useRealTimeData';
 
@@ -120,7 +120,7 @@ function UserDashboard() {
   // Listen for manual bin assignment events
   useEffect(() => {
     const handleBinAssigned = (event) => {
-      console.log('📢 Assignment Event Received:', event.detail); // DEBUG
+      console.log('📢 Assignment Event Received:', event.detail);
       
       const { message, workerId, workerEmail, binId, workerName } = event.detail;
       
@@ -136,17 +136,14 @@ function UserDashboard() {
       console.log('IDs Match?', workerId === user.id);
       console.log('Emails Match?', workerEmail === user.email);
 
-      // Match by BOTH email and ID to be safe
       const isTargetUser = (workerId === user.id) || (workerEmail === user.email);
       
       if (isTargetUser) {
         console.log('✅ This notification is for this user!');
         
-        // Show toast notification
         setToastNotification(message);
         setTimeout(() => setToastNotification(null), 4000);
         
-        // Check if notification already exists (avoid duplicates)
         const exists = notifications.some(n => n.binId === binId && n.type === 'assignment');
         
         if (!exists) {
@@ -168,7 +165,6 @@ function UserDashboard() {
           console.log('⚠️ Notification already exists, skipping duplicate');
         }
         
-        // Update user's assigned bins if bin not already assigned
         if (binId && !(user.assigned_bins || []).includes(binId)) {
           console.log('📌 Adding bin to user:', binId);
           const updatedBins = [...(user.assigned_bins || []), binId];
@@ -291,12 +287,10 @@ function UserDashboard() {
               </div>
             </div>
 
-            {/* Graph - Analytics of assigned bins */}
             {userBins.length > 0 ? (
               <div style={styles.card}>
                 <h2 style={styles.sectionTitle}>📊 Bin Analytics</h2>
                 
-                {/* Bar Chart */}
                 <div style={styles.chartContainer}>
                   <div style={styles.chartBars}>
                     {userBins.map(bin => (
@@ -315,7 +309,6 @@ function UserDashboard() {
                   </div>
                 </div>
                 
-                {/* Summary Stats */}
                 <div style={styles.chartSummary}>
                   <div style={styles.summaryItem}>
                     <span>Average Fill Level</span>
@@ -430,15 +423,77 @@ function UserDashboard() {
       
       case 'profile':
         return (
-          <div style={styles.card}>
-            <h2 style={styles.sectionTitle}>👤 My Profile</h2>
-            <div style={styles.profileInfo}>
-              <div style={styles.profileAvatar}>{user.name.charAt(0)}</div>
-              <div><strong>Name:</strong> {user.name}</div>
-              <div><strong>Email:</strong> {user.email}</div>
-              <div><strong>Area:</strong> Sector {user.area || 'Not Assigned'}</div>
-              <div><strong>Role:</strong> Sanitation Worker</div>
-              <div><strong>Assigned Bins:</strong> {userBins.length}</div>
+          <div style={styles.profileContainer}>
+            {/* Cover Image / Header */}
+            <div style={styles.profileCover}>
+              <div style={styles.profileAvatarLarge}>
+                {user.name.charAt(0)}
+              </div>
+            </div>
+            
+            {/* Profile Info Card */}
+            <div style={styles.profileInfoCard}>
+              <h2 style={styles.profileName}>{user.name}</h2>
+              <p style={styles.profileRole}>Sanitation Worker</p>
+              
+              <div style={styles.profileStats}>
+                <div style={styles.profileStat}>
+                  <div style={styles.profileStatValue}>{userBins.length}</div>
+                  <div style={styles.profileStatLabel}>Assigned Bins</div>
+                </div>
+                <div style={styles.profileStatDivider}></div>
+                <div style={styles.profileStat}>
+                  <div style={styles.profileStatValue}>{criticalCount}</div>
+                  <div style={styles.profileStatLabel}>Active Alerts</div>
+                </div>
+                <div style={styles.profileStatDivider}></div>
+                <div style={styles.profileStat}>
+                  <div style={styles.profileStatValue}>{avgFillLevel}%</div>
+                  <div style={styles.profileStatLabel}>Avg Fill Rate</div>
+                </div>
+              </div>
+              
+              <div style={styles.profileDetails}>
+                <div style={styles.profileDetailItem}>
+                  <div style={styles.profileDetailIcon}>
+                    <FiMail size={18} />
+                  </div>
+                  <div style={styles.profileDetailContent}>
+                    <div style={styles.profileDetailLabel}>Email Address</div>
+                    <div style={styles.profileDetailValue}>{user.email}</div>
+                  </div>
+                </div>
+                
+                <div style={styles.profileDetailItem}>
+                  <div style={styles.profileDetailIcon}>
+                    <FiMap size={18} />
+                  </div>
+                  <div style={styles.profileDetailContent}>
+                    <div style={styles.profileDetailLabel}>Working Area</div>
+                    <div style={styles.profileDetailValue}>Sector {user.area || 'Not Assigned'}</div>
+                  </div>
+                </div>
+                
+                <div style={styles.profileDetailItem}>
+                  <div style={styles.profileDetailIcon}>
+                    <FiBriefcase size={18} />
+                  </div>
+                  <div style={styles.profileDetailContent}>
+                    <div style={styles.profileDetailLabel}>Role</div>
+                    <div style={styles.profileDetailValue}>Sanitation Worker</div>
+                  </div>
+                </div>
+                
+                <div style={styles.profileDetailItem}>
+                  <div style={styles.profileDetailIcon}>
+                    <FiUser size={18} />
+                  </div>
+                  <div style={styles.profileDetailContent}>
+                    <div style={styles.profileDetailLabel}>Member Since</div>
+                    <div style={styles.profileDetailValue}>2024</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -490,6 +545,15 @@ function UserDashboard() {
             {sidebarOpen ? '◀' : '▶'}
           </button>
         </div>
+        
+        {/* USER DASHBOARD LABEL - BOLD AND BLACK LIKE SMART GARBAGE */}
+        {sidebarOpen && (
+          <div style={styles.userDashboardTitle}>
+            <span style={styles.userDashboardText}>
+              <FiUser size={12} /> User Dashboard
+            </span>
+          </div>
+        )}
 
         <div style={styles.sidebarUser}>
           <div style={styles.sidebarAvatar}>{user.name.charAt(0)}</div>
@@ -503,7 +567,7 @@ function UserDashboard() {
         <div style={styles.sidebarMenu}>
           <button 
             onClick={() => setActiveTab('overview')}
-            style={{...styles.sidebarItem, backgroundColor: activeTab === 'overview' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'overview' ? '#00b4d8' : '#666'}}
+            style={{...styles.sidebarItem, backgroundColor: activeTab === 'overview' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'overview' ? '#00b4d8' : '#555'}}
           >
             <FiHome size={20} />
             {sidebarOpen && <span>Overview</span>}
@@ -511,7 +575,7 @@ function UserDashboard() {
 
           <button 
             onClick={() => setActiveTab('schedule')}
-            style={{...styles.sidebarItem, backgroundColor: activeTab === 'schedule' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'schedule' ? '#00b4d8' : '#666'}}
+            style={{...styles.sidebarItem, backgroundColor: activeTab === 'schedule' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'schedule' ? '#00b4d8' : '#555'}}
           >
             <FiCalendar size={20} />
             {sidebarOpen && <span>Schedule</span>}
@@ -519,7 +583,7 @@ function UserDashboard() {
 
           <button 
             onClick={() => setActiveTab('assignedBins')}
-            style={{...styles.sidebarItem, backgroundColor: activeTab === 'assignedBins' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'assignedBins' ? '#00b4d8' : '#666'}}
+            style={{...styles.sidebarItem, backgroundColor: activeTab === 'assignedBins' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'assignedBins' ? '#00b4d8' : '#555'}}
           >
             <FiTrash2 size={20} />
             {sidebarOpen && <span>Assigned Bins</span>}
@@ -528,7 +592,7 @@ function UserDashboard() {
 
           <button 
             onClick={() => setActiveTab('profile')}
-            style={{...styles.sidebarItem, backgroundColor: activeTab === 'profile' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'profile' ? '#00b4d8' : '#666'}}
+            style={{...styles.sidebarItem, backgroundColor: activeTab === 'profile' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'profile' ? '#00b4d8' : '#555'}}
           >
             <FiUser size={20} />
             {sidebarOpen && <span>My Profile</span>}
@@ -536,17 +600,21 @@ function UserDashboard() {
 
           <button 
             onClick={() => setActiveTab('settings')}
-            style={{...styles.sidebarItem, backgroundColor: activeTab === 'settings' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'settings' ? '#00b4d8' : '#666'}}
+            style={{...styles.sidebarItem, backgroundColor: activeTab === 'settings' ? 'rgba(0,180,216,0.1)' : 'transparent', color: activeTab === 'settings' ? '#00b4d8' : '#555'}}
           >
             <FiSettings size={20} />
             {sidebarOpen && <span>Settings</span>}
           </button>
-        </div>
 
-        <button onClick={handleLogout} style={styles.sidebarLogout}>
-          <FiLogOut size={20} />
-          {sidebarOpen && <span>Logout</span>}
-        </button>
+          {/* LOGOUT BUTTON - WITH SAME STYLE AS OTHER ICONS */}
+          <button 
+            onClick={handleLogout}
+            style={styles.sidebarItem}
+          >
+            <FiLogOut size={20} />
+            {sidebarOpen && <span>Logout</span>}
+          </button>
+        </div>
       </div>
 
       {/* ===== MAIN CONTENT ===== */}
@@ -615,14 +683,9 @@ function UserDashboard() {
                 </div>
               )}
             </div>
-
-            <button onClick={handleLogout} style={styles.logoutTopBtn}>
-              <FiLogOut size={18} /> Logout
-            </button>
           </div>
         </div>
 
-        {/* Dynamic Content */}
         {renderContent()}
       </div>
     </div>
@@ -671,8 +734,8 @@ const styles = {
     left: 0,
     top: 0,
     height: '100vh',
-    backgroundColor: '#1a1a2e',
-    color: 'white',
+    backgroundColor: '#ffffff',
+    color: '#333',
     transition: 'width 0.3s ease',
     display: 'flex',
     flexDirection: 'column',
@@ -685,7 +748,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: '1px solid rgba(255,255,255,0.1)'
+    borderBottom: '1px solid #e0e0e0'
   },
   logoIcon: {
     fontSize: '1.8rem'
@@ -693,12 +756,13 @@ const styles = {
   logoText: {
     fontSize: '1.2rem',
     fontWeight: 'bold',
-    marginLeft: '0.5rem'
+    marginLeft: '0.5rem',
+    color: '#333'
   },
   toggleBtn: {
     background: 'none',
     border: 'none',
-    color: 'white',
+    color: '#666',
     cursor: 'pointer',
     fontSize: '0.8rem'
   },
@@ -707,7 +771,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '1rem',
-    borderBottom: '1px solid rgba(255,255,255,0.1)'
+    borderBottom: '1px solid #e0e0e0'
   },
   sidebarAvatar: {
     width: '50px',
@@ -718,7 +782,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '1.5rem',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: 'white'
   },
   sidebarUserInfo: {
     overflow: 'hidden'
@@ -745,7 +810,8 @@ const styles = {
     transition: 'all 0.3s',
     width: '100%',
     backgroundColor: 'transparent',
-    position: 'relative'
+    position: 'relative',
+    color: '#555'
   },
   sidebarBadge: {
     position: 'absolute',
@@ -757,33 +823,19 @@ const styles = {
     fontSize: '0.7rem',
     fontWeight: 600
   },
-  sidebarLogout: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem',
-    padding: '0.8rem 1rem',
-    margin: '1rem',
-    backgroundColor: '#e74c3c',
-    color: 'white',
-    border: 'none',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    fontSize: '0.9rem',
-    transition: 'all 0.3s'
+  // USER DASHBOARD SECTION - BOLD AND BLACK LIKE SMART GARBAGE
+  userDashboardTitle: {
+    padding: '0.5rem 1.5rem',
+    marginTop: '0.5rem',
+    marginBottom: '0.5rem',
   },
-  logoutTopBtn: {
+  userDashboardText: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    color: '#333',
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    padding: '0.5rem 1rem',
-    backgroundColor: '#e74c3c',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '0.85rem',
-    fontWeight: 500,
-    transition: 'all 0.3s'
   },
   
   // Main Content Styles
@@ -1155,26 +1207,124 @@ const styles = {
     padding: '2rem',
     color: '#666'
   },
-  profileInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '0.8rem',
-    padding: '1rem'
+  
+  // NEW PROFILE STYLES - PROFESSIONAL & MODERN
+  profileContainer: {
+    maxWidth: '900px',
+    margin: '0 auto',
   },
-  profileAvatar: {
-    width: '80px',
-    height: '80px',
+  profileCover: {
+    background: 'linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)',
+    borderRadius: '20px 20px 0 0',
+    height: '150px',
+    position: 'relative',
+    marginBottom: '60px',
+  },
+  profileAvatarLarge: {
+    position: 'absolute',
+    bottom: '-50px',
+    left: '40px',
+    width: '120px',
+    height: '120px',
     borderRadius: '50%',
-    backgroundColor: '#00b4d8',
+    backgroundColor: 'white',
+    border: '4px solid white',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '2rem',
+    fontSize: '3rem',
     fontWeight: 'bold',
-    color: 'white',
-    marginBottom: '1rem'
+    color: '#00b4d8',
+    background: 'white',
   },
+  profileInfoCard: {
+    backgroundColor: 'white',
+    borderRadius: '20px',
+    padding: '2rem',
+    marginTop: '-20px',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+  },
+  profileName: {
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+    color: '#023047',
+    margin: '0 0 0.5rem 0',
+  },
+  profileRole: {
+    fontSize: '1rem',
+    color: '#00b4d8',
+    fontWeight: 500,
+    margin: '0 0 1.5rem 0',
+    paddingBottom: '1rem',
+    borderBottom: '2px solid #f0f0f0',
+  },
+  profileStats: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    borderRadius: '15px',
+    padding: '1.5rem',
+    marginBottom: '2rem',
+  },
+  profileStat: {
+    textAlign: 'center',
+    flex: 1,
+  },
+  profileStatValue: {
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+    color: '#023047',
+  },
+  profileStatLabel: {
+    fontSize: '0.75rem',
+    color: '#666',
+    marginTop: '0.3rem',
+  },
+  profileStatDivider: {
+    width: '1px',
+    height: '40px',
+    backgroundColor: '#e0e0e0',
+  },
+  profileDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+  profileDetailItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    padding: '0.8rem',
+    backgroundColor: '#f8f9fa',
+    borderRadius: '12px',
+    transition: 'all 0.3s',
+  },
+  profileDetailIcon: {
+    width: '40px',
+    height: '40px',
+    backgroundColor: '#e3f2fd',
+    borderRadius: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#00b4d8',
+  },
+  profileDetailContent: {
+    flex: 1,
+  },
+  profileDetailLabel: {
+    fontSize: '0.7rem',
+    color: '#666',
+    marginBottom: '0.2rem',
+  },
+  profileDetailValue: {
+    fontSize: '0.95rem',
+    fontWeight: 500,
+    color: '#023047',
+  },
+  
   settingItem: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -1202,14 +1352,6 @@ styleSheet.textContent = `
     color: #00b4d8 !important;
   }
   
-  .sidebar-logout:hover {
-    background-color: #c0392b !important;
-  }
-  
-  .logout-top-btn:hover {
-    background-color: #c0392b !important;
-  }
-  
   .stat-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,180,216,0.15);
@@ -1223,6 +1365,11 @@ styleSheet.textContent = `
   .collect-btn:hover {
     background: #0077b6 !important;
     transform: scale(1.05);
+  }
+  
+  .profile-detail-item:hover {
+    transform: translateX(5px);
+    background-color: #e3f2fd !important;
   }
 `;
 document.head.appendChild(styleSheet);
