@@ -41,7 +41,7 @@ function Layout({ children }) {
         <div style={styles.navContent}>
           <Link to="/" style={styles.logo}>
             <span style={styles.logoIcon}>♻️</span>
-            <span style={styles.logoText}>Smart Garbage System</span>
+            <span style={styles.logoText}>Smart Garbage Monitoring System</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -125,7 +125,7 @@ function Layout({ children }) {
       <footer style={styles.footer}>
         <div style={styles.footerContent}>
           <div style={styles.footerSection}>
-            <h3 style={styles.footerTitle}>♻️ Smart Garbage System</h3>
+            <h3 style={styles.footerTitle}>♻️ Smart Garbage Monitoring System</h3>
             <p style={styles.footerText}>IoT-enabled waste management solutions for cleaner, greener cities.</p>
           </div>
           
@@ -145,7 +145,7 @@ function Layout({ children }) {
         </div>
         
         <div style={styles.footerBottom}>
-          <p style={styles.copyright}>© 2024 Smart Garbage System. All rights reserved.</p>
+          <p style={styles.copyright}>© 2024 Smart Garbage Monitoring System. All rights reserved.</p>
         </div>
       </footer>
     </>
@@ -210,7 +210,7 @@ const styles = {
     fontSize: '2.5rem'
   },
   logoText: {
-    fontSize: '2rem',
+    fontSize: '1.5rem',
     fontWeight: 'bold',
     background: colors.gradient,
     WebkitBackgroundClip: 'text',

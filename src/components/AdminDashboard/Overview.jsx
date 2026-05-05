@@ -156,7 +156,7 @@ function Overview() {
       <div className="overview-page-header">
         <div className="header-content">
           <span className="project-icon">🗑️</span>
-          <span className="project-name">IoT Smart Garbage System</span>
+          <span className="project-name">Smart Garbage Monitoring System</span>
           <h1 className="header-title">Dashboard Overview</h1>
           <p className="header-subtitle">Real-time garbage management system monitoring</p>
         </div>

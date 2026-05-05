@@ -208,7 +208,7 @@ function WorkersManagement() {
         <div className="header-content">
           <div className="header-info">
             <span className="project-icon">🗑️</span>
-            <span className="project-name">IoT Smart Garbage System</span>
+            <span className="project-name">Smart Garbage Monitoring System</span>
             <h1 className="header-title">Workers Management</h1>
             <p className="header-subtitle">Manage your garbage collection team and assign bins</p>
           </div>
