@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginCard from '../components/LoginCard';
-import SignupCard from '../components/SignupCard';
 import { ChevronRight, TrendingUp, Zap, Shield, BarChart3, Clock, AlertCircle } from 'lucide-react';
 
 function Home() {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
   const [hoveredSensor, setHoveredSensor] = useState(null);
 
   const slides = [
@@ -51,18 +49,14 @@ function Home() {
 
   useEffect(() => {
     const handleOpenLogin = () => setShowLogin(true);
-    const handleOpenSignup = () => setShowSignup(true);
     window.addEventListener('openLogin', handleOpenLogin);
-    window.addEventListener('openSignup', handleOpenSignup);
     return () => {
       window.removeEventListener('openLogin', handleOpenLogin);
-      window.removeEventListener('openSignup', handleOpenSignup);
     };
   }, []);
 
   const handleLoginClick = () => setShowLogin(true);
-  const switchToLogin = () => { setShowSignup(false); setShowLogin(true); };
-  const switchToSignup = () => { setShowLogin(false); setShowSignup(true); };
+  const switchToLogin = () => { setShowLogin(true); };
 
   const navigateToSensorInstallation = () => navigate('/sensor-installation');
   const navigateToDataCollection = () => navigate('/data-collection');
@@ -100,7 +94,7 @@ function Home() {
               <h1 style={styles.slideTitle}>{slide.title}</h1>
               <p style={styles.slideDescription}>{slide.description}</p>
               <button onClick={handleLoginClick} style={styles.learnMoreBtn}>
-                View Dashboard <ChevronRight size={18} />
+               View Dashboard <ChevronRight size={18} />
               </button>
             </div>
           </div>
@@ -257,11 +251,10 @@ function Home() {
         </div>
       </section>
 
-      {/* How It Works - KEY FIX: arrows rendered OUTSIDE cards in a wrapper row */}
+      {/* How It Works */}
       <section style={styles.howItWorks}>
         <h2 style={styles.sectionTitle}>How It Works</h2>
 
-        {/* ✅ FIX: Use a wrapper div with relative positioning for the whole row */}
         <div style={styles.stepsWrapper}>
           {[
             { step: "01", title: "Sensor Installation", desc: "IoT sensors in bins", icon: "🔧", onClick: navigateToSensorInstallation },
@@ -277,7 +270,6 @@ function Home() {
                 <p style={styles.stepDesc}>{item.desc}</p>
                 <div style={styles.clickHint}>Learn more →</div>
               </div>
-              {/* ✅ Arrow rendered as a SIBLING flex item — not inside the card */}
               {index < 3 && (
                 <div style={styles.arrowBetweenCards}>
                   <FilledArrowRight />
@@ -306,8 +298,7 @@ function Home() {
         </div>
       </section>
 
-      {showLogin && <LoginCard onClose={() => setShowLogin(false)} onSwitchToSignup={switchToSignup} />}
-      {showSignup && <SignupCard onClose={() => setShowSignup(false)} onSwitchToLogin={switchToLogin} />}
+      {showLogin && <LoginCard onClose={() => setShowLogin(false)} onSwitchToSignup={switchToLogin} />}
     </div>
   );
 }
@@ -319,7 +310,13 @@ const styles = {
   slideContent: { textAlign: 'center', color: '#ffffff', maxWidth: '900px', padding: '0 2rem' },
   slideTitle: { fontSize: 'clamp(2rem, 5vw, 3.2rem)', marginBottom: '0.8rem', animation: 'fadeInUp 1s', fontWeight: 700 },
   slideDescription: { fontSize: 'clamp(1rem, 2vw, 1.2rem)', marginBottom: '1.5rem', animation: 'fadeInUp 1s 0.3s both', opacity: 0.95 },
-  learnMoreBtn: { padding: '0.85rem 2rem', background: '#00b4d8', color: 'white', border: 'none', borderRadius: '50px', fontSize: '1rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', animation: 'fadeInUp 1s 0.6s both', transition: 'all 0.3s', fontWeight: 600 },
+  
+  // ✅ BUTTON GROUP - Both buttons together
+  
+  learnMoreBtn: { padding: '0.85rem 2rem', background: '#00b4d8', color: 'white', border: 'none', borderRadius: '50px', fontSize: '1rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.3s', fontWeight: 600 },
+  
+
+  
   sliderDots: { position: 'absolute', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '1rem', zIndex: 10 },
   dot: { width: '14px', height: '14px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transition: 'all 0.3s' },
 
@@ -371,40 +368,11 @@ const styles = {
   benefitTitle: { fontSize: '1rem', color: '#023047', marginBottom: '0.3rem', fontWeight: 600 },
   benefitDesc: { color: '#666', lineHeight: 1.5, fontSize: '0.8rem' },
 
-  // How It Works - ✅ FIXED: flex row with arrows as siblings
+  // How It Works
   howItWorks: { padding: '3rem 2rem', background: '#ffffff' },
-  stepsWrapper: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0px',          // no gap — arrows handle spacing
-    flexWrap: 'nowrap',
-  },
-  stepCard: {
-    background: '#f8f9fa',
-    padding: '1.2rem 0.8rem',
-    borderRadius: '12px',
-    textAlign: 'center',
-    position: 'relative',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-    transition: 'all 0.3s',
-    cursor: 'pointer',
-    border: '1px solid rgba(0,180,216,0.1)',
-    flex: '1',            // each card takes equal space
-    minWidth: '0',        // allows shrinking
-    maxWidth: '220px',
-  },
-  // ✅ Arrow is a flex sibling — NOT inside the card — so it never gets clipped
-  arrowBetweenCards: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    padding: '0 4px',
-  },
+  stepsWrapper: { maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '0px', flexWrap: 'nowrap' },
+  stepCard: { background: '#f8f9fa', padding: '1.2rem 0.8rem', borderRadius: '12px', textAlign: 'center', position: 'relative', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'all 0.3s', cursor: 'pointer', border: '1px solid rgba(0,180,216,0.1)', flex: '1', minWidth: '0', maxWidth: '220px' },
+  arrowBetweenCards: { display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, padding: '0 4px' },
   stepNumber: { position: 'absolute', top: '-10px', left: '10px', fontSize: '1.5rem', fontWeight: 'bold', color: 'rgba(0,180,216,0.15)' },
   stepIcon: { fontSize: '2.2rem', marginBottom: '0.5rem', marginTop: '0.3rem' },
   stepTitle: { fontSize: '0.9rem', color: '#023047', marginBottom: '0.4rem', fontWeight: 600 },

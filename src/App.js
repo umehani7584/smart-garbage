@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -11,6 +11,7 @@ import DataCollection from './pages/DataCollection';
 import DatabaseProcessing from './pages/DatabaseProcessing';
 import SmartAlerts from './pages/SmartAlerts';
 import ProtectedRoute from './components/ProtectedRoute';
+import SignupPage from './pages/SignupPage';
 
 // Colors (reusable)
 const colors = {
@@ -25,6 +26,7 @@ const colors = {
 // Component to conditionally show navbar and footer
 function Layout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const isDashboard = location.pathname === '/admin-dashboard' || location.pathname === '/user-dashboard';
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -54,28 +56,22 @@ function Layout({ children }) {
 
           {/* Desktop Buttons */}
           <div style={styles.desktopButtons}>
-            <Link to="/">
-              <button 
-                style={styles.loginBtn}
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  window.dispatchEvent(new CustomEvent('openLogin'));
-                }}
-              >
-                Login
-              </button>
-            </Link>
-            <Link to="/">
-              <button 
-                style={styles.signupBtn}
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  window.dispatchEvent(new CustomEvent('openSignup'));
-                }}
-              >
-                Sign Up
-              </button>
-            </Link>
+            <button 
+              style={styles.loginBtn}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.dispatchEvent(new CustomEvent('openLogin'));
+              }}
+            >
+              Login
+            </button>
+            {/* ✅ FIXED: Changed to navigate to /signup */}
+            <button 
+              style={styles.signupBtn}
+              onClick={() => navigate('/signup')}
+            >
+              Sign Up
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -92,26 +88,25 @@ function Layout({ children }) {
             <Link to="/contact" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Contact</Link>
             <Link to="/policies" style={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>Policies</Link>
             <hr style={styles.mobileDivider} />
-            <Link 
-              to="/" 
-              style={styles.mobileNavLink} 
+            <button 
+              style={{...styles.mobileNavLink, background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer'}}
               onClick={() => {
                 setMenuOpen(false);
                 window.dispatchEvent(new CustomEvent('openLogin'));
               }}
             >
               Login
-            </Link>
-            <Link 
-              to="/" 
-              style={styles.mobileNavLink} 
+            </button>
+            {/* ✅ FIXED: Changed mobile signup to navigate */}
+            <button 
+              style={{...styles.mobileNavLink, background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer'}}
               onClick={() => {
                 setMenuOpen(false);
-                window.dispatchEvent(new CustomEvent('openSignup'));
+                navigate('/signup');
               }}
             >
               Sign Up
-            </Link>
+            </button>
           </div>
         )}
       </nav>
@@ -167,6 +162,7 @@ function App() {
           <Route path="/data-collection" element={<Layout><DataCollection /></Layout>} />
           <Route path="/database-processing" element={<Layout><DatabaseProcessing /></Layout>} />
           <Route path="/smart-alerts" element={<Layout><SmartAlerts /></Layout>} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </div>
     </Router>
