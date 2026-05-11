@@ -46,17 +46,18 @@ function Layout({ children }) {
             <span style={styles.logoText}>Smart Garbage Monitoring System</span>
           </Link>
 
-          {/* Desktop Menu */}
-          <div style={styles.desktopMenu}>
+          {/* Desktop Menu - WITH CLASS NAME FOR CSS */}
+          <div className="desktop-menu" style={styles.desktopMenu}>
             <Link to="/" style={styles.navLink}>Home</Link>
             <Link to="/about" style={styles.navLink}>About</Link>
             <Link to="/contact" style={styles.navLink}>Contact</Link>
             <Link to="/policies" style={styles.navLink}>Policies</Link>
           </div>
 
-          {/* Desktop Buttons */}
-          <div style={styles.desktopButtons}>
+          {/* Desktop Buttons - WITH CLASS NAME FOR CSS */}
+          <div className="desktop-buttons" style={styles.desktopButtons}>
             <button 
+              className="login-btn"
               style={styles.loginBtn}
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -65,8 +66,8 @@ function Layout({ children }) {
             >
               Login
             </button>
-            {/* ✅ FIXED: Changed to navigate to /signup */}
             <button 
+              className="signup-btn"
               style={styles.signupBtn}
               onClick={() => navigate('/signup')}
             >
@@ -74,8 +75,8 @@ function Layout({ children }) {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button style={styles.mobileMenuBtn} onClick={() => setMenuOpen(!menuOpen)}>
+          {/* Mobile Menu Button - WITH CLASS NAME FOR CSS */}
+          <button className="mobile-menu-btn" style={styles.mobileMenuBtn} onClick={() => setMenuOpen(!menuOpen)}>
             ☰
           </button>
         </div>
@@ -97,7 +98,6 @@ function Layout({ children }) {
             >
               Login
             </button>
-            {/* ✅ FIXED: Changed mobile signup to navigate */}
             <button 
               style={{...styles.mobileNavLink, background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer'}}
               onClick={() => {
@@ -339,7 +339,7 @@ const styles = {
   }
 };
 
-// Add hover effects
+// Add hover effects and responsive styles
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
   .nav-link:hover {
@@ -363,8 +363,12 @@ styleSheet.textContent = `
     color: white !important;
   }
   
+  /* Mobile Responsive Styles */
   @media (max-width: 768px) {
-    .desktop-menu, .desktop-buttons {
+    .desktop-menu {
+      display: none !important;
+    }
+    .desktop-buttons {
       display: none !important;
     }
     .mobile-menu-btn {

@@ -1,14 +1,15 @@
-/* ============ NEW PAGE HEADER - SIMPLIFIED ============ */
+/* ============ OVERVIEW PAGE HEADER ============ */
+/* ✅ TOP PAR BLUE GRADIENT HEADER (DASHBOARD OVERVIEW) */
 .overview-page-header {
-  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);
-  padding: 1.8rem 2rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);  /* ✅ HEADER BACKGROUND COLOR */
+  padding: 1.8rem 2rem;  /* ✅ ANDAR KA SPACING */
+  border-radius: 16px;  /* ✅ CORNERS GOL */
+  margin-bottom: 2rem;  /* ✅ NICHE SE MARGIN */
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  box-shadow: 0 4px 20px rgba(2, 48, 71, 0.15);
+  box-shadow: 0 4px 20px rgba(2, 48, 71, 0.15);  /* ✅ HEADER KE NICHE SHADOW */
   animation: slideInUp 0.5s ease;
 }
 
@@ -16,32 +17,36 @@
   flex: 1;
 }
 
+/* ✅ "Dashboard Overview" TITLE */
 .header-title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2rem;  /* ✅ TITLE SIZE */
   color: white;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
+/* ✅ SUBTITLE */
 .header-subtitle {
   margin: 0.5rem 0 0 0;
-  font-size: 0.95rem;
+  font-size: 0.95rem;  /* ✅ SUBTITLE SIZE */
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* ✅ RIGHT SIDE KE BUTTONS (Check Stats + Export) */
 .header-buttons {
   display: flex;
   gap: 1rem;
   white-space: nowrap;
 }
 
+/* ✅ CHECK STATS BUTTON (GREEN) */
 .check-stats-btn {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);  /* ✅ GREEN GRADIENT */
   color: white;
   border: none;
   border-radius: 10px;
@@ -63,12 +68,13 @@
   cursor: not-allowed;
 }
 
+/* ✅ EXPORT BUTTON (BLUE) */
 .export-btn {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ BLUE GRADIENT */
   color: white;
   border: none;
   border-radius: 10px;
@@ -85,7 +91,7 @@
   box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
 }
 
-/* Responsive Header */
+/* ============ RESPONSIVE HEADER ============ */
 @media (max-width: 1024px) {
   .overview-page-header {
     flex-direction: column;
@@ -105,7 +111,7 @@
   }
 
   .header-title {
-    font-size: 1.5rem;
+    font-size: 1.5rem;  /* ✅ MOBILE ME TITLE CHOTA */
   }
 
   .header-subtitle {
@@ -123,6 +129,8 @@
     justify-content: center;
   }
 }
+
+/* ============ MAIN OVERVIEW CONTAINER ============ */
 .overview-container {
   animation: fadeInUp 0.5s ease;
   display: flex;
@@ -130,6 +138,7 @@
   height: 100%;
 }
 
+/* ✅ OVERVIEW HEADER (PAGE TITLE + BUTTONS) */
 .overview-header {
   display: flex;
   justify-content: space-between;
@@ -143,6 +152,7 @@
   flex-shrink: 0;
 }
 
+/* ✅ SCROLLABLE CONTENT AREA */
 .overview-scrollable {
   flex: 1;
   overflow-y: auto;
@@ -153,16 +163,9 @@
   flex: 1;
 }
 
-.header-buttons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  white-space: nowrap;
-}
-
 .page-title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2rem;  /* ✅ PAGE TITLE SIZE */
   color: #023047;
   font-weight: 700;
 }
@@ -173,57 +176,8 @@
   color: #666;
 }
 
-/* CHANGE 2: Check Stats Button */
-.check-stats-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
-.check-stats-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-}
-
-.check-stats-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.export-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
-.export-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
-}
-
-/* CHANGE 5, 6: New Stats Grid Layout - 3 columns, 2 rows */
+/* ============ STATS GRID - 3 COLUMNS, 2 ROWS ============ */
+/* ✅ STATS CARDS KA GRID (OVERVIEW PAGE WALA) */
 .stats-grid-new {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
@@ -232,11 +186,11 @@
   margin-bottom: 2rem;
 }
 
-/* Total Bins Box - Spans 2 rows, 1 column (left side) */
+/* ✅ BADA CARD (TOTAL BINS - LEFT SIDE) */
 .stat-card-total-bins {
   grid-row: 1 / 3;
   grid-column: 1;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ BLUE GRADIENT */
   color: white;
   padding: 2rem;
   border-radius: 16px;
@@ -259,9 +213,9 @@
   flex: 1;
 }
 
-/* CHANGE 7: Increased font size for total bins value */
+/* ✅ BADA NUMBER (TOTAL BINS KI VALUE) */
 .stat-value-large {
-  font-size: 3.5rem;
+  font-size: 3.5rem;  /* ✅ BADA NUMBER KA SIZE */
   font-weight: 800;
   margin: 0.5rem 0 0 0;
   color: rgb(5, 0, 0);
@@ -280,7 +234,7 @@
   color: rgba(255, 255, 255, 0.95);
 }
 
-/* Bin Diagram */
+/* ✅ BINS KA DIAGRAM (3 BINS KI GRID) */
 .bin-diagram {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -290,6 +244,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* ✅ HAR BIN KA ICON */
 .bin-icon {
   width: 100%;
   aspect-ratio: 1;
@@ -309,7 +264,7 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Regular Stat Cards */
+/* ✅ REGULAR STAT CARDS (CHOTE CARDS) */
 .stat-card {
   background: white;
   border-radius: 16px;
@@ -324,10 +279,11 @@
 }
 
 .stat-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px);  /* ✅ HOVER PAR UPAR UTHTA HAI */
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
+/* ✅ CARDS KI POSITIONING IN GRID */
 .stat-card-2 {
   grid-column: 2;
   grid-row: 1;
@@ -348,6 +304,7 @@
   grid-row: 2;
 }
 
+/* ✅ CARD KE ICON */
 .stat-icon {
   font-size: 1.8rem;
   width: 50px;
@@ -361,18 +318,19 @@
   flex-shrink: 0;
 }
 
+/* ✅ DIFFERENT CARDS KE DIFFERENT ICON COLORS */
 .stat-card-3 .stat-icon {
-  color: #ff9800;
+  color: #ff9800;  /* ✅ ORANGE */
   background: #fff3e0;
 }
 
 .stat-card-4 .stat-icon {
-  color: #4caf50;
+  color: #4caf50;  /* ✅ GREEN */
   background: #f1f8e9;
 }
 
 .stat-card-5 .stat-icon {
-  color: #4caf50;
+  color: #4caf50;  /* ✅ GREEN */
   background: #e0f7fa;
 }
 
@@ -382,14 +340,16 @@
   gap: 0.3rem;
 }
 
+/* ✅ CARD KA NUMBER VALUE */
 .stat-value {
-  font-size: 1.8rem;
+  font-size: 1.8rem;  /* ✅ VALUE SIZE */
   font-weight: 700;
   color: #023047;
   margin: 0;
   line-height: 1;
 }
 
+/* ✅ CARD KA LABEL */
 .stat-label {
   font-size: 0.85rem;
   color: #999;
@@ -397,13 +357,15 @@
   font-weight: 500;
 }
 
-/* Charts Grid */
+/* ============ CHARTS GRID - 2x2 ============ */
+/* ✅ GRAPHS KA GRID (4 GRAPHS 2x2 FORM ME) */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
+/* ✅ EK GRAPH CARD */
 .chart-card {
   background: white;
   border-radius: 16px;
@@ -417,6 +379,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* ✅ GRAPH KA HEADER (TITLE + ICON) */
 .chart-header {
   display: flex;
   justify-content: space-between;
@@ -436,6 +399,33 @@
   font-size: 1.2rem;
 }
 
+/* ✅ HUMIDITY LEGEND (SMALL COLOR BADGES) */
+.humidity-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.hum-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ✅ LOADING SPINNER */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* ============ ANIMATIONS ============ */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -447,16 +437,7 @@
   }
 }
 
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 1.2rem;
-  color: #666;
-}
-
-/* Responsive Design */
+/* ============ RESPONSIVE DESIGN ============ */
 @media (max-width: 1400px) {
   .stats-grid-new {
     grid-template-columns: 1.1fr 1fr 1fr;
@@ -494,6 +475,10 @@
     grid-column: 2;
     grid-row: 3;
   }
+
+  .charts-grid {
+    grid-template-columns: 1fr;  /* ✅ TABLET ME GRAPHS 1 COLUMN */
+  }
 }
 
 @media (max-width: 768px) {
@@ -517,7 +502,7 @@
   }
 
   .stat-value-large {
-    font-size: 2.5rem;
+    font-size: 2.5rem;  /* ✅ MOBILE ME BADA NUMBER CHOTA */
   }
 
   .stat-value {
@@ -551,7 +536,7 @@
   }
 
   .bin-diagram {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);  /* ✅ MOBILE ME 2 COLUMNS */
   }
 
   .chart-card {
@@ -561,6 +546,14 @@
   .charts-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .humidity-legend {
+    gap: 0.3rem;
+  }
+
+  .hum-badge {
+    font-size: 0.65rem;
   }
 }
 
@@ -582,527 +575,9 @@
     gap: 0.8rem;
   }
 }
-/* ============ ADMIN DASHBOARD MAIN STYLES ============ */
-.admin-container {
-  display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
 
-.admin-sidebar {
-  width: 260px;
-  background: #ffffff;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  overflow-y: auto;
-}
-
-.admin-sidebar.closed {
-  width: 80px;
-}
-
-.sidebar-header {
-  padding: 1.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  border-bottom: 1px solid #e8ecf1;
-  justify-content: space-between;
-}
-
-.sidebar-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex: 1;
-}
-
-.logo-icon {
-  font-size: 1.8rem;
-  min-width: 1.8rem;
-}
-
-.logo-text {
-  font-size: 1.15rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #023047 0%, #00b4d8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  white-space: nowrap;
-  animation: fadeInLeft 0.4s ease;
-}
-
-.sidebar-toggle {
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: #666;
-  padding: 0.3rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
-
-.sidebar-toggle:hover {
-  background: #f0f4f8;
-  color: #00b4d8;
-}
-
-.sidebar-profile {
-  padding: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  border-bottom: 1px solid #e8ecf1;
-}
-
-.profile-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-  flex-shrink: 0;
-}
-
-.profile-info {
-  flex: 1;
-  animation: fadeInLeft 0.4s ease;
-  min-width: 0;
-}
-
-.profile-info h3 {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #023047;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.profile-info p {
-  margin: 0.2rem 0 0 0;
-  font-size: 0.75rem;
-  color: #00b4d8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  overflow-y: auto;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.8rem 1rem;
-  background: none;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #666;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-  justify-content: flex-start;
-}
-
-.nav-item:hover {
-  background: #f0f4f8;
-  color: #00b4d8;
-  transform: translateX(4px);
-}
-
-.nav-item.active {
-  background: linear-gradient(135deg, #00b4d810 0%, #0077b610 100%);
-  color: #00b4d8;
-  border-left: 4px solid #00b4d8;
-  font-weight: 600;
-}
-
-.nav-item.logout:hover {
-  background: #fee;
-  color: #f44336;
-}
-
-.nav-icon {
-  font-size: 1.15rem;
-  min-width: 1.15rem;
-  flex-shrink: 0;
-}
-
-.nav-label {
-  font-size: 0.9rem;
-  white-space: nowrap;
-  flex: 1;
-  text-align: left;
-}
-
-.admin-sidebar.closed .nav-label {
-  display: none;
-}
-
-.admin-sidebar.closed .nav-item {
-  justify-content: center;
-  padding: 0.7rem;
-}
-
-.admin-main {
-  flex: 1;
-  margin-left: 260px;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
-}
-
-.admin-sidebar.closed ~ .admin-main {
-  margin-left: 80px;
-}
-
-.admin-content {
-  overflow-y: auto;
-  height: 100%;
-}
-
-@keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@media (max-width: 768px) {
-  .admin-sidebar { width: 70px; }
-  .admin-main { flex: 1; overflow: hidden; background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%); margin-left: 70px; }
-  .admin-content { padding: 1rem; }
-}
-
-/* ============ OVERVIEW ============ */
-.overview-container {
-  animation: fadeInUp 0.5s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.overview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
-  padding: 1.5rem;
-  z-index: 50;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-
-.overview-scrollable {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-}
-
-.overview-header > div:first-child { flex: 1; }
-
-.header-buttons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.page-title { margin: 0; font-size: 2rem; color: #023047; font-weight: 700; }
-.page-subtitle { margin: 0.5rem 0 0 0; font-size: 0.95rem; color: #666; }
-
-.check-stats-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
-.check-stats-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4); }
-.check-stats-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.export-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
-.export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4); }
-
-.stats-grid-new {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card-total-bins {
-  grid-row: 1 / 3;
-  grid-column: 1;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 8px 24px rgba(0, 180, 216, 0.3);
-  animation: fadeInUp 0.5s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.total-bins-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.5rem;
-}
-
-.total-bins-header > div { flex: 1; }
-
-.stat-value-large {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin: 0.5rem 0 0 0;
-  color: rgb(5, 0, 0);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  line-height: 1;
-  opacity: 1;
-  filter: brightness(1.1);
-}
-
-.total-bins-header .stat-label {
-  font-size: 0.95rem;
-  opacity: 1;
-  margin: 0;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.bin-diagram {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.bin-icon {
-  width: 100%;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.bin-icon:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.stat-card {
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #f0f4f8;
-  animation: fadeInUp 0.5s ease;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.stat-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12); }
-
-.stat-card-2 { grid-column: 2; grid-row: 1; }
-.stat-card-3 { grid-column: 3; grid-row: 1; }
-.stat-card-4 { grid-column: 2; grid-row: 2; }
-.stat-card-5 { grid-column: 3; grid-row: 2; }
-
-.stat-icon {
-  font-size: 1.8rem;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f7fa;
-  border-radius: 12px;
-  color: #00b4d8;
-  flex-shrink: 0;
-}
-
-.stat-card-3 .stat-icon { color: #ff9800; background: #fff3e0; }
-.stat-card-4 .stat-icon { color: #4caf50; background: #f1f8e9; }
-.stat-card-5 .stat-icon { color: #4caf50; background: #e0f7fa; }
-
-.stat-content { display: flex; flex-direction: column; gap: 0.3rem; }
-.stat-value { font-size: 1.8rem; font-weight: 700; color: #023047; margin: 0; line-height: 1; }
-.stat-label { font-size: 0.85rem; color: #999; margin: 0; font-weight: 500; }
-
-/* Charts Grid - 2x2 */
-.charts-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.chart-card {
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f4f8;
-  animation: fadeInUp 0.5s ease;
-}
-
-.chart-card:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.chart-title { font-size: 1.1rem; font-weight: 600; color: #023047; margin: 0; }
-.chart-icon { color: #00b4d8; font-size: 1.2rem; }
-
-/* ✅ NEW: Humidity Legend */
-.humidity-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.8rem;
-}
-
-.hum-badge {
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.25rem 0.6rem;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 1.2rem;
-  color: #666;
-}
-
-/* Responsive */
-@media (max-width: 1400px) {
-  .stats-grid-new { grid-template-columns: 1.1fr 1fr 1fr; gap: 1.2rem; }
-}
-
-@media (max-width: 1200px) {
-  .stats-grid-new { grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-  .stat-card-total-bins { grid-column: 1 / 3; grid-row: 1; }
-  .stat-card-2 { grid-column: 1; grid-row: 2; }
-  .stat-card-3 { grid-column: 2; grid-row: 2; }
-  .stat-card-4 { grid-column: 1; grid-row: 3; }
-  .stat-card-5 { grid-column: 2; grid-row: 3; }
-  .charts-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
-  .stats-grid-new { grid-template-columns: 1fr; gap: 1rem; }
-  .stat-card-total-bins { grid-column: 1; grid-row: auto; padding: 1.5rem; }
-  .stat-card-2, .stat-card-3, .stat-card-4, .stat-card-5 { grid-column: 1; padding: 1.2rem; }
-  .stat-value-large { font-size: 2.5rem; }
-  .stat-value { font-size: 1.5rem; }
-  .stat-icon { width: 45px; height: 45px; font-size: 1.5rem; }
-  .stat-label { font-size: 0.8rem; }
-  .overview-header { flex-direction: column; align-items: stretch; }
-  .header-buttons { width: 100%; flex-direction: column; }
-  .check-stats-btn, .export-btn { width: 100%; justify-content: center; }
-  .bin-diagram { grid-template-columns: repeat(2, 1fr); }
-  .chart-card { padding: 1rem; }
-  .charts-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .humidity-legend { gap: 0.3rem; }
-  .hum-badge { font-size: 0.65rem; }
-}
-
-@media (max-width: 480px) {
-  .page-title { font-size: 1.5rem; }
-  .stat-value-large { font-size: 2rem; }
-  .bin-icon { font-size: 1.5rem; }
-  .stat-card { padding: 1rem; gap: 0.8rem; }
-}
-/* ✅ Option B — Toast Notification */
+/* ============ TOAST NOTIFICATION (POPUP ALERTS) ============ */
+/* ✅ JAB DATA REFRESH HO TOH POPUP AATA HAI */
 .toast-notification {
   position: fixed;
   top: 1.5rem;
@@ -1113,40 +588,73 @@
   font-weight: 600;
   color: white;
   z-index: 9999;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   animation: toastSlideIn 0.4s ease, toastFadeOut 0.4s ease 3.1s forwards;
   max-width: 420px;
   line-height: 1.5;
 }
 
-.toast-info    { background: linear-gradient(135deg, #0077b6, #00b4d8); }
-.toast-success { background: linear-gradient(135deg, #2e7d32, #4caf50); }
-.toast-warning { background: linear-gradient(135deg, #e65100, #ff9800); }
-.toast-danger  { background: linear-gradient(135deg, #b71c1c, #f44336); }
+/* ✅ DIFFERENT TOAST TYPES KE COLORS */
+.toast-info {
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #e65100, #ff9800);
+}
+
+.toast-danger {
+  background: linear-gradient(135deg, #b71c1c, #f44336);
+}
 
 @keyframes toastSlideIn {
-  from { opacity: 0; transform: translateX(60px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes toastFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
-/* ✅ Option C — Flash animation on stat cards */
+/* ============ CARD FLASH ANIMATION ============ */
+/* ✅ JAB DATA UPDATE HO TOH CARDS FLASH KARTE HAIN */
 @keyframes cardFlash {
-  0%   { box-shadow: 0 0 0 0 rgba(0,180,216,0); }
-  30%  { box-shadow: 0 0 0 6px rgba(0,180,216,0.35); }
-  70%  { box-shadow: 0 0 0 4px rgba(0,180,216,0.2); }
-  100% { box-shadow: 0 0 0 0 rgba(0,180,216,0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 180, 216, 0);
+  }
+  30% {
+    box-shadow: 0 0 0 6px rgba(0, 180, 216, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 180, 216, 0);
+  }
 }
 
 .cards-flash .stat-card,
 .cards-flash .stat-card-total-bins {
   animation: cardFlash 0.8s ease;
 }
-/* Card title styling - makes names visible */
+
+/* ============ CARD TITLE STYLING ============ */
+/* ✅ CARD KE TITLE KA STYLE */
 .stat-label-title {
   font-size: 0.9rem;
   font-weight: 700;
@@ -1156,7 +664,7 @@
   margin-bottom: 0.3rem;
 }
 
-/* For white cards, title color should be darker */
+/* ✅ WHITE CARDS KE LIYE TITLE COLOR DARKER */
 .stat-card:not(.stat-card-total-bins) .stat-label-title {
   color: #023047;
 }

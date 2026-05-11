@@ -1,46 +1,51 @@
+/* ============ ANALYTICS PAGE MAIN CONTAINER ============ */
+/* ✅ YEH POORA ANALYTICS PAGE KA WRAPPER HAI - SAB KUCH ISKE ANDAR HAI */
 .analytics-container {
-  animation: fadeInUp 0.5s ease;
+  animation: fadeInUp 0.5s ease;  /* ✅ PAGE LOAD HOTE HI UPAR SE AAYEGA - SPEED CHANGE KARNE KE LIYE 0.5s BADLO */
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100vh;  /* ✅ FULL SCREEN HEIGHT - CHOTI KARO TO YAHAN */
 }
 
 /* ============ NEW PAGE HEADER WITH PROJECT NAME ============ */
+/* ✅ TOP PAR BLUE GRADIENT HEADER (SMART GARBAGE + ANALYTICS DASHBOARD + REFRESH BUTTON) */
 .analytics-page-header {
-  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);
-  padding: 1.8rem 2rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);  /* ✅ HEADER BACKGROUND COLOR - YAHAN CHANGE KARO */
+  padding: 1.8rem 2rem;  /* ✅ ANDAR KA SPACING (UPAR/NECHE/LEFT/RIGHT) */
+  border-radius: 16px;  /* ✅ CORNERS GOL - ZYADA GOL KARNE KE LIYE BARA KARO (32px), SQUARE KE LIYE 0 */
+  margin-bottom: 2rem;  /* ✅ NICHE SE MARGIN (HEADER KE BAAD KITNI JAGAH) */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* ✅ LEFT AUR RIGHT SIDE ME SPACE */
   align-items: center;
-  gap: 2rem;
-  box-shadow: 0 4px 20px rgba(2, 48, 71, 0.15);
+  gap: 2rem;  /* ✅ HEADER AUR REFRESH BUTTON KE BEECH GAP */
+  box-shadow: 0 4px 20px rgba(2, 48, 71, 0.15);  /* ✅ NICHE SHADOW - REMOVE KARNE KE LIYE 'none' KARO */
   animation: slideInUp 0.5s ease;
 }
 
+/* ✅ HEADER KE LEFT SIDE KA CONTENT (TEXT WALA AREA) */
 .header-content {
-  flex: 1;
+  flex: 1;  /* ✅ BACHI HUI JAGAH LENE KE LIYE */
 }
 
+/* ✅ "SMART GARBAGE" BADGE (HEADER KE ANDAR CHOTA BADGE) */
 .project-badge {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 0.8rem;
-  padding: 0.6rem 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  width: fit-content;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  margin-bottom: 0.8rem;  /* ✅ BADGE KE NICHE MARGIN */
+  padding: 0.6rem 1rem;  /* ✅ BADGE KE ANDAR SPACING */
+  background: rgba(255, 255, 255, 0.15);  /* ✅ BADGE KA BACKGROUND - COLOR CHANGE KARO TO YAHAN */
+  border-radius: 20px;  /* ✅ CORNERS GOL */
+  width: fit-content;  /* ✅ CONTENT KE HISAB SE WIDTH DEGA */
+  border: 1px solid rgba(255, 255, 255, 0.25);  /* ✅ BADGE KE CHARO TARAF BORDER */
 }
 
 .project-icon {
-  font-size: 1.2rem;
+  font-size: 1.2rem;  /* ✅ BADGE ICON KA SIZE */
 }
 
 .project-name {
-  font-size: 0.85rem;
+  font-size: 0.85rem;  /* ✅ BADGE TEXT KA SIZE */
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -50,60 +55,68 @@
   margin-bottom: 0;
 }
 
+/* ✅ "Analytics Dashboard" TITLE */
 .header-title {
   margin: 0 0 0.5rem 0;
-  font-size: 2rem;
+  font-size: 2rem;  /* ✅ TITLE KA SIZE - BARA KARNE KE LIYE 2.5rem YAHAN CHANGE KARO */
   color: white;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
+/* ✅ "Real-time bin analytics..." SUBTITLE */
 .header-subtitle {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.95rem;  /* ✅ SUBTITLE KA SIZE */
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* ============ REFRESH BUTTON (HEADER KE ANDAR) ============ */
+/* ✅ YEH DATA REFRESH KARNE WALA BUTTON HAI (GREEN COLOR WALA) */
 .analytics-refresh-btn {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  gap: 0.6rem;  /* ✅ ICON AUR TEXT KE BEECH GAP */
+  padding: 0.7rem 1.5rem;  /* ✅ BUTTON KE ANDAR SPACING */
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);  /* ✅ BUTTON KA BACKGROUND (GREEN) - COLOR CHANGE KARO TO YAHAN */
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 10px;  /* ✅ CORNERS GOL - SQUARE KE LIYE 0 */
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);  /* ✅ BUTTON KE NICHE GLOW */
   white-space: nowrap;
   font-size: 0.95rem;
 }
 
+/* ✅ JAB MOUSE BUTTON PAR LE JAYE TOH */
 .analytics-refresh-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* ✅ THORA UPAR UTH JAYEGA - ZYADA UPAR KE LIYE -4px KARO */
   box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
+/* ✅ JAB BUTTON DISABLED HO (LOADING CHAL RAHI HO) */
 .analytics-refresh-btn:disabled {
-  opacity: 0.7;
+  opacity: 0.7;  /* ✅ THORA DIM HO JAYEGA */
   cursor: not-allowed;
 }
 
-/* Responsive Header */
+/* ============ RESPONSIVE HEADER (TABLET/MOBILE VIEW) ============ */
+/* ✅ JAB SCREEN 1024px SE CHOTI HO (TABLET) */
 @media (max-width: 1024px) {
   .analytics-page-header {
-    flex-direction: column;
+    flex-direction: column;  /* ✅ COLUMN ME AA JAYEGA (UPAR NECHE) */
     gap: 1.5rem;
   }
 
   .analytics-refresh-btn {
-    width: 100%;
+    width: 100%;  /* ✅ POORI CHAUDHAI LE LEGA */
     justify-content: center;
   }
 }
 
+/* ✅ JAB SCREEN 768px SE CHOTI HO (MOBILE) */
 @media (max-width: 768px) {
   .analytics-page-header {
     padding: 1.5rem;
@@ -119,7 +132,7 @@
   }
 
   .header-title {
-    font-size: 1.5rem;
+    font-size: 1.5rem;  /* ✅ MOBILE ME TITLE CHOTA HO JAYEGA */
     margin-bottom: 0.3rem;
   }
 
@@ -133,12 +146,14 @@
   }
 }
 
+/* ✅ SCROLLABLE CONTENT AREA (JAHAN GRAPHS AUR CARDS HAIN) */
 .analytics-scrollable {
   flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
+  overflow-y: auto;  /* ✅ AGAR CONTENT ZYADA HO TO SCROLL HOGA */
+  padding: 1.5rem;  /* ✅ ANDAR KA SPACING */
 }
 
+/* ✅ PAGE TITLE (AGAR USE KARO TOH) */
 .page-title {
   margin: 0;
   font-size: 2rem;
@@ -152,41 +167,45 @@
   color: #666;
 }
 
-/* ============ SUMMARY GRID - 3 COLUMNS, 2 ROWS LAYOUT - FULL WIDTH ============ */
+/* ============ SUMMARY GRID - STATS CARDS ============ */
+/* ✅ STATS CARDS KA GRID CONTAINER (JO UPAR WALE NUMBERS DIKHATE HAIN) */
 .summary-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;  /* ✅ 3 COLUMNS (DESKTOP ME) - 2 COLUMN KE LIYE 1fr 1fr KARO */
   grid-template-rows: auto auto;
-  gap: 0.8rem;
+  gap: 0.8rem;  /* ✅ CARDS KE BEECH GAP */
   margin-bottom: 2rem;
 }
 
+/* ✅ EK SINGLE STATS CARD */
 .summary-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);  /* ✅ CARD KA BACKGROUND */
   padding: 0.9rem;
-  border-radius: 12px;
+  border-radius: 12px;  /* ✅ CORNERS GOL */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   gap: 0.4rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);  /* ✅ CARD KA SHADOW */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #e8ecf1;
   animation: slideInUp 0.5s ease;
 }
 
+/* ✅ JAB MOUSE CARD PAR LE JAYE */
 .summary-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: #00b4d8;
+  transform: translateY(-8px);  /* ✅ CARD UPAR UTH JAYEGA - BAND KARNE KE LIYE 0 KARO */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);  /* ✅ SHADOW BARA HO JAYEGA */
+  border-color: #00b4d8;  /* ✅ BORDER KA COLOR BLUE HO JAYEGA */
 }
 
-/* LARGE CARD FOR TOTAL BINS - SPANS 2 ROWS, 1 COLUMN (LEFT) */
+/* ============ LARGE CARD FOR TOTAL BINS ============ */
+/* ✅ BADA CARD (LEFT SIDE WALA JO TOTAL BINS DIKHTA HAI) */
 .summary-card.large-card {
-  grid-row: 1 / 3;
-  grid-column: 1;
+  grid-row: 1 / 3;  /* ✅ 2 ROWS LE GA */
+  grid-column: 1;  /* ✅ 1ST COLUMN ME HOGA */
   padding: 1rem;
   gap: 0.8rem;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
@@ -201,19 +220,21 @@
 }
 
 .large-number {
-  font-size: 2.2rem;
+  font-size: 2.2rem;  /* ✅ BARA NUMBER KA SIZE */
   font-weight: 800;
   color: #023047;
   margin: 0;
 }
 
+/* ✅ 3 BINS KI GRID (GREEN, YELLOW, RED WALE) */
 .bin-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);  /* ✅ 3 COLUMNS */
   gap: 0.8rem;
   width: 100%;
 }
 
+/* ✅ HAR BIN KA ICON (🗑️) */
 .bin-icon {
   font-size: 2rem;
   display: flex;
@@ -221,17 +242,19 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  background: #f0f4f8;
+  background: #f0f4f8;  /* ✅ BACKGROUND COLOR */
   border-radius: 10px;
   transition: all 0.3s ease;
   margin: 0 auto;
 }
 
+/* ✅ BADE CARD PAR HOVER KARNE PAR ICON EFFECT */
 .summary-card.large-card:hover .bin-icon {
   background: #e0e8f0;
-  transform: scale(1.1);
+  transform: scale(1.1);  /* ✅ THORA BARA HO JAYEGA */
 }
 
+/* ✅ CHOTE CARDS KE ICONS (CRITICAL, WARNING, NORMAL, AVG FILL) */
 .summary-icon {
   font-size: 2rem;
   display: flex;
@@ -249,26 +272,31 @@
   transform: scale(1.1);
 }
 
+/* ✅ CRITICAL LEVEL ICON (RED) */
 .summary-icon.critical {
   background: linear-gradient(135deg, #fee 0%, #fdd 100%);
   box-shadow: 0 4px 15px rgba(244, 67, 54, 0.2);
 }
 
+/* ✅ WARNING LEVEL ICON (ORANGE) */
 .summary-icon.warning {
   background: linear-gradient(135deg, #fef5e7 0%, #fce4b6 100%);
   box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
 }
 
+/* ✅ NORMAL LEVEL ICON (GREEN) */
 .summary-icon.normal {
   background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
   box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
 }
 
+/* ✅ AVG FILL ICON (BLUE) */
 .summary-icon.avg-fill {
   background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
   box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
 }
 
+/* ✅ CARD KA TEXT CONTENT WALA AREA */
 .summary-content {
   flex: 1;
   min-width: 0;
@@ -277,18 +305,20 @@
   justify-content: center;
 }
 
+/* ✅ BADA NUMBER (JAISE 10, 5, 3, 2, 68%) */
 .summary-value {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.6rem;  /* ✅ NUMBER KA SIZE */
   font-weight: 800;
   color: #023047;
   line-height: 1;
   margin-bottom: 0.1rem;
 }
 
+/* ✅ CHOTA TEXT (Critical Bins, Warning Bins, etc) */
 .summary-label {
   margin: 0;
-  font-size: 0.65rem;
+  font-size: 0.65rem;  /* ✅ LABEL KA SIZE */
   color: #999;
   font-weight: 600;
   text-transform: uppercase;
@@ -297,12 +327,14 @@
 }
 
 /* ============ CHARTS CONTAINER ============ */
+/* ✅ GRAPHS KA CONTAINER (BAR CHART, LINE CHART, ETC) */
 .charts-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));  /* ✅ RESPONSIVE COLUMNS */
+  gap: 1.5rem;  /* ✅ GRAPHS KE BEECH GAP */
 }
 
+/* ✅ EK GRAPH CARD */
 .chart-card {
   background: white;
   padding: 1.5rem;
@@ -313,11 +345,13 @@
   transition: all 0.3s ease;
 }
 
+/* ✅ GRAPH CARD PAR HOVER */
 .chart-card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px);
 }
 
+/* ✅ GRAPH KA HEADER (TITLE + ICON) */
 .chart-header {
   display: flex;
   justify-content: space-between;
@@ -339,6 +373,7 @@
   color: #00b4d8;
 }
 
+/* ✅ LOADING SPINNER (JAB DATA AA RAHA HO) */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -349,13 +384,13 @@
   animation: pulse 2s infinite;
 }
 
-/* ============ REFRESH BUTTON ============ */
+/* ============ REFRESH BUTTON (DUPLICATE - SAFE TO KEEP) ============ */
 .analytics-refresh-btn {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ BLUE GRADIENT */
   color: white;
   border: none;
   border-radius: 10px;
@@ -377,9 +412,10 @@
   cursor: not-allowed;
 }
 
-/* ============ TOAST NOTIFICATION ============ */
+/* ============ TOAST NOTIFICATION (POPUP ALERTS) ============ */
+/* ✅ JAB DATA REFRESH HO YA ERROR AAYE TOH POPUP AATA HAI */
 .toast-notification {
-  position: fixed;
+  position: fixed;  /* ✅ SCREEN PAR FIXED POSITION */
   top: 1.5rem;
   right: 1.5rem;
   padding: 0.9rem 1.4rem;
@@ -387,19 +423,21 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: white;
-  z-index: 9999;
+  z-index: 9999;  /* ✅ SAB SE UPAR DIKHEGA */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   animation: toastSlideIn 0.4s ease, toastFadeOut 0.4s ease 3.1s forwards;
   max-width: 420px;
   line-height: 1.5;
 }
 
-.toast-info    { background: linear-gradient(135deg, #0077b6, #00b4d8); }
-.toast-success { background: linear-gradient(135deg, #2e7d32, #4caf50); }
-.toast-warning { background: linear-gradient(135deg, #e65100, #ff9800); }
-.toast-danger  { background: linear-gradient(135deg, #b71c1c, #f44336); }
+/* ✅ DIFFERENT TOAST TYPES KE COLORS */
+.toast-info    { background: linear-gradient(135deg, #0077b6, #00b4d8); }  /* ✅ BLUE - INFO */
+.toast-success { background: linear-gradient(135deg, #2e7d32, #4caf50); }  /* ✅ GREEN - SUCCESS */
+.toast-warning { background: linear-gradient(135deg, #e65100, #ff9800); }  /* ✅ ORANGE - WARNING */
+.toast-danger  { background: linear-gradient(135deg, #b71c1c, #f44336); }  /* ✅ RED - ERROR */
 
 /* ============ ANIMATIONS ============ */
+/* ✅ TOAST KE ANDAR AANE JANE KI ANIMATION */
 @keyframes toastSlideIn {
   from { opacity: 0; transform: translateX(60px); }
   to   { opacity: 1; transform: translateX(0); }
@@ -410,6 +448,7 @@
   to   { opacity: 0; }
 }
 
+/* ✅ CARD PAR FLASH EFFECT (JAB DATA UPDATE HO) */
 @keyframes cardFlash {
   0%   { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
   30%  { box-shadow: 0 0 0 6px rgba(0, 180, 216, 0.35); }
@@ -421,25 +460,29 @@
   animation: cardFlash 0.8s ease;
 }
 
+/* ✅ UPAR SE AANE WALI ANIMATION */
 @keyframes slideInUp {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ✅ UPAR SE CHOTI DURI SE AANE WALI ANIMATION */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ✅ BLINKING ANIMATION (LOADING KE LIYE) */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
 
-/* ============ RESPONSIVE ============ */
+/* ============ RESPONSIVE (TABLET) ============ */
+/* ✅ JAB SCREEN 1200px SE CHOTI HO */
 @media (max-width: 1200px) {
   .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);  /* ✅ 3 COLUMNS SE 2 COLUMNS HO JAYENGE */
   }
 
   .summary-card.large-card {
@@ -448,9 +491,11 @@
   }
 }
 
+/* ============ RESPONSIVE (MOBILE) ============ */
+/* ✅ JAB SCREEN 768px SE CHOTI HO (MOBILE) */
 @media (max-width: 768px) {
   .summary-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* ✅ 1 COLUMN ME AA JAYEGA */
     grid-template-rows: auto;
     gap: 0.8rem;
   }
@@ -472,11 +517,11 @@
   }
 
   .summary-value {
-    font-size: 1.4rem;
+    font-size: 1.4rem;  /* ✅ MOBILE ME NUMBER CHOTA */
   }
 
   .charts-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* ✅ GRAPHS BHI 1 COLUMN ME */
   }
 
   .page-title {
@@ -494,6 +539,6 @@
   }
 
   .analytics-scrollable {
-    padding: 1rem;
+    padding: 1rem;  /* ✅ MOBILE ME PADDING KAM */
   }
 }

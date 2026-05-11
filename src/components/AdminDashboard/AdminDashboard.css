@@ -1,16 +1,18 @@
 /* ============ ADMIN DASHBOARD MAIN STYLES ============ */
+/* ✅ YEH PURA DASHBOARD KA CONTAINER HAI - LAYOUT CONTROL KARTA HAI */
 .admin-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);  /* ✅ BACKGROUND GRADIENT - COLOR CHANGE KARO TOH YAHAN */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* ============ SIDEBAR ============ */
+/* ✅ LEFT SIDE KA MENU BAR (JAHAN OPTIONS HOTE HAIN) */
 .admin-sidebar {
-  width: 260px;
-  background: #ffffff;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
+  width: 260px;  /* ✅ SIDEBAR KI CHAUDHAI - BADANI HO TO YAHAN */
+  background: #ffffff;  /* ✅ SIDEBAR KA BACKGROUND COLOR */
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);  /* ✅ SIDEBAR KE RIGHT SIDE KA SHADOW */
   position: fixed;
   left: 0;
   top: 0;
@@ -22,19 +24,22 @@
   overflow-y: auto;
 }
 
+/* ✅ JAB SIDEBAR BAND HO (COLLAPSE HO) TOH YEH STYLE APPLY HOGA */
 .admin-sidebar.closed {
-  width: 80px;
+  width: 80px;  /* ✅ BAND HOONE PAR CHAUDHAI */
 }
 
+/* ✅ SIDEBAR KA TOP SECTION (LOGO + TOGGLE BUTTON) */
 .sidebar-header {
-  padding: 1.4rem;
+  padding: 1.4rem;  /* ✅ ANDAR KA SPACING */
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  border-bottom: 1px solid #e8ecf1;
+  gap: 0.8rem;  /* ✅ LOGO AUR TOGGLE BUTTON KE BEECH GAP */
+  border-bottom: 1px solid #e8ecf1;  /* ✅ NICHE BORDER LINE */
   justify-content: space-between;
 }
 
+/* ✅ LOGO AUR TEXT KA CONTAINER */
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -43,36 +48,38 @@
 }
 
 .logo-icon {
-  font-size: 1.8rem;
+  font-size: 1.8rem;  /* ✅ EMOJI/ICON KA SIZE */
   min-width: 1.8rem;
 }
 
 .logo-text {
-  font-size: 1.15rem;
+  font-size: 1.15rem;  /* ✅ "SMART GARBAGE" TEXT KA SIZE */
   font-weight: 700;
-  background: linear-gradient(135deg, #023047 0%, #00b4d8 100%);
+  background: linear-gradient(135deg, #023047 0%, #00b4d8 100%);  /* ✅ TEXT KA GRADIENT COLOR */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
   animation: fadeInLeft 0.4s ease;
 }
 
+/* ✅ SIDEBAR KO KHOLNE/BAND KARNE WALA BUTTON (☰) */
 .sidebar-toggle {
   background: none;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1.1rem;  /* ✅ BUTTON KA SIZE */
   cursor: pointer;
-  color: #666;
+  color: #666;  /* ✅ BUTTON KA COLOR */
   padding: 0.3rem;
-  border-radius: 6px;
+  border-radius: 6px;  /* ✅ CORNERS GOL */
   transition: all 0.3s ease;
 }
 
 .sidebar-toggle:hover {
-  background: #f0f4f8;
-  color: #00b4d8;
+  background: #f0f4f8;  /* ✅ HOVER PAR BACKGROUND */
+  color: #00b4d8;  /* ✅ HOVER PAR COLOR CHANGE */
 }
 
+/* ✅ ADMIN PROFILE SECTION (AVATAR + NAME + ROLE) */
 .sidebar-profile {
   padding: 1.2rem;
   display: flex;
@@ -81,21 +88,23 @@
   border-bottom: 1px solid #e8ecf1;
 }
 
+/* ✅ CIRCLE JISME INITIALS/ICON HOTA HAI */
 .profile-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  width: 48px;  /* ✅ AVATAR KI CHAUDHAI */
+  height: 48px;  /* ✅ AVATAR KI UNCHAI */
+  border-radius: 50%;  /* ✅ PURE GOL SHAPE KE LIYE */
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ AVATAR KA GRADIENT BACKGROUND */
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
   font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);  /* ✅ AVATAR KE NICHE GLOW */
   flex-shrink: 0;
 }
 
+/* ✅ PROFILE TEXT WALA AREA (NAME + EMAIL/ROLE) */
 .profile-info {
   flex: 1;
   animation: fadeInLeft 0.4s ease;
@@ -104,8 +113,8 @@
 
 .profile-info h3 {
   margin: 0;
-  font-size: 0.95rem;
-  color: #023047;
+  font-size: 0.95rem;  /* ✅ NAME KA SIZE */
+  color: #023047;  /* ✅ NAME KA COLOR */
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -114,86 +123,95 @@
 
 .profile-info p {
   margin: 0.2rem 0 0 0;
-  font-size: 0.75rem;
-  color: #00b4d8;
+  font-size: 0.75rem;  /* ✅ ROLE TEXT KA SIZE */
+  color: #00b4d8;  /* ✅ ROLE TEXT KA COLOR */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* ✅ SIDEBAR KE ANDAR SARE NAVIGATION LINKS KA CONTAINER */
 .sidebar-nav {
   flex: 1;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.4rem;  /* ✅ LINKS KE BEECH GAP */
   overflow-y: auto;
 }
 
+/* ✅ EK SINGLE NAVIGATION ITEM (Overview, Analytics, Bins, etc) */
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.8rem 1rem;
+  gap: 0.9rem;  /* ✅ ICON AUR TEXT KE BEECH GAP */
+  padding: 0.8rem 1rem;  /* ✅ ANDAR KA SPACING */
   background: none;
   border: none;
-  border-radius: 10px;
+  border-radius: 10px;  /* ✅ CORNERS GOL */
   cursor: pointer;
-  color: #666;
+  color: #666;  /* ✅ TEXT KA COLOR */
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   justify-content: flex-start;
 }
 
+/* ✅ JAB MOUSE NAV ITEM PAR LE JAYE TOH */
 .nav-item:hover {
-  background: #f0f4f8;
-  color: #00b4d8;
-  transform: translateX(4px);
+  background: #f0f4f8;  /* ✅ HOVER BACKGROUND */
+  color: #00b4d8;  /* ✅ HOVER TEXT COLOR */
+  transform: translateX(4px);  /* ✅ THORA RIGHT MOVE HOGA */
 }
 
+/* ✅ JAB NAV ITEM ACTIVE HO (USER USS PAGE PAR HO) */
 .nav-item.active {
   background: linear-gradient(135deg, #00b4d810 0%, #0077b610 100%);
   color: #00b4d8;
-  border-left: 4px solid #00b4d8;
+  border-left: 4px solid #00b4d8;  /* ✅ LEFT SIDE BLUE LINE */
   font-weight: 600;
 }
 
+/* ✅ LOGOUT BUTTON KA SPECIAL HOVER EFFECT */
 .nav-item.logout:hover {
-  background: #fee;
-  color: #f44336;
+  background: #fee;  /* ✅ HOVER PAR LIGHT RED BACKGROUND */
+  color: #f44336;  /* ✅ HOVER PAR RED TEXT */
 }
 
 .nav-icon {
-  font-size: 1.15rem;
+  font-size: 1.15rem;  /* ✅ ICON KA SIZE */
   min-width: 1.15rem;
   flex-shrink: 0;
 }
 
 .nav-label {
-  font-size: 0.9rem;
+  font-size: 0.9rem;  /* ✅ TEXT KA SIZE */
   white-space: nowrap;
   flex: 1;
   text-align: left;
 }
 
+/* ✅ JAB SIDEBAR BAND HO TOH TEXT HIDE HO JAYE */
 .admin-sidebar.closed .nav-label {
   display: none;
 }
 
+/* ✅ JAB SIDEBAR BAND HO TOH ICON CENTER ME AA JAYE */
 .admin-sidebar.closed .nav-item {
   justify-content: center;
   padding: 0.7rem;
 }
 
 /* ============ MAIN CONTENT ============ */
+/* ✅ RIGHT SIDE KA AREA JAHAN COMPONENTS DIKHTE HAIN */
 .admin-main {
   flex: 1;
-  margin-left: 260px;
+  margin-left: 260px;  /* ✅ SIDEBAR KITNI JAGAH CHOREGA */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 
+/* ✅ JAB SIDEBAR BAND HO TOH MAIN CONTENT KO LEFT SIDE SE 80px CHAHIYE */
 .admin-sidebar.closed ~ .admin-main {
   margin-left: 80px;
 }
@@ -204,30 +222,35 @@
 }
 
 /* ============ ANIMATIONS ============ */
+/* ✅ LEFT SE AANE WALI ANIMATION */
 @keyframes fadeInLeft {
   from { opacity: 0; transform: translateX(-10px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
+/* ✅ UPAR SE AANE WALI ANIMATION */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ✅ RIGHT SE AANE WALI ANIMATION */
 @keyframes slideInRight {
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
+/* ✅ BLINK/FLASH EFFECT KE LIYE */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
 
-/* ============ RESPONSIVE ============ */
+/* ============ RESPONSIVE (MOBILE VIEW) ============ */
 @media (max-width: 768px) {
+  /* ✅ JAB SCREEN 768px SE CHOTI HO (MOBILE) */
   .admin-sidebar {
-    width: 70px;
+    width: 70px;  /* ✅ MOBILE ME SIDEBAR CHOTA */
   }
 
   .admin-main {
@@ -238,6 +261,6 @@
   }
 
   .admin-content {
-    padding: 1rem;
+    padding: 1rem;  /* ✅ MOBILE ME PADDING KAM */
   }
 }

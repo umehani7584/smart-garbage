@@ -232,25 +232,177 @@ function LoginCard({ onClose, onSwitchToSignup }) {
 }
 
 const styles = {
-  overlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000 },
-  card: { background: '#ffffff', padding: '2rem', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', width: '100%', maxWidth: '420px', position: 'relative' },
-  closeBtn: { position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#666' },
-  logo: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '1rem', marginTop: '0.5rem' },
-  logoIcon: { fontSize: '2rem' },
-  title: { fontSize: '1.5rem', color: '#023047', margin: 0 },
-  subtitle: { fontSize: '0.9rem', color: '#666', textAlign: 'center', marginBottom: '1.5rem' },
-  errorBox: { backgroundColor: '#fee2e2', color: '#dc2626', padding: '0.8rem', borderRadius: '8px', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' },
-  errorIcon: { fontSize: '1rem' },
-  successBox: { backgroundColor: '#dcfce7', color: '#16a34a', padding: '0.8rem', borderRadius: '8px', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', lineHeight: 1.5 },
-  form: { display: 'flex', flexDirection: 'column', gap: '1rem' },
-  formGroup: { display: 'flex', flexDirection: 'column', gap: '0.4rem' },
-  label: { fontSize: '0.85rem', fontWeight: 600, color: '#023047' },
-  input: { padding: '0.7rem 1rem', borderRadius: '8px', border: '2px solid #e0e0e0', fontSize: '0.95rem', outline: 'none' },
-  submitBtn: { padding: '0.8rem', background: '#00b4d8', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', marginTop: '0.5rem' },
-  forgotBtn: { background: 'none', border: 'none', color: '#00b4d8', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, textAlign: 'right', padding: 0, marginTop: '2px', alignSelf: 'flex-end' },
-  footer: { marginTop: '1.2rem', textAlign: 'center' },
-  footerText: { fontSize: '0.85rem', color: '#666' },
-  linkBtn: { background: 'none', border: 'none', color: '#00b4d8', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600 }
+  // ✅ MODAL KA BACKGROUND OVERLAY (POORE SCREEN PAR DHAKKA)
+  overlay: { 
+    position: 'fixed',      // ✅ SCREEN PAR FIXED POSITION
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0, 
+    backgroundColor: 'rgba(0,0,0,0.7)',  // ✅ DARK OVERLAY - COLOR CHANGE KARO TO YAHAN
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    zIndex: 2000            // ✅ SAB SE UPAR DIKHEGA
+  },
+  
+  // ✅ LOGIN CARD KA WHITE BOX
+  card: { 
+    background: '#ffffff',   // ✅ CARD BACKGROUND COLOR CHANGE KARO TO YAHAN
+    padding: '2rem',         // ✅ ANDAR KA SPACING (UPAR/NECHE/LEFT/RIGHT)
+    borderRadius: '20px',    // ✅ CORNERS GOL - SQUARE KE LIYE 0
+    boxShadow: '0 20px 40px rgba(0,0,0,0.2)',  // ✅ CARD KE NICHE SHADOW
+    width: '100%', 
+    maxWidth: '420px',       // ✅ CARD KI MAXIMUM CHAUDHAI
+    position: 'relative' 
+  },
+  
+  // ✅ CLOSE BUTTON (X) - TOP RIGHT PAR
+  closeBtn: { 
+    position: 'absolute',    // ✅ CARD KE ANDAR FIXED POSITION
+    top: '15px',             // ✅ UPAR SE 15px NICHE
+    right: '15px',           // ✅ RIGHT SE 15px ANDAR
+    background: 'none', 
+    border: 'none', 
+    fontSize: '1.2rem',      // ✅ BUTTON KA SIZE
+    cursor: 'pointer', 
+    color: '#666'            // ✅ BUTTON KA COLOR - CHANGE KARO TO YAHAN
+  },
+  
+  // ✅ LOGO AUR TITLE KA CONTAINER
+  logo: { 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    gap: '0.5rem',           // ✅ ICON AUR TEXT KE BEECH GAP
+    marginBottom: '1rem', 
+    marginTop: '0.5rem' 
+  },
+  
+  logoIcon: { 
+    fontSize: '2rem'         // ✅ LOGO EMOJI KA SIZE
+  },
+  
+  title: { 
+    fontSize: '1.5rem',      // ✅ "Login" TEXT KA SIZE
+    color: '#023047',        // ✅ TITLE COLOR - CHANGE KARO TO YAHAN
+    margin: 0 
+  },
+  
+  subtitle: { 
+    fontSize: '0.9rem',      // ✅ SUBTITLE SIZE ("Access your account...")
+    color: '#666',           // ✅ SUBTITLE COLOR
+    textAlign: 'center', 
+    marginBottom: '1.5rem' 
+  },
+  
+  // ✅ ERROR MESSAGE KA BOX (AGAR LOGIN FAIL HO)
+  errorBox: { 
+    backgroundColor: '#fee2e2',  // ✅ ERROR BACKGROUND (LIGHT RED)
+    color: '#dc2626',            // ✅ ERROR TEXT COLOR (DARK RED)
+    padding: '0.8rem', 
+    borderRadius: '8px', 
+    marginBottom: '1rem', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '0.5rem', 
+    fontSize: '0.85rem' 
+  },
+  
+  errorIcon: { 
+    fontSize: '1rem'         // ✅ ERROR ICON SIZE
+  },
+  
+  // ✅ SUCCESS MESSAGE KA BOX (AGAR KAMYABI HO)
+  successBox: { 
+    backgroundColor: '#dcfce7',  // ✅ SUCCESS BACKGROUND (LIGHT GREEN)
+    color: '#16a34a',            // ✅ SUCCESS TEXT COLOR (GREEN)
+    padding: '0.8rem', 
+    borderRadius: '8px', 
+    marginBottom: '1rem', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '0.5rem', 
+    fontSize: '0.85rem', 
+    lineHeight: 1.5 
+  },
+  
+  // ✅ FORM KA CONTAINER
+  form: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    gap: '1rem'              // ✅ INPUT FIELDS KE BEECH GAP
+  },
+  
+  // ✅ EK INPUT FIELD KA CONTAINER (LABEL + INPUT)
+  formGroup: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    gap: '0.4rem' 
+  },
+  
+  label: { 
+    fontSize: '0.85rem',     // ✅ LABEL KA SIZE ("Email" / "Password")
+    fontWeight: 600, 
+    color: '#023047'         // ✅ LABEL COLOR
+  },
+  
+  // ✅ INPUT FIELD (EMAIL/PASSWORD WALA BOX)
+  input: { 
+    padding: '0.7rem 1rem',  // ✅ ANDAR KA SPACING
+    borderRadius: '8px',     // ✅ CORNERS GOL
+    border: '2px solid #e0e0e0',  // ✅ BORDER COLOR - CHANGE KARO TO YAHAN
+    fontSize: '0.95rem',     // ✅ TYPING TEXT KA SIZE
+    outline: 'none' 
+  },
+  
+  // ✅ SUBMIT BUTTON ("Login" BUTTON)
+  submitBtn: { 
+    padding: '0.8rem', 
+    background: '#00b4d8',   // ✅ BUTTON BACKGROUND COLOR (BLUE) - CHANGE KARO TO YAHAN
+    color: 'white',          // ✅ BUTTON TEXT COLOR
+    border: 'none', 
+    borderRadius: '8px', 
+    fontSize: '1rem', 
+    fontWeight: 600, 
+    cursor: 'pointer', 
+    marginTop: '0.5rem' 
+  },
+  
+  // ✅ FORGOT PASSWORD BUTTON
+  forgotBtn: { 
+    background: 'none', 
+    border: 'none', 
+    color: '#00b4d8',        // ✅ BUTTON TEXT COLOR - CHANGE KARO TO YAHAN
+    cursor: 'pointer', 
+    fontSize: '0.78rem', 
+    fontWeight: 600, 
+    textAlign: 'right', 
+    padding: 0, 
+    marginTop: '2px', 
+    alignSelf: 'flex-end' 
+  },
+  
+  // ✅ FOOTER (Don't have an account? Sign Up)
+  footer: { 
+    marginTop: '1.2rem', 
+    textAlign: 'center' 
+  },
+  
+  footerText: { 
+    fontSize: '0.85rem', 
+    color: '#666'            // ✅ FOOTER TEXT COLOR
+  },
+  
+  // ✅ SIGN UP LINK BUTTON
+  linkBtn: { 
+    background: 'none', 
+    border: 'none', 
+    color: '#00b4d8',        // ✅ LINK COLOR - CHANGE KARO TO YAHAN
+    cursor: 'pointer', 
+    fontSize: '0.85rem', 
+    fontWeight: 600 
+  }
 };
 
 export default LoginCard;

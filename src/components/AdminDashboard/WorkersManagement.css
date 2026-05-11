@@ -1,9 +1,10 @@
-/* ============ NEW HEADER ============ */
+/* ============ WORKERS PAGE HEADER ============ */
+/* ✅ TOP PAR BLUE GRADIENT HEADER (WORKERS MANAGEMENT) */
 .workers-page-header {
-  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);
-  padding: 2rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #023047 0%, #0077b6 100%);  /* ✅ HEADER BACKGROUND COLOR */
+  padding: 2rem;  /* ✅ ANDAR KA SPACING */
+  border-radius: 16px;  /* ✅ CORNERS GOL */
+  margin-bottom: 2rem;  /* ✅ NICHE SE MARGIN */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,20 +21,23 @@
   margin-bottom: 1.2rem;
 }
 
+/* ✅ "Workers Management" TITLE */
 .header-title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2rem;  /* ✅ TITLE SIZE */
   color: white;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
+/* ✅ SUBTITLE */
 .header-subtitle {
   margin: 0.5rem 0 0 0;
-  font-size: 0.95rem;
+  font-size: 0.95rem;  /* ✅ SUBTITLE SIZE */
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* ✅ RIGHT SIDE KE STATS (Total Workers, Active, etc) */
 .header-stats {
   display: flex;
   gap: 2rem;
@@ -46,22 +50,23 @@
 }
 
 .stat-number {
-  font-size: 1.8rem;
+  font-size: 1.8rem;  /* ✅ STAT NUMBER SIZE */
   font-weight: 700;
-  color: #00b4d8;
+  color: #00b4d8;  /* ✅ STAT NUMBER COLOR (BLUE) */
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.8rem;  /* ✅ STAT LABEL SIZE */
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
+/* ✅ ADD WORKER BUTTON (GREEN) */
 .add-worker-btn {
   padding: 0.8rem 1.8rem;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);  /* ✅ GREEN GRADIENT */
   color: white;
   border: none;
   border-radius: 10px;
@@ -74,11 +79,11 @@
 }
 
 .add-worker-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* ✅ HOVER PAR UPAR UTHTA HAI */
   box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
-/* Responsive Header */
+/* ============ RESPONSIVE HEADER ============ */
 @media (max-width: 768px) {
   .workers-page-header {
     flex-direction: column;
@@ -87,7 +92,7 @@
   }
 
   .header-title {
-    font-size: 1.5rem;
+    font-size: 1.5rem;  /* ✅ MOBILE ME TITLE CHOTA */
   }
 
   .header-stats {
@@ -99,10 +104,13 @@
     width: 100%;
   }
 }
+
+/* ============ MAIN WORKERS CONTAINER ============ */
 .workers-container {
   animation: fadeInUp 0.5s ease;
 }
 
+/* ✅ WORKERS HEADER (PAGE TITLE + ADD BUTTON) */
 .workers-header {
   display: flex;
   justify-content: space-between;
@@ -128,31 +136,15 @@
   color: #666;
 }
 
-.add-worker-btn {
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-  white-space: nowrap;
-}
-
-.add-worker-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-}
-
 /* ============ WORKERS GRID ============ */
+/* ✅ SARE WORKERS KI GRID (CARDS KI FORM ME) */
 .workers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));  /* ✅ RESPONSIVE COLUMNS */
+  gap: 1.5rem;  /* ✅ CARDS KE BEECH GAP */
 }
 
+/* ✅ EK SINGLE WORKER CARD */
 .worker-card {
   background: white;
   border-radius: 16px;
@@ -166,22 +158,25 @@
   gap: 1rem;
 }
 
+/* ✅ CARD PAR HOVER EFFECT */
 .worker-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px);  /* ✅ UPAR UTHTA HAI */
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
+/* ✅ WORKER CARD KA TOP SECTION (AVATAR + NAME + EMAIL) */
 .worker-header-card {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
 }
 
+/* ✅ WORKER KA CIRCLE AVATAR (WITH INITIALS) */
 .worker-avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ AVATAR BACKGROUND */
   color: white;
   display: flex;
   align-items: center;
@@ -209,22 +204,23 @@
 }
 
 /* ============ ACTIVITY STATUS ============ */
+/* ✅ WORKER KA ACTIVE/INACTIVE STATUS */
 .activity-status {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem;
-  border-left: 4px solid #4caf50;
+  border-left: 4px solid #4caf50;  /* ✅ LEFT SIDE GREEN BORDER - STATUS KE HISAB SE COLOR BADLEGA */
   background: #f8fafb;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-/* ============ WORKER DETAILS ============ */
+/* ============ WORKER DETAILS (SHIFT, CONTACT, ZONE) ============ */
 .worker-details {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);  /* ✅ 3 COLUMNS */
   gap: 0.8rem;
 }
 
@@ -251,6 +247,7 @@
 }
 
 /* ============ ASSIGNED BINS ============ */
+/* ✅ WORKER KO ASSIGNED BINS KI LIST */
 .assigned-bins {
   margin-top: 0.5rem;
 }
@@ -264,27 +261,29 @@
 
 .bins-tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  /* ✅ TAG AGAR ZYADA HO TO WRAP HO JAYE */
   gap: 0.5rem;
 }
 
+/* ✅ EK BIN KA TAG (CHOTA BLUE BADGE) */
 .bin-tag {
   padding: 0.4rem 0.8rem;
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);  /* ✅ BLUE GRADIENT */
   color: white;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
 }
 
-/* ============ ACTION BUTTONS ============ */
+/* ============ ACTION BUTTONS (View, Assign, Edit, Delete) ============ */
 .worker-actions {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);  /* ✅ 4 COLUMNS (4 BUTTONS) */
   gap: 0.6rem;
   margin-top: 0.5rem;
 }
 
+/* ✅ COMMON STYLE FOR ALL ACTION BUTTONS */
 .action-btn {
   padding: 0.7rem;
   border: none;
@@ -297,6 +296,7 @@
   transition: all 0.3s ease;
 }
 
+/* ✅ VIEW BUTTON (BLUE) */
 .view-btn {
   background: #e0f7fa;
   color: #00b4d8;
@@ -308,6 +308,7 @@
   transform: scale(1.05);
 }
 
+/* ✅ ASSIGN BUTTON (ORANGE) */
 .assign-btn {
   background: #fff3e0;
   color: #ff9800;
@@ -319,6 +320,7 @@
   transform: scale(1.05);
 }
 
+/* ✅ EDIT BUTTON (GREEN) */
 .edit-btn {
   background: #f1f8e9;
   color: #4caf50;
@@ -330,6 +332,7 @@
   transform: scale(1.05);
 }
 
+/* ✅ DELETE BUTTON (RED) */
 .delete-btn {
   background: #ffebee;
   color: #f44336;
@@ -341,7 +344,8 @@
   transform: scale(1.05);
 }
 
-/* ============ NOTIFICATIONS ============ */
+/* ============ NOTIFICATION POPUP ============ */
+/* ✅ JAB WORKER ADD/DELETE/UPDATE HO TOH POPUP AATA HAI */
 .notification-popup {
   position: fixed;
   top: 20px;
@@ -354,12 +358,14 @@
   z-index: 2000;
 }
 
+/* ✅ SUCCESS NOTIFICATION (GREEN) */
 .notification-success {
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   color: white;
   border-left: 4px solid #2e7d32;
 }
 
+/* ✅ ERROR NOTIFICATION (RED) */
 .notification-error {
   background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
   color: white;
@@ -393,22 +399,24 @@
   transform: scale(1.2);
 }
 
-/* ============ MODALS ============ */
+/* ============ MODALS (ADD/EDIT/ASSIGN POPUPS) ============ */
+/* ✅ MODAL KA BACKGROUND OVERLAY */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);  /* ✅ DARK OVERLAY */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);  /* ✅ BACKGROUND BLUR */
   padding: 1rem;
 }
 
+/* ✅ MODAL KA WHITE BOX */
 .modal-content {
   background: white;
   border-radius: 20px;
@@ -420,12 +428,13 @@
   animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* SPECIAL FIX FOR ASSIGN MODAL - PREVENT OVERFLOW */
+/* ✅ SPECIAL FIX FOR ASSIGN MODAL (BINS WALI MODAL) */
 .modal-content.modal-assign {
   max-width: 520px;
   max-height: 75vh;
 }
 
+/* ✅ MODAL KA TOP BAR (TITLE + CLOSE BUTTON) */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -445,6 +454,7 @@
   font-weight: 700;
 }
 
+/* ✅ CLOSE (X) BUTTON */
 .modal-close {
   background: none;
   border: none;
@@ -461,13 +471,14 @@
 
 .modal-close:hover {
   background: #f0f4f8;
-  color: #f44336;
+  color: #f44336;  /* ✅ HOVER PAR RED */
 }
 
 .modal-body {
   padding: 1.5rem;
 }
 
+/* ✅ FORM INPUT FIELDS */
 .form-input {
   width: 100%;
   padding: 0.8rem;
@@ -485,7 +496,7 @@
   box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
 }
 
-/* FIXED BINS SELECTION - PROPER SCROLLING */
+/* ✅ BINS SELECTION (ASSIGN MODAL) */
 .bins-selection {
   display: grid;
   gap: 0.8rem;
@@ -496,6 +507,7 @@
   box-sizing: border-box;
 }
 
+/* ✅ SCROLLBAR STYLING */
 .bins-selection::-webkit-scrollbar {
   width: 6px;
 }
@@ -514,6 +526,7 @@
   background: #0077b6;
 }
 
+/* ✅ HAR BIN KI CHECKBOX ROW */
 .bin-checkbox {
   display: flex;
   align-items: center;
@@ -542,6 +555,7 @@
   color: #666;
 }
 
+/* ✅ SUBMIT BUTTON (FORM KE ANDAR) */
 .submit-btn {
   width: 100%;
   padding: 0.8rem;
@@ -595,6 +609,7 @@
   }
 }
 
+/* ✅ LOADING SPINNER */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -604,17 +619,18 @@
   color: #666;
 }
 
+/* ============ RESPONSIVE (MOBILE) ============ */
 @media (max-width: 768px) {
   .workers-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* ✅ MOBILE ME 1 COLUMN */
   }
 
   .worker-details {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);  /* ✅ 2 COLUMNS */
   }
 
   .worker-actions {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);  /* ✅ 4 BUTTONS 2 ROWS ME */
   }
 
   .modal-overlay {
@@ -632,7 +648,8 @@
     left: 10px;
   }
 }
-/* ✅ Empty state */
+
+/* ============ EMPTY STATE (JAB KOI WORKER NA HO) ============ */
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -655,7 +672,8 @@
   color: #999;
 }
 
-/* ✅ Source badge (CSV / Added) */
+/* ============ SOURCE BADGE (CSV / MANUALLY ADDED) ============ */
+/* ✅ BATATA HAI KE WORKER CSV SE AAYA HAI YA MANUALLY ADDED HAI */
 .source-badge {
   font-size: 0.65rem;
   font-weight: 700;
@@ -665,11 +683,13 @@
   white-space: nowrap;
 }
 
+/* ✅ CSV SE IMPORTED WORKER */
 .badge-csv {
   background: #e3f2fd;
   color: #0077b6;
 }
 
+/* ✅ MANUALLY ADDED WORKER */
 .badge-local {
   background: #e8f5e9;
   color: #4caf50;

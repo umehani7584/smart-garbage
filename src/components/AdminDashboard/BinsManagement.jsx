@@ -31,7 +31,7 @@ function BinsManagement() {
         <div className="header-content">
           <div className="project-badge">
             <span className="project-icon">🗑️</span>
-            <span className="project-name">ISmart Garbage Monitoring System</span>
+            <span className="project-name">Smart Garbage Monitoring System</span>
           </div>
           <div className="header-info">
             <h1 className="header-title">Bin Management</h1>
