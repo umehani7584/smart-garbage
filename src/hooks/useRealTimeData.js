@@ -11,7 +11,7 @@ export const useRealTimeData = () => {
     setBinsData(initialData);
     setLoading(false);
 
-    // CHANGE 3: Auto-refresh every 60 seconds (1 minute) instead of 4 seconds
+    // CHANGE 3: Auto-refresh every 60 seconds 
     const interval = setInterval(() => {
       setBinsData(prevData => {
         return simulateRealTimeUpdate(prevData);
