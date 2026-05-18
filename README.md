@@ -57,14 +57,7 @@ Traditional garbage bins overflow because there is no real-time monitoring syste
 ```
 IoT Sensors → ESP32 → Wi-Fi → Flask API → MySQL → React Dashboard
 ```
-Hardware Layer                    Software Layer
-─────────────                     ──────────────
-Ultrasonic Sensor (HC-SR04)  →   Flask (Python) Backend
-Load Cell (HX711)            →   MySQL + XAMPP Database
-DHT11 (Temp/Humidity)        →   React.js Frontend
-MQ-135 (Gas Sensor)          →   Recharts Visualization
-IR Sensor (Lid Control)      →   Real-time Alerts
-Servo Motor (Auto Lid)       →   Worker Management
+
 ---
 
 ## ✨ Features
