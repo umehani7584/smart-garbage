@@ -199,14 +199,6 @@ Password: 123
 ---
 
 
----
-
----
-
----
-
-
-
 ## 🔮 Future Work
 
 - 🗺️ **Google Maps Integration** — Show bin locations on map
