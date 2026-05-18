@@ -198,34 +198,11 @@ Email:    ahmed@test.com
 Password: 123
 ---
 
-## 📸 Dashboard Screenshots
-
-| Page | Description |
-
-|------|-------------|
-| 🏠 **Home Page** | Landing page with navigation |
-| 🔐 **Login** | Modal login with validation |
-| 📝 **Signup** | Full registration form |
-| 📊 **Admin Overview** | Real-time bin dashboard |
-| 📈 **Analytics** | Charts and graphs |
-| 🗑️ **Bins Management** | All bins with details |
-| 👷 **Workers Management** | Team management |
-| 👤 **User Dashboard** | Worker personal view |
-
-> 📷 *Screenshots coming soon — project in active development*
 
 ---
 
 ---
 
-## 🔄 Data Flow
-Step 1 → Sensors detect bin conditions
-Step 2 → ESP32 reads and processes sensor data
-Step 3 → Data sent to Flask API via Wi-Fi (HTTP POST)
-Step 4 → Flask stores data in MySQL database
-Step 5 → React dashboard fetches data via API (HTTP GET)
-Step 6 → Recharts displays real-time graphs
-Step 7 → Alerts sent to workers if bin is full / unsafe
 ---
 
 
