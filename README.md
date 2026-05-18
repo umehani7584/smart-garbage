@@ -156,45 +156,7 @@ Servo Motor (Auto Lid)       →   Worker Management
 
 ---
 
-## 📁 Project Structure
-smart-garbage-system/
-│
-├── public/
-│   └── index.html
-│
-├── src/
-│   ├── components/
-│   │   ├── AdminDashboard/
-│   │   │   ├── Overview.jsx
-│   │   │   ├── Overview.css
-│   │   │   ├── Analytics.jsx
-│   │   │   ├── Analytics.css
-│   │   │   ├── BinsManagement.jsx
-│   │   │   ├── WorkersManagement.jsx
-│   │   │   └── Settings.jsx
-│   │   │
-│   │   └── UserDashboard/
-│   │       ├── UserOverview.jsx
-│   │       ├── AssignedBins.jsx
-│   │       ├── Schedule.jsx
-│   │       └── MyProfile.jsx
-│   │
-│   ├── pages/
-│   │   ├── Home.js
-│   │   ├── LoginPage.jsx
-│   │   └── SignupPage.js
-│   │
-│   ├── hooks/
-│   │   └── useRealTimeData.js
-│   │
-│   ├── data/
-│   │   └── binsData.csv
-│   │
-│   ├── App.js
-│   └── index.js
-│
-├── package.json
-└── README.md
+
 ---
 
 ## 🚀 Getting Started
@@ -261,17 +223,6 @@ Password: 123
 
 ---
 
-## ⚙️ Hardware Components
-🔌 ESP32 Wi-Fi Module
-├── 📡 Sends data to Flask API via Wi-Fi
-├── 🔊 Controls Servo Motor for lid
-└── 📥 Reads from all sensors
-📦 Sensors Connected:
-├── 📏 HC-SR04  → Measures fill level (distance)
-├── 🌡️ DHT11   → Measures temperature & humidity
-├── 💨 MQ-135  → Detects gas / air quality
-├── ⚖️ HX711   → Measures bin weight
-└── 👁️ IR Sensor → Detects human presence (lid trigger)
 ---
 
 ## 🔄 Data Flow
