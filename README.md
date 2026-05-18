@@ -156,47 +156,6 @@ Servo Motor (Auto Lid)       →   Worker Management
 
 ---
 
-## 📁 Project Structure
-smart-garbage-system/
-│
-├── public/
-│   └── index.html
-│
-├── src/
-│   ├── components/
-│   │   ├── AdminDashboard/
-│   │   │   ├── Overview.jsx
-│   │   │   ├── Overview.css
-│   │   │   ├── Analytics.jsx
-│   │   │   ├── Analytics.css
-│   │   │   ├── BinsManagement.jsx
-│   │   │   ├── WorkersManagement.jsx
-│   │   │   └── Settings.jsx
-│   │   │
-│   │   └── UserDashboard/
-│   │       ├── UserOverview.jsx
-│   │       ├── AssignedBins.jsx
-│   │       ├── Schedule.jsx
-│   │       └── MyProfile.jsx
-│   │
-│   ├── pages/
-│   │   ├── Home.js
-│   │   ├── LoginPage.jsx
-│   │   └── SignupPage.js
-│   │
-│   ├── hooks/
-│   │   └── useRealTimeData.js
-│   │
-│   ├── data/
-│   │   └── binsData.csv
-│   │
-│   ├── App.js
-│   └── index.js
-│
-├── package.json
-└── README.md
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -273,21 +232,7 @@ Password: 123
 └── 👁️ IR Sensor → Detects human presence (lid trigger)
 ---
 
-## 🔄 Data Flow
-Step 1: Sensors detect bin conditions
-↓
-Step 2: ESP32 reads and processes sensor data
-↓
-Step 3: Data sent to Flask API via Wi-Fi (HTTP POST)
-↓
-Step 4: Flask stores data in MySQL database
-↓
-Step 5: React dashboard fetches data via API (HTTP GET)
-↓
-Step 6: Recharts displays real-time graphs
-↓
-Step 7: Alerts sent to workers if bin is full / unsafe
----
+
 
 ## 📅 Current Progress
 ✅ Phase 1 - Frontend Dashboard     [COMPLETE]
