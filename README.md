@@ -1,70 +1,362 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=IoT%20Smart%20Garbage%20System&fontSize=40&fontColor=fff&animation=twinkling&fontAlignY=35&desc=Real-time%20Bin%20Monitoring%20Dashboard&descAlignY=55&descSize=18"/>
 
-## Available Scripts
+</div>
 
-In the project directory, you can run:
+<div align="center">
 
-### `npm start`
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://javascript.com/)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://css3.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
+[![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Status](https://img.shields.io/badge/Status-In%20Progress-orange?style=for-the-badge)
+![Frontend](https://img.shields.io/badge/Frontend-Complete-brightgreen?style=for-the-badge)
+![University](https://img.shields.io/badge/NUML-Multan-blue?style=for-the-badge)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+</div>
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📌 Table of Contents
 
-### `npm run build`
+- [About The Project](#-about-the-project)
+- [System Architecture](#-system-architecture)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Dashboard Screenshots](#-dashboard-screenshots)
+- [Hardware Components](#-hardware-components)
+- [Data Flow](#-data-flow)
+- [Current Progress](#-current-progress)
+- [Future Work](#-future-work)
+- [Team](#-team)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🗑️ About The Project
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> **IoT Enabled Smart Garbage Monitoring System** is a Final Year Project developed at **NUML University, Multan** that addresses the real-world problem of unmonitored overflowing garbage bins.
 
-### `npm run eject`
+Traditional garbage bins overflow because there is no real-time monitoring system. Workers check bins manually, which causes delays, wastes resources, and creates health risks. Our system solves this by:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 🔴 **Detecting** bin fill level, weight, temperature, humidity, and gas in real-time
+- 📡 **Transmitting** data wirelessly via ESP32 Wi-Fi module
+- 🗄️ **Storing** all sensor readings in a MySQL database via Flask API
+- 📊 **Displaying** live bin status on a beautiful React dashboard
+- 🔔 **Alerting** workers instantly when bins are full or unsafe
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🏗️ System Architecture
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+IoT Sensors → ESP32 → Wi-Fi → Flask API → MySQL → React Dashboard
+```
+Hardware Layer                    Software Layer
+─────────────                    ──────────────
+Ultrasonic Sensor (HC-SR04)  →   Flask (Python) Backend
+Load Cell (HX711)            →   MySQL + XAMPP Database
+DHT11 (Temp/Humidity)        →   React.js Frontend
+MQ-135 (Gas Sensor)          →   Recharts Visualization
+IR Sensor (Lid Control)      →   Real-time Alerts
+Servo Motor (Auto Lid)       →   Worker Management
+---
 
-## Learn More
+## ✨ Features
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 🔐 Authentication System
+- ✅ Admin & Worker login
+- ✅ Secure signup with CNIC, phone validation
+- ✅ Profile picture & document upload
+- ✅ Role-based access (Admin / Worker)
+- ✅ LocalStorage session management
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 📊 Admin Dashboard
+- ✅ Real-time overview of all bins
+- ✅ Total bins, avg fill level, critical bins counter
+- ✅ Color-coded bin status (Green / Orange / Red)
+- ✅ Refresh stats & export report
+- ✅ Active workers count
 
-### Code Splitting
+### 🗑️ Bins Management
+- ✅ View all bins with real-time data
+- ✅ Bin details: fill level, temperature, humidity, weight, gas
+- ✅ Filter bins by area and status
+- ✅ Critical bin alerts
+- ✅ Bin location coordinates
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 👷 Workers Management
+- ✅ Add, edit, delete workers
+- ✅ Assign bins to specific workers
+- ✅ View worker details and assigned areas
+- ✅ Active/inactive worker status
+- ✅ CSV export per worker
 
-### Analyzing the Bundle Size
+### 📈 Analytics & Reports
+- ✅ Fill level charts per bin
+- ✅ Temperature monitoring graph
+- ✅ Humidity level visualization
+- ✅ Historical data trends
+- ✅ 6 interactive charts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 🔔 Notifications
+- ✅ Real-time critical alerts
+- ✅ Workers receive bin assignment notifications
+- ✅ Full bin & hazardous gas warnings
+- ✅ Notification badge counter
+- ✅ Clear all notifications
 
-### Making a Progressive Web App
+### 👤 User (Worker) Dashboard
+- ✅ Personalized welcome screen
+- ✅ Assigned bins overview
+- ✅ Bin analytics for assigned bins
+- ✅ Collect now button per bin
+- ✅ Schedule management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🛠️ Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Frontend (Complete ✅)
+| Technology | Purpose |
+|-----------|---------|
+| **React.js** | UI Framework |
+| **React Router** | Page Navigation |
+| **Recharts** | Data Visualization |
+| **lucide-react** | Icons |
+| **JavaScript (ES6+)** | Logic & Interactivity |
+| **CSS3 / Inline Styles** | Styling |
+| **LocalStorage** | Data Persistence |
+| **CSV Data** | Simulated Sensor Data |
 
-### Deployment
+### Backend (In Progress 🔄)
+| Technology | Purpose |
+|-----------|---------|
+| **Python** | Backend Language |
+| **Flask** | REST API Server |
+| **MySQL** | Database |
+| **XAMPP** | Local Server |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Hardware (In Progress 🔄)
+| Component | Purpose |
+|-----------|---------|
+| **ESP32** | Wi-Fi Microcontroller |
+| **HC-SR04** | Ultrasonic Fill Sensor |
+| **DHT11** | Temperature & Humidity |
+| **MQ-135** | Gas / Air Quality |
+| **HX711 + Load Cell** | Weight Measurement |
+| **IR Sensor** | Proximity Detection |
+| **Servo Motor** | Automatic Lid Control |
+| **Arduino IDE** | ESP32 Programming (C++) |
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📁 Project Structure
+smart-garbage-system/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── components/
+│   │   ├── AdminDashboard/
+│   │   │   ├── Overview.jsx
+│   │   │   ├── Overview.css
+│   │   │   ├── Analytics.jsx
+│   │   │   ├── Analytics.css
+│   │   │   ├── BinsManagement.jsx
+│   │   │   ├── WorkersManagement.jsx
+│   │   │   └── Settings.jsx
+│   │   │
+│   │   └── UserDashboard/
+│   │       ├── UserOverview.jsx
+│   │       ├── AssignedBins.jsx
+│   │       ├── Schedule.jsx
+│   │       └── MyProfile.jsx
+│   │
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── LoginPage.jsx
+│   │   └── SignupPage.js
+│   │
+│   ├── hooks/
+│   │   └── useRealTimeData.js
+│   │
+│   ├── data/
+│   │   └── binsData.csv
+│   │
+│   ├── App.js
+│   └── index.js
+│
+├── package.json
+└── README.md
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v14 or above)
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/umehani7584/smart-garbage-system.git
+```
+
+**2. Navigate to project folder**
+```bash
+cd smart-garbage-system
+```
+
+**3. Install dependencies**
+```bash
+npm install
+```
+
+**4. Install required packages**
+```bash
+npm install react-router-dom recharts lucide-react react-icons
+```
+
+**5. Start the development server**
+```bash
+npm start
+```
+
+**6. Open in browser**
+http://localhost:3000
+### 🔑 Test Credentials
+Admin Login:
+Email:    admin@test.com
+Password: admin123
+Worker Login:
+Email:    ahmed@test.com
+Password: 123
+---
+
+## 📸 Dashboard Screenshots
+
+| Page | Description |
+|------|-------------|
+| 🏠 **Home Page** | Landing page with navigation |
+| 🔐 **Login** | Modal login with validation |
+| 📝 **Signup** | Full registration form |
+| 📊 **Admin Overview** | Real-time bin dashboard |
+| 📈 **Analytics** | Charts and graphs |
+| 🗑️ **Bins Management** | All bins with details |
+| 👷 **Workers Management** | Team management |
+| 👤 **User Dashboard** | Worker personal view |
+
+> 📷 *Screenshots coming soon — project in active development*
+
+---
+
+## ⚙️ Hardware Components
+🔌 ESP32 Wi-Fi Module
+├── 📡 Sends data to Flask API via Wi-Fi
+├── 🔊 Controls Servo Motor for lid
+└── 📥 Reads from all sensors
+📦 Sensors Connected:
+├── 📏 HC-SR04  → Measures fill level (distance)
+├── 🌡️ DHT11   → Measures temperature & humidity
+├── 💨 MQ-135  → Detects gas / air quality
+├── ⚖️ HX711   → Measures bin weight
+└── 👁️ IR Sensor → Detects human presence (lid trigger)
+---
+
+## 🔄 Data Flow
+Step 1: Sensors detect bin conditions
+↓
+Step 2: ESP32 reads and processes sensor data
+↓
+Step 3: Data sent to Flask API via Wi-Fi (HTTP POST)
+↓
+Step 4: Flask stores data in MySQL database
+↓
+Step 5: React dashboard fetches data via API (HTTP GET)
+↓
+Step 6: Recharts displays real-time graphs
+↓
+Step 7: Alerts sent to workers if bin is full / unsafe
+---
+
+## 📅 Current Progress
+✅ Phase 1 - Frontend Dashboard     [COMPLETE]
+├── ✅ Home Page
+├── ✅ Login / Signup System
+├── ✅ Admin Dashboard
+├── ✅ Bins Management
+├── ✅ Workers Management
+├── ✅ Analytics & Charts
+├── ✅ User Dashboard
+└── ✅ Notifications System
+🔄 Phase 2 - Backend Integration    [IN PROGRESS]
+├── 🔄 Flask REST API
+├── 🔄 MySQL Database Schema
+└── 🔄 API Connection with React
+⏳ Phase 3 - Hardware Integration   [UPCOMING]
+├── ⏳ ESP32 Programming
+├── ⏳ Sensor Calibration
+└── ⏳ End-to-end Testing
+⏳ Phase 4 - Final Testing          [UPCOMING]
+├── ⏳ System Integration Testing
+└── ⏳ FYP Defence Preparation
+---
+
+## 🔮 Future Work
+
+- 🗺️ **Google Maps Integration** — Show bin locations on map
+- 📱 **Mobile App** — React Native version for workers
+- 🤖 **AI Route Optimization** — Smart collection routes
+- ☁️ **Cloud Deployment** — Host on AWS / Firebase
+- 📊 **Predictive Analytics** — Forecast bin fill times
+- 🔔 **SMS Alerts** — Twilio integration for urgent alerts
+
+---
+
+## 👩‍💻 Team
+
+<div align="center">
+
+| Member | Role | ID |
+|--------|------|----|
+| **UmmeHani** | React Frontend Developer | BSCS-MC-211 |
+| **Yusra Bilal** | Frontend Developer | BSCS-MC-246 |
+
+**Supervisor:** Faisal Hussain
+
+**Institution:** NUML University, Multan
+
+**Department:** Computer Science
+
+**Year:** Defence 2025
+
+</div>
+
+---
+
+## 📄 License
+
+This project is developed as a Final Year Project at **NUML University, Multan**.
+All rights reserved © 2025 UmmeHani & Yusra Bilal.
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer"/>
+
+**⭐ If you find this project helpful, please give it a star! ⭐**
+
+**Made with ❤️ by UmmeHani & Yusra Bilal — NUML University Multan**
+
+</div>
