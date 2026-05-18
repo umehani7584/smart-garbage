@@ -219,54 +219,10 @@ Password: 123
 
 ---
 
-## ⚙️ Hardware Components
-🔌 ESP32 Wi-Fi Module
-├── 📡 Sends data to Flask API via Wi-Fi
-├── 🔊 Controls Servo Motor for lid
-└── 📥 Reads from all sensors
-📦 Sensors Connected:
-├── 📏 HC-SR04  → Measures fill level (distance)
-├── 🌡️ DHT11   → Measures temperature & humidity
-├── 💨 MQ-135  → Detects gas / air quality
-├── ⚖️ HX711   → Measures bin weight
-└── 👁️ IR Sensor → Detects human presence (lid trigger)
----
 
 
 
-## 📅 Current Progress
-✅ Phase 1 - Frontend Dashboard     [COMPLETE]
-├── ✅ Home Page
-├── ✅ Login / Signup System
-├── ✅ Admin Dashboard
-├── ✅ Bins Management
-├── ✅ Workers Management
-├── ✅ Analytics & Charts
-├── ✅ User Dashboard
-└── ✅ Notifications System
-🔄 Phase 2 - Backend Integration    [IN PROGRESS]
-├── 🔄 Flask REST API
-├── 🔄 MySQL Database Schema
-└── 🔄 API Connection with React
-⏳ Phase 3 - Hardware Integration   [UPCOMING]
-├── ⏳ ESP32 Programming
-├── ⏳ Sensor Calibration
-└── ⏳ End-to-end Testing
-⏳ Phase 4 - Final Testing          [UPCOMING]
-├── ⏳ System Integration Testing
-└── ⏳ FYP Defence Preparation
----
 
-## 🔮 Future Work
-
-- 🗺️ **Google Maps Integration** — Show bin locations on map
-- 📱 **Mobile App** — React Native version for workers
-- 🤖 **AI Route Optimization** — Smart collection routes
-- ☁️ **Cloud Deployment** — Host on AWS / Firebase
-- 📊 **Predictive Analytics** — Forecast bin fill times
-- 🔔 **SMS Alerts** — Twilio integration for urgent alerts
-
----
 
 ## 👩‍💻 Team
 
