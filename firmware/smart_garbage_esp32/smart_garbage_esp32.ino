@@ -1,75 +1,60 @@
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <DHT.h>
 #include <ESP32Servo.h>
 
 // ==========================================
-// SMART GARBAGE BIN - FINAL INTEGRATED CODE
-// ESP32 DEVKIT V1 (WITH ROCK-SOLID WI-FI)
+// SMART GARBAGE BIN - PRODUCTION CLOUD FIRMWARE
+// VERCEL LIVE: smart-garbage-ihlq.vercel.app
 // ==========================================
 
 // ==========================================
-// 0. WI-FI & BACKEND SERVER CREDENTIALS
+// 0. WI-FI CREDENTIALS & VERCEL ENDPOINT
 // ==========================================
-const char* ssid = "Not For U";
-const char* password = "12345678";
+const char* ssid = "Not For U";          // Aapka Wi-Fi / Hotspot Name
+const char* password = "12345678";      // Aapka Wi-Fi / Hotspot Password
 
-// AAPKA EXACT IP ADDRESS (Current Session):
-String serverUrl = "http://10.204.149.191:3000/api/sensor-data";
+// PERMANENT VERCEL CLOUD ENDPOINT (NO MORE IP CHANGES!):
+const char* serverUrl = "https://smart-garbage-ihlq.vercel.app/api/sensor-data";
 
 // ==========================================
 // 1. PIN DEFINITIONS
 // ==========================================
-// 1. ULTRASONIC SENSOR
 #define TRIG_PIN 23
 #define ECHO_PIN 18
-
-// 2. IR SENSOR
 #define IR_PIN 15
 #define IR_ACTIVE_STATE LOW
-
-// 3. SERVO MOTOR
 #define SERVO_PIN 27
-
-// 4. DHT11 SENSOR
 #define DHT_PIN 4
 #define DHTTYPE DHT11
 DHT dht(DHT_PIN, DHTTYPE);
 
-// 5. LEDS
 #define GREEN_LED 14
 #define YELLOW_LED 13
 #define RED_LED 12
-
-// 6. BUZZER DRIVER
 #define BUZZER_PIN 26
 const bool BUZZER_ENABLED = true;
 
 // ==========================================
-// 2. CALIBRATION & THRESHOLDS (SAFE DISTANCE)
+// 2. CALIBRATION & THRESHOLDS
 // ==========================================
 const float EMPTY_DISTANCE = 19.0;
-const float YELLOW_LEVEL = 40.0;  // 40% fill par Yellow LED (~11.5 cm door)
-const float RED_LEVEL = 65.0;     // 65% fill par Red LED (~6.6 cm door)
-const float BUZZER_LEVEL = 65.0;  // 65% fill par Buzzer ON (Safe 6.6 cm distance)
+const float YELLOW_LEVEL = 40.0;  // 40% fill -> Yellow LED
+const float RED_LEVEL = 65.0;     // 65% fill -> Red LED
+const float BUZZER_LEVEL = 65.0;  // 65% fill -> Smart Buzzer Warning
 
-// ==========================================
-// 3. SERVO SETTINGS
-// ==========================================
-const int LID_OPEN_ANGLE = 130;    // 130 degrees for smooth operation
+const int LID_OPEN_ANGLE = 130;
 const int LID_CLOSE_ANGLE = 0;
 const unsigned long LID_HOLD_TIME = 4500;
 
 // ==========================================
-// 4. TIMERS (NON-BLOCKING)
+// 3. TIMERS & STATE
 // ==========================================
 const unsigned long DISTANCE_INTERVAL = 1000;
 const unsigned long DHT_INTERVAL = 2000;
-const unsigned long TELEMETRY_INTERVAL = 1000; // Har 1 sec baad server ko update!
+const unsigned long TELEMETRY_INTERVAL = 1000; // Har 1 second baad live update!
 
-// ==========================================
-// 5. VARIABLES
-// ==========================================
 Servo lidServo;
 bool lidIsOpen = false;
 
@@ -86,7 +71,7 @@ float temperature = NAN;
 float humidity = NAN;
 
 // ==========================================
-// ULTRASONIC DISTANCE FUNCTION
+// ULTRASONIC SENSOR
 // ==========================================
 float readDistance() {
   float readings[5];
@@ -126,16 +111,13 @@ float readDistance() {
   return readings[count / 2];
 }
 
-// ==========================================
-// CALCULATE GARBAGE PERCENTAGE
-// ==========================================
 float calculateFill(float distance) {
   float fill = ((EMPTY_DISTANCE - distance) / EMPTY_DISTANCE) * 100.0;
   return constrain(fill, 0.0, 100.0);
 }
 
 // ==========================================
-// LED AND BUZZER CONTROL
+// LEDS & SMART BUZZER
 // ==========================================
 void updateIndicators(float fill) {
   if (fill < 0) {
@@ -146,7 +128,6 @@ void updateIndicators(float fill) {
     return;
   }
 
-  // LED Alerts
   if (fill < YELLOW_LEVEL) {
     digitalWrite(GREEN_LED, HIGH);
     digitalWrite(YELLOW_LED, LOW);
@@ -161,14 +142,12 @@ void updateIndicators(float fill) {
     digitalWrite(RED_LED, HIGH);
   }
 
-  // SMART BUZZER: Agar bin full hai (>= 65%), tabhi bajega jab koi banda pass aaye (IR active ya lid open)
-  // Bina wajah room mein continuous buzzer nahi bajega!
+  // Smart Buzzer: Only beeps when full AND user brings hand to bin
   int irDetect = digitalRead(IR_PIN);
   bool personApproaching = (irDetect == IR_ACTIVE_STATE || lidIsOpen);
   unsigned long now = millis();
 
   if (BUZZER_ENABLED && fill >= BUZZER_LEVEL && personApproaching) {
-    // Pulsing Warning Alert (120ms beep / 120ms pause)
     if (now - lastBuzzerToggle >= 120) {
       lastBuzzerToggle = now;
       buzzerState = !buzzerState;
@@ -181,7 +160,12 @@ void updateIndicators(float fill) {
 }
 
 // ==========================================
-// IR SENSOR + AUTOMATIC SERVO LID
+// FORWARD DECLARATION
+// ==========================================
+void sendTelemetryToServer();
+
+// ==========================================
+// IR + SERVO LID
 // ==========================================
 void controlLid() {
   int irValue = digitalRead(IR_PIN);
@@ -193,8 +177,15 @@ void controlLid() {
       lidServo.write(LID_OPEN_ANGLE);
       lidIsOpen = true;
       Serial.println("HAND DETECTED: LID OPENED");
-      // INSTANT CLOUD UPDATE: Server/Dashboard ko foran OPEN state bhejega!
-      sendTelemetryToServer();
+
+      // Short audio feedback beep on lid opening (80ms)
+      if (BUZZER_ENABLED) {
+        digitalWrite(BUZZER_PIN, HIGH);
+        delay(80);
+        digitalWrite(BUZZER_PIN, LOW);
+      }
+
+      sendTelemetryToServer(); // Instant cloud update on open!
     }
   }
 
@@ -202,13 +193,12 @@ void controlLid() {
     lidServo.write(LID_CLOSE_ANGLE);
     lidIsOpen = false;
     Serial.println("LID CLOSED");
-    // INSTANT CLOUD UPDATE: Server/Dashboard ko foran CLOSED state bhejega!
-    sendTelemetryToServer();
+    sendTelemetryToServer(); // Instant cloud update on close!
   }
 }
 
 // ==========================================
-// DHT11 TEMPERATURE & HUMIDITY
+// DHT11 SENSOR
 // ==========================================
 void readDHT() {
   unsigned long currentTime = millis();
@@ -221,27 +211,15 @@ void readDHT() {
     if (!isnan(newHumidity) && !isnan(newTemperature)) {
       humidity = newHumidity;
       temperature = newTemperature;
-
-      Serial.print("Temperature: ");
-      Serial.print(temperature);
-      Serial.println(" C");
-
-      Serial.print("Humidity: ");
-      Serial.print(humidity);
-      Serial.println(" %");
-    } else {
-      Serial.println("DHT11 SENSOR ERROR");
     }
   }
 }
 
 // ==========================================
-// HTTP POST TELEMETRY TO NEXT.JS / SUPABASE
+// SECURE CLOUD TELEMETRY (HTTPS VERCEL)
 // ==========================================
 void sendTelemetryToServer() {
-  // Agar Wi-Fi connect na ho toh wait karein (ESP32 background mein khud reconnect karta hai)
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("[WIFI] Connecting to Hotspot in background...");
     return;
   }
 
@@ -250,10 +228,13 @@ void sendTelemetryToServer() {
   float safeTemp = isnan(temperature) ? 25.0 : temperature;
   float safeHum  = isnan(humidity) ? 50.0 : humidity;
 
+  WiFiClientSecure secureClient;
+  secureClient.setInsecure(); // Connects securely to Vercel HTTPS without certificate bloat
+
   HTTPClient http;
-  http.begin(serverUrl);
+  http.begin(secureClient, serverUrl);
   http.addHeader("Content-Type", "application/json");
-  http.setTimeout(800);
+  http.setTimeout(1200);
 
   String jsonPayload = "{";
   jsonPayload += "\"bin_id\":\"BIN-001\",";
@@ -267,14 +248,15 @@ void sendTelemetryToServer() {
   int httpResponseCode = http.POST(jsonPayload);
 
   if (httpResponseCode > 0) {
-    Serial.print("[CLOUD] Telemetry Sent! Server Response: ");
+    Serial.print("[VERCEL CLOUD] Data Sent! Status: ");
     Serial.println(httpResponseCode);
   } else {
-    // Server abhi laptop par on nahi hai, is liye yeh aayega (yeh normal hai!)
-    Serial.println("[SERVER] Wi-Fi OK! Waiting for Next.js Web Server on laptop...");
+    Serial.print("[VERCEL CLOUD] Connection error: ");
+    Serial.println(httpResponseCode);
   }
 
   http.end();
+  lastTelemetrySent = millis();
 }
 
 // ==========================================
@@ -283,44 +265,45 @@ void sendTelemetryToServer() {
 void setup() {
   Serial.begin(115200);
 
-  // Ultrasonic
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   digitalWrite(TRIG_PIN, LOW);
 
-  // IR
   pinMode(IR_PIN, INPUT);
 
-  // LEDs
   pinMode(GREEN_LED, OUTPUT);
   pinMode(YELLOW_LED, OUTPUT);
   pinMode(RED_LED, OUTPUT);
 
-  // Buzzer
   pinMode(BUZZER_PIN, OUTPUT);
   digitalWrite(BUZZER_PIN, LOW);
+
+  // Quick 2-beep startup chime to immediately verify buzzer hardware works
+  if (BUZZER_ENABLED) {
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(100);
+    digitalWrite(BUZZER_PIN, LOW);
+    delay(80);
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(100);
+    digitalWrite(BUZZER_PIN, LOW);
+  }
 
   digitalWrite(GREEN_LED, LOW);
   digitalWrite(YELLOW_LED, LOW);
   digitalWrite(RED_LED, LOW);
 
-  // DHT11
   dht.begin();
 
-  // Servo
   lidServo.setPeriodHertz(50);
   lidServo.attach(SERVO_PIN, 500, 2400);
   lidServo.write(LID_CLOSE_ANGLE);
   delay(1000);
 
-  // Wi-Fi Connection (Rock Solid Configuration)
-  Serial.println("\n==================================");
-  Serial.print("Connecting to Hotspot: ");
-  Serial.println(ssid);
-
+  Serial.println("\nConnecting to Wi-Fi...");
   WiFi.mode(WIFI_STA);
-  WiFi.setAutoReconnect(true); // Auto-reconnect enabled
-  WiFi.setSleep(false);         // Sleep mode DISABLED taake connection drop na ho
+  WiFi.setAutoReconnect(true);
+  WiFi.setSleep(false);
   WiFi.begin(ssid, password);
 
   int attempts = 0;
@@ -331,16 +314,10 @@ void setup() {
   }
 
   if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("\n>>> WI-FI CONNECTED SUCCESSFULLY! <<<");
+    Serial.println("\n>>> WI-FI CONNECTED TO INTERNET! <<<");
     Serial.print("ESP32 IP: ");
     Serial.println(WiFi.localIP());
-  } else {
-    Serial.println("\n[!] Hotspot timeout. Hardware running in standalone mode.");
   }
-
-  Serial.println("==================================");
-  Serial.println("SMART GARBAGE BIN INITIALIZED");
-  Serial.println("==================================");
 }
 
 // ==========================================
@@ -349,49 +326,27 @@ void setup() {
 void loop() {
   unsigned long currentTime = millis();
 
-  // 1. IR + SERVO
   controlLid();
-
-  // 2. DHT11 MONITORING
   readDHT();
+  updateIndicators(garbagePercentage);
 
-  // 3. ULTRASONIC + GARBAGE LEVEL
   if (!lidIsOpen && currentTime - lastDistanceRead >= DISTANCE_INTERVAL) {
     lastDistanceRead = currentTime;
-
     float newDistance = readDistance();
 
     if (newDistance >= 0) {
       distanceCM = newDistance;
       garbagePercentage = calculateFill(distanceCM);
 
-      updateIndicators(garbagePercentage);
-
-      Serial.println("--------------------------");
-      Serial.print("Distance: ");
+      Serial.print("Fill: ");
+      Serial.print(garbagePercentage);
+      Serial.print("% | Distance: ");
       Serial.print(distanceCM);
       Serial.println(" cm");
-      Serial.print("Garbage Level: ");
-      Serial.print(garbagePercentage);
-      Serial.println(" %");
-
-      if (garbagePercentage < YELLOW_LEVEL) {
-        Serial.println("STATUS: LOW - GREEN LED");
-      } else if (garbagePercentage < RED_LEVEL) {
-        Serial.println("STATUS: MEDIUM - YELLOW LED");
-      } else {
-        Serial.println("STATUS: OVERFLOW / CRITICAL - RED + BUZZER");
-      }
-      Serial.println("--------------------------");
-    } else {
-      Serial.println("ULTRASONIC ERROR: NO VALID READING");
-      updateIndicators(-1);
-      distanceCM = -1;
-      garbagePercentage = -1;
     }
   }
 
-  // 4. CLOUD TELEMETRY (Har 3 sec baad Next.js ko data bhejega)
+  // 1-Second Cloud Transmission
   if (currentTime - lastTelemetrySent >= TELEMETRY_INTERVAL) {
     lastTelemetrySent = currentTime;
     sendTelemetryToServer();

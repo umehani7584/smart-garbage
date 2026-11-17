@@ -42,7 +42,9 @@ create table if not exists public.alerts (
 
 -- 4. Safe Idempotent Schema Migrations (Columns & Check Constraints)
 alter table public.bins add column if not exists distance_cm numeric;
+alter table public.bins add column if not exists lid_status text default 'CLOSED';
 alter table public.sensor_data add column if not exists distance_cm numeric;
+alter table public.sensor_data add column if not exists lid_status text default 'CLOSED';
 
 do $$
 begin
