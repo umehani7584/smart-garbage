@@ -49,11 +49,11 @@ const int LID_CLOSE_ANGLE = 0;
 const unsigned long LID_HOLD_TIME = 4500;
 
 // ==========================================
-// 3. TIMERS & STATE
+// 3. TIMERS & STATE (ULTRA-FAST LIVE TELEMETRY)
 // ==========================================
-const unsigned long DISTANCE_INTERVAL = 1000;
-const unsigned long DHT_INTERVAL = 2000;
-const unsigned long TELEMETRY_INTERVAL = 1000; // Har 1 second baad live update!
+const unsigned long DISTANCE_INTERVAL = 400;   // Har 400ms baad distance read
+const unsigned long DHT_INTERVAL = 2000;        // 2 sec DHT read
+const unsigned long TELEMETRY_INTERVAL = 500;   // Sub-second (0.5 sec) live cloud update!
 
 Servo lidServo;
 bool lidIsOpen = false;
@@ -62,8 +62,6 @@ unsigned long lastHandDetected = 0;
 unsigned long lastDistanceRead = 0;
 unsigned long lastDHTRead = 0;
 unsigned long lastTelemetrySent = 0;
-unsigned long lastBuzzerToggle = 0;
-bool buzzerState = false;
 
 float distanceCM = -1;
 float garbagePercentage = -1;
@@ -71,20 +69,20 @@ float temperature = NAN;
 float humidity = NAN;
 
 // ==========================================
-// ULTRASONIC SENSOR
+// ULTRASONIC SENSOR (FAST SAMPLING)
 // ==========================================
 float readDistance() {
-  float readings[5];
+  float readings[3];
   int count = 0;
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 3; i++) {
     digitalWrite(TRIG_PIN, LOW);
     delayMicroseconds(3);
     digitalWrite(TRIG_PIN, HIGH);
     delayMicroseconds(10);
     digitalWrite(TRIG_PIN, LOW);
 
-    unsigned long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+    unsigned long duration = pulseIn(ECHO_PIN, HIGH, 25000);
 
     if (duration > 0) {
       float distance = duration * 0.0343 / 2.0;
@@ -93,22 +91,18 @@ float readDistance() {
         count++;
       }
     }
-    delay(60);
+    delay(15);
   }
 
-  if (count < 3) return -1;
+  if (count == 0) return -1;
+  if (count == 1) return readings[0];
 
-  for (int i = 0; i < count - 1; i++) {
-    for (int j = i + 1; j < count; j++) {
-      if (readings[i] > readings[j]) {
-        float temp = readings[i];
-        readings[i] = readings[j];
-        readings[j] = temp;
-      }
-    }
+  // Median / Average
+  float sum = 0;
+  for (int i = 0; i < count; i++) {
+    sum += readings[i];
   }
-
-  return readings[count / 2];
+  return sum / count;
 }
 
 float calculateFill(float distance) {
@@ -128,6 +122,7 @@ void updateIndicators(float fill) {
     return;
   }
 
+  // Visual LED Indications
   if (fill < YELLOW_LEVEL) {
     digitalWrite(GREEN_LED, HIGH);
     digitalWrite(YELLOW_LED, LOW);
@@ -142,20 +137,16 @@ void updateIndicators(float fill) {
     digitalWrite(RED_LED, HIGH);
   }
 
-  // Smart Buzzer: Only beeps when full AND user brings hand to bin
+  // SMART BUZZER: Pehle ki tarah jab bin FULL ho (>= 65%) aur koi person kachra
+  // phenkne aaye (IR detect / lid open) to FULL AWAZ se continuous buzzer baje!
+  // Aur jaise hi hand door ho, foran band ho jaye!
   int irDetect = digitalRead(IR_PIN);
   bool personApproaching = (irDetect == IR_ACTIVE_STATE || lidIsOpen);
-  unsigned long now = millis();
 
   if (BUZZER_ENABLED && fill >= BUZZER_LEVEL && personApproaching) {
-    if (now - lastBuzzerToggle >= 120) {
-      lastBuzzerToggle = now;
-      buzzerState = !buzzerState;
-      digitalWrite(BUZZER_PIN, buzzerState ? HIGH : LOW);
-    }
+    digitalWrite(BUZZER_PIN, HIGH); // FULL AWAZ continuous alarm!
   } else {
-    digitalWrite(BUZZER_PIN, LOW);
-    buzzerState = false;
+    digitalWrite(BUZZER_PIN, LOW);  // Hand door hotay hi foran band!
   }
 }
 
@@ -177,14 +168,6 @@ void controlLid() {
       lidServo.write(LID_OPEN_ANGLE);
       lidIsOpen = true;
       Serial.println("HAND DETECTED: LID OPENED");
-
-      // Short audio feedback beep on lid opening (80ms)
-      if (BUZZER_ENABLED) {
-        digitalWrite(BUZZER_PIN, HIGH);
-        delay(80);
-        digitalWrite(BUZZER_PIN, LOW);
-      }
-
       sendTelemetryToServer(); // Instant cloud update on open!
     }
   }
@@ -277,17 +260,6 @@ void setup() {
 
   pinMode(BUZZER_PIN, OUTPUT);
   digitalWrite(BUZZER_PIN, LOW);
-
-  // Quick 2-beep startup chime to immediately verify buzzer hardware works
-  if (BUZZER_ENABLED) {
-    digitalWrite(BUZZER_PIN, HIGH);
-    delay(100);
-    digitalWrite(BUZZER_PIN, LOW);
-    delay(80);
-    digitalWrite(BUZZER_PIN, HIGH);
-    delay(100);
-    digitalWrite(BUZZER_PIN, LOW);
-  }
 
   digitalWrite(GREEN_LED, LOW);
   digitalWrite(YELLOW_LED, LOW);
