@@ -51,9 +51,9 @@ const unsigned long LID_HOLD_TIME = 4500;
 // ==========================================
 // 3. TIMERS & STATE (ULTRA-FAST LIVE TELEMETRY)
 // ==========================================
-const unsigned long DISTANCE_INTERVAL = 400;   // Har 400ms baad distance read
+const unsigned long DISTANCE_INTERVAL = 300;   // Har 300ms (0.3 sec) baad distance read
 const unsigned long DHT_INTERVAL = 2000;        // 2 sec DHT read
-const unsigned long TELEMETRY_INTERVAL = 500;   // Sub-second (0.5 sec) live cloud update!
+const unsigned long TELEMETRY_INTERVAL = 300;   // Har 300ms (0.3 sec) live cloud update!
 
 Servo lidServo;
 bool lidIsOpen = false;
