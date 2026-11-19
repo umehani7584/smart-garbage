@@ -635,7 +635,7 @@ export default function PrototypeLabTab({
                     {currentDist.toFixed(1)} cm
                   </div>
                   <div style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
-                    {currentDist >= 27 ? 'Empty (≥27cm)' : currentDist <= 12 ? 'Full (≤12cm)' : 'Depth: 15cm scale'}
+                    Sensor to Waste Headspace
                   </div>
                 </div>
 
@@ -657,95 +657,6 @@ export default function PrototypeLabTab({
                     {isLidActive ? `Closing in ${lidCountdown}s` : 'Touchless IR Active'}
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Hardware Actuator Live Indicators Card */}
-          <div
-            style={{
-              backgroundColor: '#0f172a',
-              color: '#ffffff',
-              borderRadius: '16px',
-              padding: '1.35rem 1.5rem',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Hardware Actuators & Signal LEDs
-              </span>
-              <span style={{ fontSize: '0.74rem', color: '#38bdf8', fontWeight: 600 }}>
-                ESP32 GPIO Outputs
-              </span>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem', alignItems: 'center' }}>
-              {/* Green LED */}
-              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
-                <div
-                  style={{
-                    width: '22px',
-                    height: '22px',
-                    borderRadius: '50%',
-                    backgroundColor: isSafe ? '#10b981' : '#334155',
-                    boxShadow: isSafe ? '0 0 14px #10b981' : 'none',
-                    margin: '0 auto 0.4rem auto',
-                  }}
-                />
-                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isSafe ? '#a7f3d0' : '#64748b' }}>Green LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 14 (&lt;40%)</div>
-              </div>
-
-              {/* Yellow LED */}
-              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
-                <div
-                  style={{
-                    width: '22px',
-                    height: '22px',
-                    borderRadius: '50%',
-                    backgroundColor: isModerate ? '#f59e0b' : '#334155',
-                    boxShadow: isModerate ? '0 0 14px #f59e0b' : 'none',
-                    margin: '0 auto 0.4rem auto',
-                  }}
-                />
-                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isModerate ? '#fde68a' : '#64748b' }}>Yellow LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 13 (40-64%)</div>
-              </div>
-
-              {/* Red Alert LED */}
-              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
-                <div
-                  style={{
-                    width: '22px',
-                    height: '22px',
-                    borderRadius: '50%',
-                    backgroundColor: isCritical ? '#ef4444' : '#334155',
-                    boxShadow: isCritical ? '0 0 14px #ef4444' : 'none',
-                    margin: '0 auto 0.4rem auto',
-                  }}
-                  className={isCritical ? 'status-badge-pulse' : ''}
-                />
-                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#fecaca' : '#64748b' }}>Red LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 12 (≥65%)</div>
-              </div>
-
-              {/* Buzzer */}
-              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
-                <div
-                  style={{
-                    fontSize: '1.2rem',
-                    lineHeight: 1,
-                    margin: '0 auto 0.4rem auto',
-                    filter: isCritical ? 'none' : 'grayscale(100%) opacity(0.4)',
-                  }}
-                >
-                  🔔
-                </div>
-                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#ef4444' : '#94a3b8' }}>
-                  {isCritical ? 'ALARM ON' : 'SILENT'}
-                </div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 26 (Buzzer)</div>
               </div>
             </div>
           </div>
@@ -1016,6 +927,95 @@ export default function PrototypeLabTab({
                 <div style={{ fontSize: '0.76rem', color: '#64748b', marginTop: '0.35rem' }}>
                   {isLidActive ? 'Safety Ultrasonic Freeze ACTIVE' : 'Ultrasonic Sampling ACTIVE'}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Hardware Actuator Live Indicators Card (Placed under Lid Dynamics) */}
+          <div
+            style={{
+              backgroundColor: '#0f172a',
+              color: '#ffffff',
+              borderRadius: '16px',
+              padding: '1.25rem 1.5rem',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Hardware Actuators & Signal LEDs
+              </span>
+              <span style={{ fontSize: '0.74rem', color: '#38bdf8', fontWeight: 600 }}>
+                ESP32 GPIO Outputs
+              </span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem', alignItems: 'center' }}>
+              {/* Green LED */}
+              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
+                <div
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    backgroundColor: isSafe ? '#10b981' : '#334155',
+                    boxShadow: isSafe ? '0 0 14px #10b981' : 'none',
+                    margin: '0 auto 0.4rem auto',
+                  }}
+                />
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isSafe ? '#a7f3d0' : '#64748b' }}>Green LED</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 14 (&lt;40%)</div>
+              </div>
+
+              {/* Yellow LED */}
+              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
+                <div
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    backgroundColor: isModerate ? '#f59e0b' : '#334155',
+                    boxShadow: isModerate ? '0 0 14px #f59e0b' : 'none',
+                    margin: '0 auto 0.4rem auto',
+                  }}
+                />
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isModerate ? '#fde68a' : '#64748b' }}>Yellow LED</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 13 (40-64%)</div>
+              </div>
+
+              {/* Red Alert LED */}
+              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
+                <div
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    backgroundColor: isCritical ? '#ef4444' : '#334155',
+                    boxShadow: isCritical ? '0 0 14px #ef4444' : 'none',
+                    margin: '0 auto 0.4rem auto',
+                  }}
+                  className={isCritical ? 'status-badge-pulse' : ''}
+                />
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#fecaca' : '#64748b' }}>Red LED</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 12 (≥65%)</div>
+              </div>
+
+              {/* Buzzer */}
+              <div style={{ textAlign: 'center', backgroundColor: '#1e293b', padding: '0.75rem 0.5rem', borderRadius: '10px' }}>
+                <div
+                  style={{
+                    fontSize: '1.2rem',
+                    lineHeight: 1,
+                    margin: '0 auto 0.4rem auto',
+                    filter: isCritical ? 'none' : 'grayscale(100%) opacity(0.4)',
+                  }}
+                >
+                  🔔
+                </div>
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#ef4444' : '#94a3b8' }}>
+                  {isCritical ? 'ALARM ON' : 'SILENT'}
+                </div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 26 (Buzzer)</div>
               </div>
             </div>
           </div>
