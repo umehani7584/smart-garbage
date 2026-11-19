@@ -18,6 +18,9 @@ interface AdminSidebarProps {
   setIsOpen: (open: boolean) => void;
   criticalCount: number;
   totalBins?: number;
+  onOpenLogin?: () => void;
+  currentUser?: any;
+  onLogout?: () => void;
 }
 
 export default function AdminSidebar({
@@ -27,6 +30,9 @@ export default function AdminSidebar({
   setIsOpen,
   criticalCount,
   totalBins,
+  onOpenLogin,
+  currentUser,
+  onLogout,
 }: AdminSidebarProps) {
   const navItems = [
     { id: 'overview', label: 'Overview', icon: FiHome },
@@ -131,42 +137,82 @@ export default function AdminSidebar({
         {/* User Card */}
         <div
           style={{
-            padding: '1rem',
+            padding: '0.85rem 1rem',
             margin: '0.85rem 0.75rem 0.5rem',
             background: 'rgba(30, 41, 59, 0.7)',
             borderRadius: '12px',
             border: '1px solid #334155',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'space-between',
             gap: '0.75rem',
           }}
         >
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '8px',
-              background: '#0284c7',
-              color: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              boxShadow: '0 2px 8px rgba(2, 132, 199, 0.3)',
-            }}
-          >
-            OP
-          </div>
-          <div style={{ overflow: 'hidden' }}>
-            <div style={{ fontWeight: 600, fontSize: '0.85rem', color: '#ffffff', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-              Command Operator
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', overflow: 'hidden' }}>
+            <div
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '8px',
+                background: currentUser ? '#10b981' : '#0284c7',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                boxShadow: '0 2px 8px rgba(2, 132, 199, 0.3)',
+                flexShrink: 0,
+              }}
+            >
+              {currentUser ? 'SA' : 'OP'}
             </div>
-            <div style={{ fontSize: '0.7rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
-              Console Active
+            <div style={{ overflow: 'hidden' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.82rem', color: '#ffffff', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                {currentUser?.name || 'Command Operator'}
+              </div>
+              <div style={{ fontSize: '0.68rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+                {currentUser ? 'Authenticated Admin' : 'Console Active'}
+              </div>
             </div>
           </div>
+
+          {currentUser ? (
+            <button
+              onClick={onLogout}
+              title="Sign Out"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#94a3b8',
+                cursor: 'pointer',
+                fontSize: '0.72rem',
+                padding: '4px 6px',
+                borderRadius: '4px',
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={onOpenLogin}
+              title="Sign in as Administrator"
+              style={{
+                background: 'rgba(2, 132, 199, 0.25)',
+                border: '1px solid #0284c7',
+                color: '#38bdf8',
+                cursor: 'pointer',
+                fontSize: '0.68rem',
+                fontWeight: 700,
+                padding: '4px 8px',
+                borderRadius: '6px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Navigation */}

@@ -15,12 +15,13 @@ import { isSupabaseConfigured } from '@/lib/supabase';
 
 export default function SettingsTab() {
   const [settings, setSettings] = useState({
-    systemName: 'IoT Enabled Smart Garbage Management System',
-    refreshInterval: 15,
-    criticalThreshold: 80,
-    moderateThreshold: 30,
-    emailAlerts: true,
+    systemName: 'IoT Enabled Smart Garbage Monitoring System',
+    telemetryRate: '300ms (Sub-second Live)',
+    criticalThreshold: 65,
+    moderateThreshold: 40,
+    emptyDistance: 19.0,
     audioAlerts: true,
+    hotspotSSID: 'Not For U',
     timezone: 'Asia/Karachi (UTC+5)',
   });
 
@@ -79,11 +80,11 @@ export default function SettingsTab() {
           padding: '1.25rem 1.5rem',
         }}
       >
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
           System Configuration & IoT Parameters
         </h2>
-        <p style={{ fontSize: '0.82rem', color: '#64748b' }}>
-          Tune alert thresholds, Supabase live sync settings, and hardware communication
+        <p style={{ fontSize: '0.82rem', color: '#64748b', marginTop: '0.25rem', margin: 0 }}>
+          Hardware calibration, Supabase realtime sync, and municipal telemetry endpoints
         </p>
       </div>
 
@@ -102,10 +103,10 @@ export default function SettingsTab() {
               <FiDatabase size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
                 Supabase Realtime Cloud Status
               </h3>
-              <p style={{ fontSize: '0.78rem', color: '#64748b' }}>Database connection and live change listener</p>
+              <p style={{ fontSize: '0.78rem', color: '#64748b', margin: '2px 0 0 0' }}>PostgreSQL database connection and live WebSocket listener</p>
             </div>
           </div>
 
@@ -134,8 +135,8 @@ export default function SettingsTab() {
                 </div>
                 <div style={{ fontSize: '0.78rem', color: supabaseStatus ? '#065f46' : '#92400e' }}>
                   {supabaseStatus
-                    ? 'Listening to postgres_changes on bins, sensor_data, and alerts.'
-                    : 'To connect live Supabase, set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local.'}
+                    ? 'Listening to postgres_changes on bins, sensor_data, and alerts over WebSockets.'
+                    : 'To connect live Supabase, configure credentials in .env.local.'}
                 </div>
               </div>
             </div>
@@ -155,7 +156,7 @@ export default function SettingsTab() {
           </div>
         </div>
 
-        {/* Card 2: Threshold Parameters */}
+        {/* Card 2: Calibrated Threshold Parameters */}
         <div
           style={{
             backgroundColor: '#ffffff',
@@ -169,10 +170,10 @@ export default function SettingsTab() {
               <FiCpu size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>
-                IoT Status Thresholds
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                Calibrated IoT Status Thresholds
               </h3>
-              <p style={{ fontSize: '0.78rem', color: '#64748b' }}>Criteria for automated alerts and color coding</p>
+              <p style={{ fontSize: '0.78rem', color: '#64748b', margin: '2px 0 0 0' }}>Criteria for automated alerts, traffic-light LEDs, and audio alarms</p>
             </div>
           </div>
 
@@ -190,7 +191,7 @@ export default function SettingsTab() {
               <input
                 type="number"
                 value={settings.criticalThreshold}
-                onChange={(e) => setSettings({ ...settings, criticalThreshold: parseInt(e.target.value) || 80 })}
+                onChange={(e) => setSettings({ ...settings, criticalThreshold: parseInt(e.target.value) || 65 })}
                 min={50}
                 max={99}
                 style={{
@@ -202,7 +203,7 @@ export default function SettingsTab() {
                 }}
               />
               <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', marginTop: '0.25rem' }}>
-                Triggers red pulsing alerts and automated alerts table record (Default: 80%)
+                Triggers Red LED, proximity buzzer, and critical dispatch alerts (Calibrated: 65%)
               </span>
             </div>
 
@@ -213,7 +214,7 @@ export default function SettingsTab() {
               <input
                 type="number"
                 value={settings.moderateThreshold}
-                onChange={(e) => setSettings({ ...settings, moderateThreshold: parseInt(e.target.value) || 30 })}
+                onChange={(e) => setSettings({ ...settings, moderateThreshold: parseInt(e.target.value) || 40 })}
                 min={15}
                 max={75}
                 style={{
@@ -225,7 +226,52 @@ export default function SettingsTab() {
                 }}
               />
               <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', marginTop: '0.25rem' }}>
-                Bins between 30% and 80% are classified as Moderate / Attention (Default: 30%)
+                Bins between 40% and 64% trigger Yellow LED (Calibrated: 40%)
+              </span>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#334155', marginBottom: '0.4rem' }}>
+                📏 Calibrated Empty Height (cm)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={settings.emptyDistance}
+                onChange={(e) => setSettings({ ...settings, emptyDistance: parseFloat(e.target.value) || 19.0 })}
+                style={{
+                  width: '100%',
+                  padding: '0.65rem 0.85rem',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  fontSize: '0.9rem',
+                }}
+              />
+              <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', marginTop: '0.25rem' }}>
+                Sensor to empty bin bottom distance (Hardware calibrated: 19.0 cm)
+              </span>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#334155', marginBottom: '0.4rem' }}>
+                ⚡ Ingestion Telemetry Rate
+              </label>
+              <input
+                type="text"
+                disabled
+                value={settings.telemetryRate}
+                style={{
+                  width: '100%',
+                  padding: '0.65rem 0.85rem',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  fontSize: '0.9rem',
+                  backgroundColor: '#f1f5f9',
+                  color: '#475569',
+                }}
+              />
+              <span style={{ fontSize: '0.72rem', color: '#64748b', display: 'block', marginTop: '0.25rem' }}>
+                Ultra-fast 300ms stream + 0ms event-driven lid state updates
               </span>
             </div>
           </div>
@@ -245,10 +291,10 @@ export default function SettingsTab() {
               <FiGlobe size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>
-                ESP32 Hardware API Endpoint
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                ESP32 Production Cloud Ingestion Endpoint
               </h3>
-              <p style={{ fontSize: '0.78rem', color: '#64748b' }}>Destination URL for ESP32 HTTP POST payloads</p>
+              <p style={{ fontSize: '0.78rem', color: '#64748b', margin: '2px 0 0 0' }}>Live Vercel Edge destination for ESP32 JSON payloads</p>
             </div>
           </div>
 
@@ -258,15 +304,18 @@ export default function SettingsTab() {
               color: '#38bdf8',
               fontFamily: 'monospace',
               fontSize: '0.82rem',
-              padding: '1rem',
+              padding: '1.25rem',
               borderRadius: '10px',
               overflowX: 'auto',
+              lineHeight: '1.6',
             }}
           >
-            <div>// Send HTTP POST from ESP32:</div>
-            <div style={{ color: '#f8fafc', margin: '4px 0' }}>POST /api/sensor-data</div>
-            <div style={{ color: '#a3e635' }}>
-              &#123; &quot;bin_id&quot;: 1, &quot;garbage_level&quot;: 78.5, &quot;temperature&quot;: 26.4, &quot;humidity&quot;: 48 &#125;
+            <div style={{ color: '#94a3b8' }}>// Target Vercel Cloud Production URL:</div>
+            <div style={{ color: '#f8fafc', fontWeight: 700, margin: '4px 0' }}>
+              POST https://smart-garbage-ihlq.vercel.app/api/sensor-data
+            </div>
+            <div style={{ color: '#a3e635', marginTop: '6px' }}>
+              &#123; &quot;bin_id&quot;: &quot;BIN-001&quot;, &quot;fill_level&quot;: 74.0, &quot;distance_cm&quot;: 5.0, &quot;temperature&quot;: 26.6, &quot;humidity&quot;: 55.8, &quot;lid_status&quot;: &quot;CLOSED&quot; &#125;
             </div>
           </div>
         </div>
@@ -285,6 +334,8 @@ export default function SettingsTab() {
             fontWeight: 700,
             fontSize: '0.9rem',
             boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)',
+            cursor: 'pointer',
+            border: 'none',
           }}
         >
           <FiSave size={16} />

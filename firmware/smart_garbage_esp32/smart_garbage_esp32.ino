@@ -15,7 +15,7 @@
 const char* ssid = "Not For U";          // Aapka Wi-Fi / Hotspot Name
 const char* password = "12345678";      // Aapka Wi-Fi / Hotspot Password
 
-// PERMANENT VERCEL CLOUD ENDPOINT (NO MORE IP CHANGES!):
+// PERMANENT VERCEL CLOUD ENDPOINT:
 const char* serverUrl = "https://smart-garbage-ihlq.vercel.app/api/sensor-data";
 
 // ==========================================
@@ -49,7 +49,7 @@ const int LID_CLOSE_ANGLE = 0;
 const unsigned long LID_HOLD_TIME = 4500;
 
 // ==========================================
-// 3. TIMERS & STATE (ULTRA-FAST LIVE TELEMETRY)
+// 3. TIMERS & STATE (ULTRA-FAST 300ms LIVE TELEMETRY)
 // ==========================================
 const unsigned long DISTANCE_INTERVAL = 300;   // Har 300ms (0.3 sec) baad distance read
 const unsigned long DHT_INTERVAL = 2000;        // 2 sec DHT read
@@ -97,7 +97,6 @@ float readDistance() {
   if (count == 0) return -1;
   if (count == 1) return readings[0];
 
-  // Median / Average
   float sum = 0;
   for (int i = 0; i < count; i++) {
     sum += readings[i];
@@ -318,7 +317,7 @@ void loop() {
     }
   }
 
-  // 1-Second Cloud Transmission
+  // 0.3-Second Ultra-Fast Cloud Transmission
   if (currentTime - lastTelemetrySent >= TELEMETRY_INTERVAL) {
     lastTelemetrySent = currentTime;
     sendTelemetryToServer();

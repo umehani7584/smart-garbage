@@ -257,9 +257,6 @@ export default function PrototypeLabTab({
           <h1 style={{ fontSize: '1.45rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
             Physical Prototype ({prototypeBin.id}) — Live Telemetry
           </h1>
-          <p style={{ fontSize: '0.84rem', color: '#94a3b8', marginTop: '0.35rem', margin: 0 }}>
-            Active physical ESP32 DEVKIT V1 node streaming live ultrasonic fill, headspace, DHT11 climate, and touchless servo lid telemetry.
-          </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -700,7 +697,7 @@ export default function PrototypeLabTab({
                   }}
                 />
                 <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isSafe ? '#a7f3d0' : '#64748b' }}>Green LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 6 (&lt;40%)</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 14 (&lt;40%)</div>
               </div>
 
               {/* Yellow LED */}
@@ -716,7 +713,7 @@ export default function PrototypeLabTab({
                   }}
                 />
                 <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isModerate ? '#fde68a' : '#64748b' }}>Yellow LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 5 (40-64%)</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 13 (40-64%)</div>
               </div>
 
               {/* Red Alert LED */}
@@ -733,7 +730,7 @@ export default function PrototypeLabTab({
                   className={isCritical ? 'status-badge-pulse' : ''}
                 />
                 <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#fecaca' : '#64748b' }}>Red LED</div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 2 (≥65%)</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 12 (≥65%)</div>
               </div>
 
               {/* Buzzer */}
@@ -751,7 +748,7 @@ export default function PrototypeLabTab({
                 <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isCritical ? '#ef4444' : '#94a3b8' }}>
                   {isCritical ? 'ALARM ON' : 'SILENT'}
                 </div>
-                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 9 (Buzzer)</div>
+                <div style={{ fontSize: '0.66rem', color: '#94a3b8' }}>GPIO 26 (Buzzer)</div>
               </div>
             </div>
           </div>
@@ -777,7 +774,7 @@ export default function PrototypeLabTab({
                   DHT11 Live Telemetry
                 </h3>
                 <p style={{ fontSize: '0.76rem', color: '#64748b', margin: '2px 0 0 0' }}>
-                  Ambient thermal & relative humidity sensor (Single-Bus GPIO 8)
+                  Ambient thermal & relative humidity sensor
                 </p>
               </div>
               <div style={{ padding: '8px', borderRadius: '10px', background: '#fff7ed', color: '#f97316' }}>
@@ -808,9 +805,6 @@ export default function PrototypeLabTab({
                   <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', lineHeight: 1.1 }}>
                     {currentTemp.toFixed(1)}
                     <span style={{ fontSize: '1.1rem', color: '#64748b', fontWeight: 700, marginLeft: '3px' }}>°C</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b', marginTop: '0.4rem' }}>
-                    Calibrated Range: 0°C – 50°C (±2°C)
                   </div>
                 </div>
 
@@ -853,9 +847,6 @@ export default function PrototypeLabTab({
                     {currentHumidity.toFixed(1)}
                     <span style={{ fontSize: '1.1rem', color: '#64748b', fontWeight: 700, marginLeft: '3px' }}>%RH</span>
                   </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b', marginTop: '0.4rem' }}>
-                    Moisture Range: 20% – 90% RH
-                  </div>
                 </div>
 
                 <div
@@ -892,7 +883,7 @@ export default function PrototypeLabTab({
                   HC-SR04 Ultrasonic Telemetry
                 </h3>
                 <p style={{ fontSize: '0.76rem', color: '#64748b', margin: '2px 0 0 0' }}>
-                  Acoustic time-of-flight headspace measurement (GPIO 4 TRIG / GPIO 3 ECHO)
+                  Acoustic time-of-flight headspace measurement
                 </p>
               </div>
               <div style={{ padding: '8px', borderRadius: '10px', background: '#e0f2fe', color: '#0284c7' }}>
@@ -961,21 +952,6 @@ export default function PrototypeLabTab({
                 <div style={{ fontSize: '0.76rem', color: '#64748b', marginTop: '0.35rem' }}>
                   Sensor to Waste Surface
                 </div>
-
-                <div
-                  style={{
-                    fontSize: '0.74rem',
-                    fontWeight: 700,
-                    color: '#0284c7',
-                    backgroundColor: '#f0f9ff',
-                    padding: '4px 8px',
-                    borderRadius: '6px',
-                    border: '1px solid #bae6fd',
-                    marginTop: '0.75rem',
-                  }}
-                >
-                  Usable: 12cm (Full) ↔ 27cm (Empty)
-                </div>
               </div>
             </div>
           </div>
@@ -996,7 +972,7 @@ export default function PrototypeLabTab({
                   Lid & Touchless IR Dynamics
                 </h3>
                 <p style={{ fontSize: '0.76rem', color: '#64748b', margin: '2px 0 0 0' }}>
-                  SG90 Micro-Servo PWM Lid (GPIO 7) & Touchless IR Sensor (GPIO 10)
+                  SG90 Micro-Servo PWM Lid (GPIO 27) & Touchless IR Sensor (GPIO 15)
                 </p>
               </div>
               <div style={{ padding: '8px', borderRadius: '10px', background: '#ecfdf5', color: '#10b981' }}>
@@ -1113,12 +1089,12 @@ export default function PrototypeLabTab({
                 <span>Confirmed ESP32 DEVKIT V1 Pinout</span>
               </div>
               <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: '1.6', color: '#64748b' }}>
-                <li><b>HC-SR04:</b> GPIO 4 (TRIG), GPIO 3 (ECHO)</li>
-                <li><b>SG90 Servo:</b> GPIO 7 (PWM Lid Control)</li>
-                <li><b>IR Sensor:</b> GPIO 10 (Touchless Obstacle)</li>
-                <li><b>DHT11:</b> GPIO 8 (Single-Bus Temp/Humidity)</li>
-                <li><b>Active Buzzer:</b> GPIO 9 (Digital High Alert)</li>
-                <li><b>Status LEDs:</b> GPIO 6 (Green), 5 (Yellow), 2 (Red)</li>
+                <li><b>HC-SR04:</b> GPIO 23 (TRIG), GPIO 18 (ECHO)</li>
+                <li><b>SG90 Servo:</b> GPIO 27 (PWM Lid Control)</li>
+                <li><b>IR Sensor:</b> GPIO 15 (Touchless Obstacle)</li>
+                <li><b>DHT11:</b> GPIO 4 (Single-Bus Temp/Humidity)</li>
+                <li><b>Active Buzzer:</b> GPIO 26 (Digital High Alert)</li>
+                <li><b>Status LEDs:</b> GPIO 14 (Green), 13 (Yellow), 12 (Red)</li>
                 <li><b>Power Rails:</b> 5V/VIN for Servo & Sensors, Common GND</li>
               </ul>
             </div>
@@ -1130,10 +1106,8 @@ export default function PrototypeLabTab({
                 <span>BIN-001 Calibration Formula</span>
               </div>
               <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: '1.6', color: '#64748b' }}>
-                <li><b>Empty Depth (D_empty):</b> 27.0 cm</li>
-                <li><b>Full Depth (D_full):</b> 12.0 cm</li>
-                <li><b>Usable Bin Depth:</b> 15.0 cm (100% capacity)</li>
-                <li><b>Fill % Formula:</b> <code>((27.0 - distance) / 15.0) * 100</code></li>
+                <li><b>Empty Depth (D_empty):</b> 19.0 cm</li>
+                <li><b>Fill % Formula:</b> <code>((19.0 - distance) / 19.0) * 100</code></li>
                 <li><b>Classification:</b> &lt;40% Safe, 40–64% Moderate, &ge;65% Critical</li>
                 <li><b>Interlock:</b> Sampling frozen when lid is open</li>
               </ul>

@@ -483,9 +483,10 @@ export default function OverviewTab({
 
       {/* Charts Grid - Balanced Symmetrical 2x2 Layout with Spacious 320px Height */}
       <div className="charts-grid-responsive">
-        {/* Chart 1: Bar Chart Fill Level by Bin (Top-Left) */}
+        {/* Chart 1: Bar Chart Fill Level by Bin (Wide Fleet Overview) */}
         <div
           style={{
+            gridColumn: '1 / -1',
             backgroundColor: '#ffffff',
             borderRadius: '16px',
             padding: '1.75rem',
@@ -524,68 +525,6 @@ export default function OverviewTab({
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-            </div>
-          )}
-        </div>
-
-        {/* Chart 2: Doughnut / Pie Chart Status Distribution (Top-Right) */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '16px',
-            padding: '1.75rem',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a' }}>Status Distribution</h3>
-              <p style={{ fontSize: '0.82rem', color: '#64748b' }}>Breakdown of municipal bins by health status</p>
-            </div>
-            <div style={{ padding: '8px', borderRadius: '10px', background: '#ecfdf5', color: '#10b981' }}>
-              <FiTrendingUp size={22} />
-            </div>
-          </div>
-
-          {mounted && (
-            <div>
-              <div style={{ width: '100%', height: 275, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={statusDistribution}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={70}
-                      outerRadius={105}
-                      paddingAngle={5}
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: ${value}`}
-                    >
-                      {statusDistribution.map((entry, idx) => (
-                        <Cell key={`pie-cell-${idx}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '8px', color: '#ffffff', fontSize: '0.82rem' }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              {/* Clean Legend Chips Underneath Donut */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
-                {statusDistribution.map((entry, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', fontWeight: 600 }}>
-                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: entry.color, display: 'inline-block' }} />
-                    <span style={{ color: '#475569' }}>{entry.name}:</span>
-                    <span style={{ color: '#0f172a', fontWeight: 800 }}>{entry.value} bins</span>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
         </div>

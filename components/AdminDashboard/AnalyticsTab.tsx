@@ -302,45 +302,6 @@ export default function AnalyticsTab({ bins, onRefresh, isRefreshing }: Analytic
           </div>
         </div>
 
-        {/* Status Distribution */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '14px',
-            border: '1px solid #e2e8f0',
-            padding: '1.5rem',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>Status Classification</h3>
-              <p style={{ fontSize: '0.78rem', color: '#64748b' }}>System proportion: Safe vs Moderate vs Critical</p>
-            </div>
-            <FiPieChart style={{ color: '#f59e0b' }} size={20} />
-          </div>
-
-          <div style={{ width: '100%', height: 260 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={95}
-                  innerRadius={50}
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}`}
-                >
-                  {pieData.map((entry, idx) => (
-                    <Cell key={idx} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '8px', color: '#ffffff' }} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
         {/* Sector Grouped Bar Chart */}
         <div
           style={{

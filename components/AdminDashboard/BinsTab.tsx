@@ -89,9 +89,6 @@ export default function BinsTab({ bins, onEmptyBin }: BinsTabProps) {
                 1 Physical Node · {simulatedCount} Fleet Nodes
               </span>
             </div>
-            <p style={{ fontSize: '0.82rem', color: '#64748b', marginTop: '0.2rem' }}>
-              Live telemetry status, physical hardware diagnostics & municipal fleet controls
-            </p>
           </div>
 
           {/* Search */}

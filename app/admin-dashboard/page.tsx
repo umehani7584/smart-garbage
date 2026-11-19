@@ -17,6 +17,7 @@ import BinsTab from '@/components/AdminDashboard/BinsTab';
 import AnalyticsTab from '@/components/AdminDashboard/AnalyticsTab';
 import SettingsTab from '@/components/AdminDashboard/SettingsTab';
 import PrototypeLabTab from '@/components/AdminDashboard/PrototypeLabTab';
+import LoginModal from '@/components/LoginModal';
 import { useSmartGarbageData } from '@/hooks/useSmartGarbageData';
 import { isBinOnline } from '@/lib/supabase';
 
@@ -26,6 +27,8 @@ export default function AdminDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const {
     bins,
@@ -55,12 +58,26 @@ export default function AdminDashboardPage() {
     return () => clearInterval(clockInterval);
   }, []);
 
-  // Protected route check
+  // Check login state from storage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsAuthChecked(true);
+      const stored = localStorage.getItem('currentUser') || localStorage.getItem('user');
+      if (stored) {
+        try {
+          setCurrentUser(JSON.parse(stored));
+        } catch {}
+      }
     }
   }, []);
+
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('user');
+      setCurrentUser(null);
+    }
+  };
 
   const criticalCount = bins.filter((b) => b.current_level > 80).length;
 
@@ -81,6 +98,9 @@ export default function AdminDashboardPage() {
         setIsOpen={setSidebarOpen}
         criticalCount={criticalCount}
         totalBins={bins.length}
+        onOpenLogin={() => setIsLoginOpen(true)}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
@@ -328,6 +348,22 @@ export default function AdminDashboardPage() {
           }
         }
       `}</style>
+
+      {/* Admin Login Modal */}
+      <LoginModal
+        isOpen={isLoginOpen}
+        onClose={() => {
+          setIsLoginOpen(false);
+          if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem('currentUser') || localStorage.getItem('user');
+            if (stored) {
+              try {
+                setCurrentUser(JSON.parse(stored));
+              } catch {}
+            }
+          }
+        }}
+      />
     </div>
   );
 }
