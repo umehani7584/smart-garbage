@@ -362,9 +362,6 @@ export default function PrototypeLabTab({
                 <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
                   Vertical Bin Visualizer
                 </h2>
-                <span style={{ fontSize: '0.76rem', color: '#64748b' }}>
-                  Calibrated for {prototypeBin.id} (15cm Usable Depth | 12cm Full ↔ 27cm Empty)
-                </span>
               </div>
 
               {/* Touchless IR Hand Detection Simulator Button */}

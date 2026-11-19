@@ -58,28 +58,64 @@ export default function AdminDashboardPage() {
     return () => clearInterval(clockInterval);
   }, []);
 
-  // Check login state from storage
+  // Check login state from storage; if not authenticated, redirect to login portal
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setIsAuthChecked(true);
       const stored = localStorage.getItem('currentUser') || localStorage.getItem('user');
       if (stored) {
         try {
-          setCurrentUser(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.email) {
+            setCurrentUser(parsed);
+            setIsAuthChecked(true);
+            return;
+          }
         } catch {}
       }
+      // Not logged in -> send to Login portal
+      router.replace('/');
     }
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('user');
       setCurrentUser(null);
+      router.replace('/');
     }
   };
 
   const criticalCount = bins.filter((b) => b.current_level > 80).length;
+
+  if (!isAuthChecked) {
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          backgroundColor: '#0f172a',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#38bdf8',
+          fontSize: '0.95rem',
+          fontFamily: 'system-ui, sans-serif',
+          gap: '8px',
+        }}
+      >
+        <span
+          style={{
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            backgroundColor: '#10b981',
+            boxShadow: '0 0 10px #10b981',
+          }}
+        />
+        <span>Verifying Administrator Access...</span>
+      </div>
+    );
+  }
 
   return (
     <div
